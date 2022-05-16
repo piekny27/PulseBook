@@ -10,6 +10,10 @@ def home_page():
 def login_page():
     return render_template("login.html", is_authenticated=False)
 
+@app.route("/registration")
+def registration_page():
+    return render_template("registration.html", is_authenticated=False)
+
 @app.route("/dashboard")
 def dashboard_page():
     return render_template("dashboard.html", is_authenticated=True)
