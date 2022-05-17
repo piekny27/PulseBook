@@ -21,3 +21,34 @@ body
 	background-color: #034078;
     border: .20em solid #0a1128;
 }
+.grand1
+{
+	list-style: none;
+	display: flex;
+	column-gap: 5px;
+}
+.grand2
+{
+	display: inline-block;
+	text-decoration: none;
+	color: #fff;
+	position: relative;
+}
+.grand2::after
+{
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 2px;
+	background-color: #fff;
+	transform: scaleX(0);
+	transform-origin: right;
+	transition: transform .5s;
+}
+.grand2:hover::after
+{
+	transform: scaleX(1);
+	transform-origin: left;
+}
