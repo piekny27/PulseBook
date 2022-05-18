@@ -27,7 +27,9 @@
         <div class="col-9 col-md-9 col-lg-7 col-xl-10">
           <div class="card" style="border-radius: 15px;">
             <div class="px-5 pt-4 ms-xl-4">
-                <img src="/static/images/pulselogoblue.png"  alt="" height="50" >     
+              <a href="/">
+                <img src="/static/images/pulselogoblue.png"  alt="" height="50" >
+              </a>    
               </div>
             <div class="card-body p-5">
               <h2 class=" text-center mb-5">Create an account</h2>
@@ -36,25 +38,25 @@
                 {{ form.hidden_tag() }} <!-- csrf token-->
                 <div class="form-outline mb-4">
                   <!-- <input type="text" id="form3Example1cg" class="form-control " /> -->
-                  {{ form.username(placeholder="User name") }}
+                  {{ form.username(placeholder="User name", class_="form-control") }}
                   <label class="form-label" for="form3Example1cg">Your Name</label>
                 </div>
 
                 <div class="form-outline mb-4">
                   <!-- <input type="email" id="form3Example3cg" class="form-control " /> -->
-                  {{ form.emailAddress(placeholder="Email") }}
+                  {{ form.emailAddress(placeholder="Email", class_="form-control") }}
                   <label class="form-label" for="form3Example3cg">Your Email</label>
                 </div>
 
                 <div class="form-outline mb-4">
                   <!-- <input type="password" id="form3Example4cg" class="form-control form-control" /> -->
-                  {{ form.password1(placeholder="Password") }}
+                  {{ form.password1(placeholder="Password", class_="form-control") }}
                   <label class="form-label" for="form3Example4cg">Password</label>
                 </div>
 
                 <div class="form-outline mb-4">
                   <!-- <input type="password" id="form3Example4cdg" class="form-control form-control" /> -->
-                  {{ form.password2(placeholder="Password") }}
+                  {{ form.password2(placeholder="Password", class_="form-control") }}
                   <label class="form-label" for="form3Example4cdg">Confirm password</label>
                 </div>
 
@@ -67,7 +69,7 @@
                 </div>
                 -->
                 <div class="d-flex justify-content-center">
-                  {{ form.submit() }}
+                  {{ form.submit(class_="btn btn-primary btn-block btn-lg") }}
                   <!-- <button type="button" class="btn btn-primary btn-block btn-lg">Register</button>-->
                 </div>
 
@@ -80,7 +82,7 @@
                   </ul>
                 {% endif %}
 
-                <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="{{ url_for('login_page') }}"
+                <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="/login"
                     class="fw-bold text-body"><u>Login here</u></a></p>
 
               </form>

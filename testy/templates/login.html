@@ -18,9 +18,12 @@
           <div class="row">
             <div class="col-sm-4 text-black">
       
-              <div class="px-5 pt-4 ms-xl-4">
-                <img src="/static/images/pulselogoblue.png" height="50">     
-              </div>
+            
+              <a href="/">
+                <div class="px-5 pt-4 ms-xl-4">
+                  <img src="/static/images/pulselogoblue.png" height="50">     
+                </div>
+              </a>
       
               <div class="align-items-center px-5 ms-xl-4 mt-5 pt-xl-4 mt-xl-n5">
       
@@ -30,19 +33,20 @@
                   <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign in</h3>
       
                   <div class="form-outline mb-4">
-                    {{ form.username(placeholder="User name") }}
+                    {{ form.username(placeholder="User name", class_="form-control") }}
+
                     <!--<input type="email" id="form2Example18" class="form-control form-control" />-->
                     <label class="form-label" for="form2Example18">Email address or login</label>
                   </div>
       
                   <div class="form-outline mb-4">
-                    {{ form.password(placeholder="Password") }}
+                    {{ form.password(placeholder="Password", class_="form-control") }}
                     <!--<input type="password" id="form2Example28" class="form-control form-control" />-->
                     <label class="form-label" for="form2Example28">Password</label>
                   </div>
       
                   <div class="pt-1 mb-4">
-                    {{ form.submit() }}
+                    {{ form.submit(class_="btn btn-primary btn-lg btn-block") }}
                     <!--<button class="btn btn-primary btn-lg btn-block" type="button">Login</button>-->
                   </div>
                   <br>
