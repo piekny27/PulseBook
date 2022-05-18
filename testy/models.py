@@ -1,7 +1,9 @@
-from testy import db,bcrypt
+from testy import db,bcrypt,login_manager
 from flask_login import UserMixin
 
-
+@login_manager.user_loader
+def load_user(userId):
+    return User.query.get(int(userId))
 
 def Singleton(class_):
     instances = {}
@@ -30,23 +32,23 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(30), nullable = False, unique = True)
     email = db.Column(db.String(50), nullable = False, unique = True)
-    password_hash = db.Column(db.String(60), nullable = False)
+    passwordHash = db.Column(db.String(60), nullable = False)
     active = db.Column(db.Boolean(), nullable = False, default = True)
-    role_id = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=False)
+    roleId = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable=False)
 
     @property
-    def HashPassword(self):
-        return self.password
+    def password(self):
+        return self.passwordHash
 
-    @HashPassword.setter
-    def SetHashPassword(self, password):
-        self.password_hash = bcrypt.generate_password_hash(password, 10)
+    @password.setter
+    def password(self, passwordText):
+        self.passwordHash = bcrypt.generate_password_hash(passwordText, 10).decode('utf-8')
 
-    def VerifyPassword(self, attempted_password):
-        return bcrypt.check_password_hash(self.password_hash, attempted_password)
+    def VerifyPassword(self, attemptedPassword):
+        return bcrypt.check_password_hash(self.passwordHash, attemptedPassword)
     
     def GetRole(self):
-        return DBConnection().getRoleName(self.role_id)
+        return DBConnection().getRoleName(self.roleId)
 
 class UserRole(db.Model):
     BASIC = "BASIC"

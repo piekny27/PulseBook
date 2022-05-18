@@ -10,9 +10,14 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="/static/styles/registerpage.css">
 
-    <title>Create an account</title>
+    <title>
+      {% block title %}
+      Create an account
+      {% endblock %}
+    </title>
 </head>
 <body>
+{% block content %}
  <section class="waveimage">
        <img src="/static/images/waveblue.jpg" class="img-fluid" alt="">
   </section>
@@ -27,24 +32,29 @@
             <div class="card-body p-5">
               <h2 class=" text-center mb-5">Create an account</h2>
 
-              <form>
+              <form method="POST">
+                {{ form.hidden_tag() }} <!-- csrf token-->
                 <div class="form-outline mb-4">
-                  <input type="text" id="form3Example1cg" class="form-control " />
+                  <!-- <input type="text" id="form3Example1cg" class="form-control " /> -->
+                  {{ form.username(placeholder="User name") }}
                   <label class="form-label" for="form3Example1cg">Your Name</label>
                 </div>
 
                 <div class="form-outline mb-4">
-                  <input type="email" id="form3Example3cg" class="form-control " />
+                  <!-- <input type="email" id="form3Example3cg" class="form-control " /> -->
+                  {{ form.emailAddress(placeholder="Email") }}
                   <label class="form-label" for="form3Example3cg">Your Email</label>
                 </div>
 
                 <div class="form-outline mb-4">
-                  <input type="password" id="form3Example4cg" class="form-control form-control" />
+                  <!-- <input type="password" id="form3Example4cg" class="form-control form-control" /> -->
+                  {{ form.password1(placeholder="Password") }}
                   <label class="form-label" for="form3Example4cg">Password</label>
                 </div>
 
                 <div class="form-outline mb-4">
-                  <input type="password" id="form3Example4cdg" class="form-control form-control" />
+                  <!-- <input type="password" id="form3Example4cdg" class="form-control form-control" /> -->
+                  {{ form.password2(placeholder="Password") }}
                   <label class="form-label" for="form3Example4cdg">Confirm password</label>
                 </div>
 
@@ -57,9 +67,18 @@
                 </div>
                 -->
                 <div class="d-flex justify-content-center">
-                  <button type="button"
-                    class="btn btn-primary btn-block btn-lg">Register</button>
+                  {{ form.submit() }}
+                  <!-- <button type="button" class="btn btn-primary btn-block btn-lg">Register</button>-->
                 </div>
+
+                <!-- print errors -->
+                {% if form.errors %}
+                  <ul class="errors">
+                {% for error in form.errors %}
+                    <li>{{ error.data }}</li>
+                {% endfor %}
+                  </ul>
+                {% endif %}
 
                 <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="{{ url_for('login_page') }}"
                     class="fw-bold text-body"><u>Login here</u></a></p>
@@ -72,5 +91,6 @@
       </div>
     </div>
   </div>
+{% endblock %}
 </body>
 </html>

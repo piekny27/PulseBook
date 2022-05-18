@@ -23,18 +23,18 @@ class DBGenerator():
                     "Nastia","Mateusz","Piotr","Bartek", "Ola", "Karolina", "Kasia",
                     "Natalia", "Krzysztof", "Jan"]
         admin1 = User(username="Hantal", email = "adrianbejs@gmail.com", 
-                password_hash=self.randomHash(60),
-                role_id = 2)
+                password = "12345678",
+                roleId = 2)
         admin2 = User(username="NoaniX", email = "mateuszpe@gmail.com", 
-                password_hash=self.randomHash(60),
-                role_id = 2)
+                password = "12345678",
+                roleId = 2)
         self.db.AddUser(admin1)
         self.users.append(admin1)
         self.db.AddUser(admin2)
         self.users.append(admin2)
         for user in usernames:
             user = User(username = user, email = user + "@gmail.com", 
-                    password_hash = self.randomHash(60), role_id = 1)
+                    passwordHash = self.randomHash(60), roleId = 1)
             self.db.AddUser(user)
             self.users.append(user)
         self.db.Flush()

@@ -24,22 +24,26 @@
       
               <div class="align-items-center px-5 ms-xl-4 mt-5 pt-xl-4 mt-xl-n5">
       
-                <form style="width: 20rem;">
+                <form style="width: 20rem;" method="POST">
+                  {{ form.hidden_tag() }}
       
                   <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign in</h3>
       
                   <div class="form-outline mb-4">
-                    <input type="email" id="form2Example18" class="form-control form-control" />
+                    {{ form.username(placeholder="User name") }}
+                    <!--<input type="email" id="form2Example18" class="form-control form-control" />-->
                     <label class="form-label" for="form2Example18">Email address or login</label>
                   </div>
       
                   <div class="form-outline mb-4">
-                    <input type="password" id="form2Example28" class="form-control form-control" />
+                    {{ form.password(placeholder="Password") }}
+                    <!--<input type="password" id="form2Example28" class="form-control form-control" />-->
                     <label class="form-label" for="form2Example28">Password</label>
                   </div>
       
                   <div class="pt-1 mb-4">
-                    <button class="btn btn-primary btn-lg btn-block" type="button">Login</button>
+                    {{ form.submit() }}
+                    <!--<button class="btn btn-primary btn-lg btn-block" type="button">Login</button>-->
                   </div>
                   <br>
       
