@@ -21,8 +21,8 @@ def login_page():
             return redirect(url_for('dashboard_page'))
     return render_template("login.html", form=form)
 
-@app.route("/registration", methods=['GET', 'POST'])
-def registration_page():
+@app.route("/register", methods=['GET', 'POST'])
+def register_page():
     if current_user.is_authenticated:
         return redirect(url_for('home_page'))
     form = RegisterForm()
@@ -35,7 +35,7 @@ def registration_page():
         db.session.commit()
         login_user(newUser)
         return redirect(url_for('dashboard_page'))
-    return render_template("registration.html", form=form)
+    return render_template("register.html", form=form)
 
 @app.route("/dashboard")
 def dashboard_page():

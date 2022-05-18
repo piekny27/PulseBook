@@ -39,7 +39,7 @@
               </li>
               {% if current_user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link active" href="{{ url_for('dashboard_page') }}">Dashboard</a>
+                <a class="nav-link active" href="/dashboard">Dashboard</a>
               </li>
               {% endif %}
             </ul>
@@ -78,11 +78,11 @@
         <div class="navbar-collapse collapse order-1 dual-collapse2">
           <ul class="navbar-nav ms-auto grand1">
             <li class="nav-item px-2">
-              <a class="nav-link active grand2" aria-current="page" href="{{ url_for('login_page') }}">Login</a>
+              <a class="nav-link active grand2" aria-current="page" href="/login">Login</a>
             </li>
             <div class="dropdown-divider"></div>
             <li class="nav-item">
-              <a class="nav-link active grand2" href="/registration">Create Account</a>
+              <a class="nav-link active grand2" href="/register">Create Account</a>
             </li>
           </ul>
       </div>
