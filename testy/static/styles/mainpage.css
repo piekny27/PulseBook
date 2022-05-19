@@ -1,19 +1,14 @@
-body
-{
-	padding-top: 55px;
-}
+
+/* custom-scrollbar */
 ::-webkit-scrollbar
 {
 	width: 15px;
 	background-color: #F5F5F5;
-
-}
-
+} 
 ::-webkit-scrollbar-track
 {
     background: #0a1128;
 }
-
 ::-webkit-scrollbar-thumb
 {
 	border-radius: 10px;
@@ -21,6 +16,13 @@ body
 	background-color: #034078;
     border: .20em solid #0a1128;
 }
+/* navbar position */
+.navbar
+{
+	position: sticky;
+	top: 0;
+}
+/* button navbar */
 .grand1
 {
 	list-style: none;
