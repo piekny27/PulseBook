@@ -1,5 +1,5 @@
 # Flask-projekt
-![My Image](images/Pulsebook_banner.png)
+![My Image](/static/images/Pulsebook_banner.png)
 ## Spis treści
 1.Opis\
 2.Instalacja\
