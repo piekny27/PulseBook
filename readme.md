@@ -1,4 +1,4 @@
-<a href="url"><img src="testy/static/images/Pulsebook_banner.png" height="130" width="300" ></a>
+<a href="url"><img src="testy/static/images/Pulsebook_banner.png" height="122" width="341" ></a>
 ## Spis treści
 1. Opis
 2. Instalacja
