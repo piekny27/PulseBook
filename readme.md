@@ -1,9 +1,8 @@
-# Flask-projekt
-![My Image](/static/images/Pulsebook_banner.png)
+<a href="url"><img src="testy/static/images/Pulsebook_banner.png" height="130" width="300" ></a>
 ## Spis treści
-1.Opis\
-2.Instalacja\
-3.Linki
+1. Opis
+2. Instalacja
+3. Linki
 
 ## 1.Opis
 
