@@ -1,4 +1,5 @@
 # Flask-projekt
+![](https://imgur.com/a/Yy5fK8H)
 ## Spis treści
 1.Opis\
 2.Instalacja\
