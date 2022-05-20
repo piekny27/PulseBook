@@ -45,3 +45,7 @@ def dashboard_page():
 def logout_page():
     logout_user()
     return redirect(url_for("home_page"))
+
+@app.route("/your-profile")
+def yourprofile_page():
+    return render_template("profile.html")
