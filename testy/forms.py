@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, DateField, IntegerField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
 from testy.models import User
 
@@ -25,3 +25,12 @@ class RegisterForm(FlaskForm):
     password1 = PasswordField(label = "Password", validators=[Length(min=8),DataRequired()])
     password2 = PasswordField(label = "Confirm Password", validators=[EqualTo("password1"),DataRequired()])
     submit = SubmitField(label = "Create Account")
+
+class ProfileForm(FlaskForm):
+    first_name = StringField(label="First name", validators=[DataRequired()])
+    last_name = StringField(label="Last name", validators=[DataRequired()])
+    date_of_birth = DateField(label="Date of birth", validators=[DataRequired()])
+    gender = StringField(label="Gender", validators=[DataRequired()])
+    nationality = StringField(label="Nationality", validators=[DataRequired()])
+    height = IntegerField(label="Height", validators=[DataRequired()])
+    weight = IntegerField(label="Weight", validators=[DataRequired()])
