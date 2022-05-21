@@ -17,7 +17,9 @@ def login_page():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user and user.VerifyPassword(attemptedPassword = form.password.data):
+        if not user:
+             user = User.query.filter_by(email=form.username.data).first()
+        if (user and user.VerifyPassword(attemptedPassword = form.password.data)):
             login_user(user)
             return redirect(url_for('dashboard_page'))
     return render_template("login.html", form=form)
@@ -28,12 +30,15 @@ def register_page():
         return redirect(url_for('home_page'))
     form = RegisterForm()
     if form.validate_on_submit():
+        newProfile = UserProfile()
+        db.AddProfile(newProfile)
+        db.Flush()
         newUser = User(username=form.username.data,
                        email=form.emailAddress.data,
                        password=form.password1.data,
-                       roleId=1)
-        db.session.add(newUser)
-        db.session.commit()
+                       roleId=1, profileId = newProfile.id)
+        db.AddUser(newUser)  
+        db.Flush()
         login_user(newUser)
         return redirect(url_for('dashboard_page'))
     return render_template("register.html", form=form)
