@@ -1,5 +1,7 @@
 body {
-    background: #001F54;
+    background-image: url('/static/images/waveblue.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .form-control:focus {

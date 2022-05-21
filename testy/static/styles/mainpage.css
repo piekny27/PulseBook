@@ -1,4 +1,7 @@
-
+*, ::after, ::before{
+	box-sizing: border-box;
+	scroll-behavior: smooth;
+}
 /* custom-scrollbar */
 ::-webkit-scrollbar
 {
@@ -53,4 +56,17 @@
 {
 	transform: scaleX(1);
 	transform-origin: left;
+}
+/* width login menu navbar */
+.dropdown-menu {
+    min-width: 30px;
+	width: 130px;
+}
+/* 3 Col Home page */
+.three .col-lg-4{
+	text-align: center;
+}
+.three .col-lg-4 p{
+	margin-right: 0,75rem;
+	margin-left: 0,75rem;
 }
