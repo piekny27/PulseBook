@@ -33,6 +33,9 @@ class DBConnection():
     def AddProfile(self, profile):
         self._engine.session.add(profile)
 
+    def AddDevice(self, device):
+        self._engine.session.add(device)
+
 
 # tables
 class User(db.Model, UserMixin):
@@ -44,6 +47,7 @@ class User(db.Model, UserMixin):
     active = db.Column(db.Boolean(), nullable = False, default = True)
     roleId = db.Column(db.Integer, db.ForeignKey("roles.id", ondelete='CASCADE'), nullable=False)
     profileId = db.Column(db.Integer, db.ForeignKey("profiles.id", ondelete='CASCADE'), nullable=False)
+    deviceId = db.Column(db.Integer, db.ForeignKey("devices.id", ondelete='CASCADE'), nullable=False)
 
     @property
     def password(self):
@@ -90,5 +94,15 @@ class UserProfile(db.Model):
         self.date_of_birth = born
         today = date.today()
         self.age = today.year - born.year - ((today.month, today.day)<(born.month, born.day))
+
+class Device(db.Model):
+    __tablename__ = "devices"
+    id = db.Column(db.Integer, primary_key=True)
+    device_key = db.Column(db.String(30))
+    pin = db.Column(db.Integer)
+    serial_number = db.Column(db.String(30))
+    version = db.Column(db.String(30))
+    configured = db.Column(db.Boolean(), nullable = False, default = False)
+    user = db.relationship('User', backref=db.backref('devices'))
 
 

@@ -2,7 +2,7 @@ from flask import redirect, render_template, url_for, flash, request
 from flask_login import current_user, login_user, logout_user
 from testy import app
 from testy.forms import LoginForm, RegisterForm, ProfileForm
-from testy.models import DBConnection, User, UserProfile
+from testy.models import DBConnection, User, UserProfile, Device
 from pprint import pprint
 
 db = DBConnection()
@@ -31,12 +31,15 @@ def register_page():
     form = RegisterForm()
     if form.validate_on_submit():
         newProfile = UserProfile()
+        newDevice = Device()
         db.AddProfile(newProfile)
+        db.AddDevice(newDevice)
         db.Flush()
         newUser = User(username=form.username.data,
                        email=form.emailAddress.data,
                        password=form.password1.data,
-                       roleId=1, profileId = newProfile.id)
+                       roleId=1, profileId = newProfile.id,
+                       deviceId = newDevice.id)
         db.AddUser(newUser)  
         db.Flush()
         login_user(newUser)
@@ -46,6 +49,7 @@ def register_page():
 @app.route("/dashboard")
 def dashboard_page():
     return render_template("dashboard.html")
+
 
 @app.route("/logout")
 def logout_page():
@@ -82,3 +86,7 @@ def profile_page():
         form.weight.data = currentProfile.weight
         return render_template("profile.html", form=form)
     return redirect(url_for("home_page"))
+
+@app.route("/settings")
+def settings_page():
+    return render_template("settings.html")

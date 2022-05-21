@@ -15,13 +15,18 @@ class DBGenerator():
         self.db._engine.create_all()
 
     def createDB(self):
+        self.createDevices()
         self.createRoles()
         self.createProfiles()
         self.createUsers()
+        
 
     def randomHash(self,size):
         return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(size))
 
+    def createDevices(self):
+        for x in range(17):
+            self.db.session.add(Device(serial_number = self.randomHash(5), pin = 1234, configured = False))
 
     def createRoles(self):
         self.db.session.add(UserRole(name=UserRole.BASIC))
@@ -45,22 +50,24 @@ class DBGenerator():
         self.db.AddProfile(profile3)
 
     def createUsers(self):
-        
+        i = 1
         usernames = ["Adrian","Adam","Tomasz","Wiktoria","Aleksander",
                     "Nastia","Mateusz","Piotr","Bartek", "Ola", "Karolina", "Kasia",
                     "Natalia", "Krzysztof", "Jan"]
         for user in usernames:
             user = User(username = user, email = user + "@gmail.com", 
-                    passwordHash = self.randomHash(60), roleId = 1, profileId = 1)
+                    passwordHash = self.randomHash(60), roleId = 1, profileId = 1, deviceId = i)
             self.db.AddUser(user)
+            i+=1
             self.users.append(user)
 
         admin1 = User(username="Hantal", email = "adrianbejs@gmail.com", 
                 password = "12345678",
-                roleId = 2, profileId = 2)
+                roleId = 2, profileId = 2, deviceId = i)
+        i+=1
         admin2 = User(username="NoaniX", email = "mateuszpe@gmail.com", 
                 password = "12345678",
-                roleId = 2, profileId = 3)
+                roleId = 2, profileId = 3, deviceId = i)
         self.db.AddUser(admin1)
         self.users.append(admin1)
         self.db.AddUser(admin2)

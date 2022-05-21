@@ -41,3 +41,9 @@ class ProfileForm(FlaskForm):
     height = IntegerField(label="Height", validators=[DataRequired()])
     weight = IntegerField(label="Weight", validators=[DataRequired()])
     submit = SubmitField(label = "Save Profile")
+
+class DeviceForm(FlaskForm):
+
+
+    
+    submit = SubmitField(label = "Save Device")
