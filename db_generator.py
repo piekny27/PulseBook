@@ -26,7 +26,7 @@ class DBGenerator():
 
     def createDevices(self):
         for x in range(17):
-            self.db.session.add(Device(serial_number = self.randomHash(5), pin = 1234, configured = False))
+            self.db.session.add(Device(serial_number = self.randomHash(5)))
 
     def createRoles(self):
         self.db.session.add(UserRole(name=UserRole.BASIC))

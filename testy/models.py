@@ -36,6 +36,10 @@ class DBConnection():
     def AddDevice(self, device):
         self._engine.session.add(device)
 
+    def DeleteDevice(self, device):
+        self.session.delete(device)
+        self.session.commit()
+
 
 # tables
 class User(db.Model, UserMixin):

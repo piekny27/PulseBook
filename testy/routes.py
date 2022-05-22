@@ -1,7 +1,7 @@
 from flask import redirect, render_template, url_for, flash, request
 from flask_login import current_user, login_user, logout_user
 from testy import app
-from testy.forms import LoginForm, RegisterForm, ProfileForm
+from testy.forms import LoginForm, RegisterForm, ProfileForm, DeviceForm
 from testy.models import DBConnection, User, UserProfile, Device
 from pprint import pprint
 
@@ -87,6 +87,31 @@ def profile_page():
         return render_template("profile.html", form=form)
     return redirect(url_for("home_page"))
 
-@app.route("/settings")
+@app.route("/settings", methods=['GET', 'POST'])
 def settings_page():
-    return render_template("settings.html")
+    if current_user.is_authenticated:
+        form = DeviceForm()
+        device = Device.query.filter_by(id=current_user.deviceId).first()
+        if form.validate_on_submit(): 
+            if request.form['next'] == 'check_dk':
+                device.device_key = form.device_key.data
+                db.Flush()  
+                return ('', 204)
+            elif request.form['next'] == 'check_pin':
+                device.pin = form.pin.data   
+                db.Flush()   
+                return ('', 204)
+            elif request.form['next'] == 'go_devices':
+                device.configured = True  
+                db.Flush() 
+                return ('', 204)
+            elif request.form['next'] == 'remove_device':
+                newDevice = Device()
+                db.session.add(newDevice)
+                db.session.commit()
+                current_device_ID = current_user.deviceId
+                current_user.deviceId = newDevice.id
+                db.session.delete(Device.query.filter_by(id=current_device_ID).first())
+                db.session.commit()
+        return render_template("settings.html", form=form)
+    return redirect(url_for("home_page"))

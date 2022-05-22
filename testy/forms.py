@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, DateField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, DateField, IntegerField, BooleanField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
 from testy.models import User
 from datetime import date
@@ -44,6 +44,6 @@ class ProfileForm(FlaskForm):
 
 class DeviceForm(FlaskForm):
 
-
-    
+    device_key = StringField(label="Device Key")
+    pin = StringField(label="Pin")
     submit = SubmitField(label = "Save Device")
