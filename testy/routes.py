@@ -104,7 +104,6 @@ def settings_page():
             elif request.form['next'] == 'go_devices':
                 device.configured = True  
                 db.Flush() 
-                return ('', 204)
             elif request.form['next'] == 'remove_device':
                 newDevice = Device()
                 db.session.add(newDevice)

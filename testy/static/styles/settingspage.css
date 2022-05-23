@@ -227,16 +227,12 @@ select.list-dt:focus {
     margin: 8px 2px; 
 }
 
-.radio:hover {
-    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
-}
-
-.radio.selected {
-    box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.1);
-}
-
 /*Fit image in bootstrap div*/
 .fit-image{
     width: 100%;
     object-fit: cover;
+}
+
+.stylish {
+    font-family: georgia, FontAwesome;
 }

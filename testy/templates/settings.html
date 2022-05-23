@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 
 {% block styles %}
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel = "stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css" rel = "stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel = "stylesheet">
 <link rel="stylesheet" href="/static/styles/settingspage.css">
 {% endblock %}
 
@@ -18,19 +17,34 @@ Settings
     <div class="row justify-content-center mt-0">
         <div class="col-11 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
             <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
-                <h2><strong>Sign Up Your User Account</strong></h2>
-                <p>Fill all form field to go to next step</p>
                 <div class="row">
                     <div class="col-md-12 mx-0">
                         <form id="msform" method="POST">
                             {{ form.hidden_tag() }}
                             {% if current_user.devices.configured %}
 
-                            <h1>skonfigurowano</h1>
-                            <p>jakies dane z arduino s/n/ versja itp</p>
-                            <p>i panel do zmiany wifi czy tam czegfos</p>
-                            <button type="submit" name="next" class="next action-button" value="remove_device">Remove Device</button>
-
+                            <h1>Brawo skonfiguroweałeś</h1>
+                            <p>i panel do zmiany wifi czy tam czegfos(TODO)</p>
+                            <table style="text-align: center;">
+                                <tr>
+                                  <th>Device</th>
+                                  <th>Status</th>
+                                  <th>Device key</th>
+                                  <th>Serial number</th>
+                                  <th>Version</th>
+                                  <th></th>
+                                </tr>
+                                <tr>
+                                  <td>PulseDuino</td>
+                                  <th>{{ current_user.devices.configured }}</th>
+                                  <td>{{ current_user.devices.device_key }}</td>
+                                  <td>{{ current_user.devices.serial_number }}</td>
+                                  <td>{{ current_user.devices.version }}</td>
+                                  <td>
+									<button type="submit" name="next" class="stylish" value="remove_device">&#xf1f8</button>
+								  </td>
+                                </tr>
+                              </table>
                             {% else %}
                             <!-- progressbar -->
                             <ul id="progressbar">
