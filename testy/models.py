@@ -106,7 +106,7 @@ class Device(db.Model):
     pin = db.Column(db.Integer)
     serial_number = db.Column(db.String(30))
     version = db.Column(db.String(30))
-    configured = db.Column(db.Boolean(), nullable = False, default = False)
+    config_state = db.Column(db.Integer, default = 0)
     user = db.relationship('User', backref=db.backref('devices'))
 
 

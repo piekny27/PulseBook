@@ -93,18 +93,18 @@ def settings_page():
         form = DeviceForm()
         device = Device.query.filter_by(id=current_user.deviceId).first()
         if form.validate_on_submit(): 
-            if request.form['next'] == 'check_dk':
+            if request.form.get('next') == 'check_dk':
                 device.device_key = form.device_key.data
                 db.Flush()  
                 return ('', 204)
-            elif request.form['next'] == 'check_pin':
+            elif request.form.get('next') == 'check_pin':
                 device.pin = form.pin.data   
                 db.Flush()   
                 return ('', 204)
-            elif request.form['next'] == 'go_devices':
+            elif request.form.get('next') == 'go_devices':
                 device.configured = True  
                 db.Flush() 
-            elif request.form['next'] == 'remove_device':
+            elif request.form.get('next') == 'remove_device':
                 newDevice = Device()
                 db.session.add(newDevice)
                 db.session.commit()
@@ -114,3 +114,28 @@ def settings_page():
                 db.session.commit()
         return render_template("settings.html", form=form)
     return redirect(url_for("home_page"))
+
+@app.route("/device", methods=['POST'])
+def device_page():
+    device_key = request.form.get('device_key')
+    device = Device.query.filter_by(device_key=device_key).first()
+    #config block
+    if device and device.config_state == 0:
+        device.config_state = 1
+        db.session.commit()
+        return ('', 202) 
+    elif device and device.config_state == 1:
+        pin = request.form.get('pin')
+        if(pin and int(pin) == device.pin):
+            device.config_state = 2
+            device.serial_number = request.form.get('serial_number')
+            device.version = request.form.get('version')
+            db.session.commit()
+            return ('', 202)
+    #receive data block
+    elif device and device.config_state == 2:  
+        #todo
+        pass
+    return ('', 204)
+    
+    

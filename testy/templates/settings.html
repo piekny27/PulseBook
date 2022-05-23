@@ -21,7 +21,7 @@ Settings
                     <div class="col-md-12 mx-0">
                         <form id="msform" method="POST">
                             {{ form.hidden_tag() }}
-                            {% if current_user.devices.configured %}
+                            {% if current_user.devices.config_state == 2 %}
 
                             <h1>Brawo skonfiguroweałeś</h1>
                             <p>i panel do zmiany wifi czy tam czegfos(TODO)</p>
