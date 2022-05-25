@@ -92,6 +92,12 @@ def settings_page():
     if current_user.is_authenticated:
         form = DeviceForm()
         device = Device.query.filter_by(id=current_user.deviceId).first()
+        if(not device):
+            device = Device(config_state = 0)
+            db.session.add(device)
+            db.session.commit()
+            current_user.deviceId = device.id
+            db.session.commit()
         if form.validate_on_submit(): 
             if request.form.get('next') == 'check_dk':
                 device.device_key = form.device_key.data
@@ -105,12 +111,7 @@ def settings_page():
                 device.configured = True  
                 db.Flush() 
             elif request.form.get('next') == 'remove_device':
-                newDevice = Device()
-                db.session.add(newDevice)
-                db.session.commit()
-                current_device_ID = current_user.deviceId
-                current_user.deviceId = newDevice.id
-                db.session.delete(Device.query.filter_by(id=current_device_ID).first())
+                db.session.delete(Device.query.filter_by(id=current_user.deviceId).first())
                 db.session.commit()
         return render_template("settings.html", form=form)
     return redirect(url_for("home_page"))

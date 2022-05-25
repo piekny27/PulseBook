@@ -51,7 +51,7 @@ class User(db.Model, UserMixin):
     active = db.Column(db.Boolean(), nullable = False, default = True)
     roleId = db.Column(db.Integer, db.ForeignKey("roles.id", ondelete='CASCADE'), nullable=False)
     profileId = db.Column(db.Integer, db.ForeignKey("profiles.id", ondelete='CASCADE'), nullable=False)
-    deviceId = db.Column(db.Integer, db.ForeignKey("devices.id", ondelete='CASCADE'), nullable=False)
+    deviceId = db.Column(db.Integer, db.ForeignKey("devices.id", ondelete='CASCADE'), nullable=True)
 
     @property
     def password(self):
@@ -102,7 +102,7 @@ class UserProfile(db.Model):
 class Device(db.Model):
     __tablename__ = "devices"
     id = db.Column(db.Integer, primary_key=True)
-    device_key = db.Column(db.String(30))
+    device_key = db.Column(db.String(30), unique = True)
     pin = db.Column(db.Integer)
     serial_number = db.Column(db.String(30))
     version = db.Column(db.String(30))
