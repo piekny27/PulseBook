@@ -9,6 +9,7 @@ import json
 
 server_name = 'http://192.168.0.105:5000/device'
 file_name = 'device.pkl'
+headers = {"Content-Type": "application/json; charset=utf-8"}
 
 class DeviceEmulator():
     def __init__(self):
@@ -31,11 +32,12 @@ class DeviceEmulator():
                     data = {'device_key' : self.device.device_key,
                             'serial_number'  : self.device.serial_number,
                             'version' : self.device.version}
-                    response = requests.post(server_name,data)
-                    if(response.status_code == 202):
+                    response = requests.post(server_name, headers=headers , json=data)
+                    data2 = response.json()
+                    if(response.status_code == 202 and data2.get('device_key') == self.device.device_key):
                         print('Config')
                         print('Step 1-D/K correct')
-                        self.device.config_state = 1
+                        self.device.config_state = 1                      
                 elif(self.device.config_state == 1):
                     if(not self.pin_generated):
                         self.device.pin = randint(1000,9999)
@@ -46,12 +48,13 @@ class DeviceEmulator():
                         'pin' : self.device.pin}
                     print('Config')
                     print('Step 2-PIN:', self.device.pin)
-                    response = requests.post(server_name,data)
-                    if(response.status_code == 202):
+                    response = requests.post(server_name, headers=headers , json=data)
+                    data2 = response.json()
+                    if(response.status_code == 202 and data2.get('pin') == self.device.pin):
                         print('Config')
                         print('Step 2-Correct PIN!:')
                         self.pin_generated = False
-                        self.device.config_state = 2
+                        self.device.config_state = 2                    
                 elif(self.device.config_state == 2):
                     print('Config')
                     print('Step 3-Config done')
@@ -71,7 +74,7 @@ class DeviceEmulator():
             self.hr_array.append(round(uniform(60,120),6))
 
     def sensor_loop(self):
-        try:
+        #try:
             while(True):
                 self.gen_arrays()
                 data = {'device_key' : self.device.device_key,
@@ -80,13 +83,17 @@ class DeviceEmulator():
                                 'pin' : self.device.pin,
                                 'sp_array[]' : self.sp_array,
                                 'hr_array[]' : self.hr_array}
-                headers = {"Content-Type": "application/json; charset=utf-8"}
                 print('Sending arrays')
                 response = requests.post(server_name, headers=headers , json=data)
+                data2 = response.json()
+                if(response.status_code == 200 and data2.get('action') == 'reset'):
+                    self.device.config_state = 0
+                    self.device_loaded = False
+                    self.config_device()
                 #sleep(randint(2,10))
                 input('Press Enter')
-        except:
-            print('Error connection')
+        #except:
+            #print('Error connection')
         
     def load_device(self):
         if os.path.isfile(file_name):

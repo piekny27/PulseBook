@@ -4,6 +4,7 @@ from testy import app
 from testy.forms import LoginForm, RegisterForm, ProfileForm, DeviceForm
 from testy.models import DBConnection, User, UserProfile, Device
 from pprint import pprint
+import json
 
 db = DBConnection()
 
@@ -95,9 +96,9 @@ def settings_page():
         if(not device):
             device = Device(config_state = 0)
             db.session.add(device)
-            db.session.commit()
+            db.Flush() 
             current_user.deviceId = device.id
-            db.session.commit()
+            db.Flush() 
         if form.validate_on_submit(): 
             if request.form.get('next') == 'check_dk':
                 device.device_key = form.device_key.data
@@ -118,25 +119,27 @@ def settings_page():
 
 @app.route("/device", methods=['POST'])
 def device_page():
-    device_key = request.form.get('device_key')
-    device = Device.query.filter_by(device_key=device_key).first()
+    content = request.get_json()
+    device = Device.query.filter_by(device_key=content['device_key']).first()
     #config block
     if device and device.config_state == 0:
         device.config_state = 1
         db.session.commit()
-        return ('', 202) 
+        return (json.dumps({'device_key':device.device_key}), 202, {'ContentType':'application/json'})
     elif device and device.config_state == 1:
-        pin = request.form.get('pin')
+        pin = content['pin']
         if(pin and int(pin) == device.pin):
             device.config_state = 2
-            device.serial_number = request.form.get('serial_number')
-            device.version = request.form.get('version')
+            device.serial_number = content['serial_number']
+            device.version = content['version']
             db.session.commit()
-            return ('', 202)
+            return (json.dumps({'pin':device.pin}), 202, {'ContentType':'application/json'})
     #receive data block
     elif device and device.config_state == 2:  
         #todo
         pass
-    return ('', 204)
+    elif not device:
+        return (json.dumps({'action':'reset'}), 200, {'ContentType':'application/json'})
+    return (json.dumps({'config_state':device.config_state}), 200, {'ContentType':'application/json'})
     
     
