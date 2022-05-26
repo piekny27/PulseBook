@@ -21,8 +21,40 @@ Settings
                     <div class="col-md-12 mx-0">
                         <form id="msform" method="POST">
                             {{ form.hidden_tag() }}
-                            {% if current_user.devices.config_state == 2 %}
-
+                            {% if current_user.devices.config_state == 0 %}
+                            <ul id="progressbar">
+                                <li class="active" id="account"><strong>wifi i prad</strong></li>
+                                <li id="personal"><strong>key</strong></li>
+                                <li id="payment"><strong>pin</strong></li>
+                                <li id="confirm"><strong>Finish</strong></li>
+                            </ul>
+                            <div class="form-card">
+                                <h2 class="fs-title">Wprowadz device_key</h2>
+                                <p>Klucz urzadzenia znajduje sie na dolnej stronie obudowy</p>
+                                <video src="/static/images/anim2.mp4" muted loop autoplay></video>
+                                {{ form.device_key(type="text", placeholder="Device key", class_="form-control") }}
+                            </div>
+                            <button type="submit" name="next" class="next action-button" value="check_dk">Next</button>
+                            {% elif current_user.devices.config_state == 1 %}
+                            <ul id="progressbar">
+                                <li class="active" id="account"><strong>wifi i prad</strong></li>
+                                <li class="active" id="personal"><strong>key</strong></li>
+                                <li id="payment"><strong>pin</strong></li>
+                                <li id="confirm"><strong>Finish</strong></li>
+                            </ul>
+                            <div class="form-card">
+                                <h2 class="fs-title">Podaj pin</h2>
+                                <p>wprowadz pin, ktory wyswietla sie na ekranie urzadzenia</p>
+                                {{ form.pin(type="number", placeholder="Pin", class_="form-control") }}
+                            </div>
+                            <button type="submit" name="next" class="next action-button" value="check_pin">Next</button>
+                            {% elif current_user.devices.config_state == 2 %}
+                            <ul id="progressbar">
+                                <li class="active" id="account"><strong>wifi i prad</strong></li>
+                                <li class="active" id="personal"><strong>key</strong></li>
+                                <li class="active" id="payment"><strong>pin</strong></li>
+                                <li class="active" id="confirm"><strong>Finish</strong></li>
+                            </ul>
                             <h1>Brawo skonfiguroweałeś</h1>
                             <p>i panel do zmiany wifi czy tam czegfos(TODO)</p>
                             <table style="text-align: center;">
@@ -45,59 +77,6 @@ Settings
 								  </td>
                                 </tr>
                               </table>
-                            {% else %}
-                            <!-- progressbar -->
-                            <ul id="progressbar">
-                                <li class="active" id="account"><strong>wifi i prad</strong></li>
-                                <li id="personal"><strong>key</strong></li>
-                                <li id="payment"><strong>pin</strong></li>
-                                <li id="confirm"><strong>Finish</strong></li>
-                            </ul>
-                            <!-- fieldsets -->
-                            <fieldset>
-                                <div class="form-card">
-                                    <h2 class="fs-title">Podłacz urzadzenie do prądu i wifi</h2>
-                                    <p>Aby to zrobić to...blabla</p>
-                                </div>
-                                <button type="button" name="next" class="next action-button" value="Next Step">Next</button>
-                            </fieldset>
-                            <fieldset>
-                                <div class="form-card">
-                                    <h2 class="fs-title">Wprowadz device_key</h2>
-                                    <p>Klucz urzadzenia znajduje sie na dolnej stronie obudowy</p>
-                                    <video src="/static/images/anim2.mp4" muted loop autoplay></video>
-                                    {{ form.device_key(type="text", placeholder="Device key", class_="form-control") }}
-                                </div>
-                                <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
-                                <button type="submit" name="next" class="next action-button" value="check_dk">Next</button>
-                            </fieldset>
-                            <fieldset>
-                                <div class="form-card">
-                                    <h2 class="fs-title">Podaj pin</h2>
-                                    <p>wprowadz pin, ktory wyswietla sie na ekranie urzadzenia</p>
-                                    {{ form.pin(type="number", placeholder="Pin", class_="form-control") }}
-                                </div>
-                                <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
-                                <button type="submit" name="next" class="next action-button" value="check_pin">Next</button>
-                            </fieldset>
-                            <fieldset>
-                                <div class="form-card">
-                                    <h2 class="fs-title text-center">Success !</h2>
-                                    <br><br>
-                                    <div class="row justify-content-center">
-                                        <div class="col-3">
-                                            <img src="https://img.icons8.com/color/96/000000/ok--v2.png" class="fit-image">
-                                        </div>
-                                    </div>
-                                    <br><br>
-                                    <div class="row justify-content-center">
-                                        <div class="col-7 text-center">
-                                            <h5>brawo ty</h5>
-                                            <input type="submit" name="next" class="next action-button" value="go_devices">Devices</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
                             {% endif %}
                         </form>
                     </div>
@@ -110,7 +89,4 @@ Settings
 {% endblock %}
 
 {% block scripts %}    
-<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type="text/javascript" src="/static/scripts/settingspage.js"></script>
 {% endblock %} 
