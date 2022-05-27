@@ -1,8 +1,9 @@
+from datetime import date
 from flask import redirect, render_template, url_for, flash, request
 from flask_login import current_user, login_user, logout_user
 from testy import app
 from testy.forms import LoginForm, RegisterForm, ProfileForm, DeviceForm
-from testy.models import DBConnection, User, UserProfile, Device
+from testy.models import DBConnection, Hr_data, Measurement, Sp_data, User, UserProfile, Device
 from pprint import pprint
 import json
 
@@ -136,7 +137,13 @@ def device_page():
             return (json.dumps({'pin':device.pin}), 202, {'ContentType':'application/json'})
     #receive data block
     elif device and device.config_state == 2:  
-        #todo
+        new_measurement = Measurement(date_now=0)
+        for sp_item in content['sp_array[]']:
+            new_measurement.sp_data.append(Sp_data(data=sp_item))
+        for hr_item in content['hr_array[]']:
+            new_measurement.hr_data.append(Hr_data(data=hr_item)) 
+        device.user[0].profiles.measurements.append(new_measurement)
+        db.session.commit()
         pass
     elif not device:
         return (json.dumps({'action':'reset'}), 200, {'ContentType':'application/json'})

@@ -3,3 +3,4 @@ venv/*
 __pycache__/*
 testy/__pycache__/*
 device.pkl
+DataBase.db
