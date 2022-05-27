@@ -67,14 +67,14 @@ class DeviceEmulator():
                 break
 
     def gen_arrays(self):
-        self.sp_array.clear
-        self.hr_array.clear
+        self.sp_array.clear()
+        self.hr_array.clear()
         for x in range(19):
             self.sp_array.append(round(uniform(90,99),4))
             self.hr_array.append(round(uniform(60,120),6))
 
     def sensor_loop(self):
-        #try:
+        try:
             while(True):
                 self.gen_arrays()
                 data = {'device_key' : self.device.device_key,
@@ -90,10 +90,9 @@ class DeviceEmulator():
                     self.device.config_state = 0
                     self.device_loaded = False
                     self.config_device()
-                #sleep(randint(2,10))
                 input('Press Enter')
-        #except:
-            #print('Error connection')
+        except:
+            print('Error connection')
         
     def load_device(self):
         if os.path.isfile(file_name):

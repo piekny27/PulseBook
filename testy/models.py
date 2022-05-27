@@ -1,7 +1,7 @@
 from email.policy import default
 from testy import db,bcrypt,login_manager
 from flask_login import UserMixin
-from datetime import date
+from datetime import date, datetime
 
 @login_manager.user_loader
 def load_user(userId):
@@ -75,6 +75,11 @@ class UserRole(db.Model):
     name = db.Column(db.String(50), unique=True)
     user = db.relationship('User', backref=db.backref('roles'))
 
+measurement_id = db.Table('measurement_id',
+    db.Column('user_profile_id', db.Integer, db.ForeignKey("profiles.id")),
+    db.Column('measurements_id', db.Integer, db.ForeignKey("measurements.id"))
+)
+
 class UserProfile(db.Model):
     __tablename__ = "profiles"
     id = db.Column(db.Integer, primary_key=True)
@@ -87,6 +92,7 @@ class UserProfile(db.Model):
     avatarName = db.Column(db.String(30))
     height = db.Column(db.Integer)
     weight = db.Column(db.Integer)
+    measurements = db.relationship('Measurement', secondary=measurement_id, backref=db.backref('profiles'))
     user = db.relationship('User', backref=db.backref('profiles'))
 
     @property
@@ -108,5 +114,41 @@ class Device(db.Model):
     version = db.Column(db.String(30))
     config_state = db.Column(db.Integer, default = 0)
     user = db.relationship('User', backref=db.backref('devices'))
+
+class Sp_data(db.Model):
+    __tablename__ = "sp_data"
+    id = db.Column(db.Integer, primary_key=True)
+    data = db.Column(db.Float(precision=3))
+
+class Hr_data(db.Model):
+    __tablename__ = "hr_data"
+    id = db.Column(db.Integer, primary_key=True)
+    data = db.Column(db.Float(precision=3))
+
+sp_data_id = db.Table('sp_data_id',
+    db.Column('sp_id', db.Integer, db.ForeignKey("sp_data.id")),
+    db.Column('measurements_id', db.Integer, db.ForeignKey("measurements.id"))
+)
+
+hr_data_id = db.Table('hr_data_id',
+    db.Column('hr_id', db.Integer, db.ForeignKey("hr_data.id")),
+    db.Column('measurements_id', db.Integer, db.ForeignKey("measurements.id"))
+)
+
+class Measurement(db.Model):
+    __tablename__ = "measurements"
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.DateTime)
+    sp_data = db.relationship("Sp_data", secondary=sp_data_id, backref=db.backref('sp_data'))
+    hr_data = db.relationship("Hr_data", secondary=hr_data_id, backref=db.backref('hr_data'))
+
+    @property
+    def date_now(self):
+        return self.date
+
+    @date_now.setter
+    def date_now(self, empty):
+        self.date = datetime.today()
+
 
 
