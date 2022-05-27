@@ -70,3 +70,31 @@
 	margin-right: 0,75rem;
 	margin-left: 0,75rem;
 }
+
+i{
+	position: fixed;
+	bottom: 25px;
+	right: 30px;
+	font-size: 30px;
+	background: #1282A2;
+	color:#fff;
+	padding: 8px 11px;
+	border-radius: 50%;
+	cursor: pointer;
+	z-index: 3;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity .3 ease-in-out;
+	box-shadow:  5px 3px 3px #2e2e2e;
+}
+i:hover{
+	background: #0e657e;
+	transition: .5s;
+}
+
+.first_render {
+
+}
+.first_render img {
+
+}

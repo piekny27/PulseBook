@@ -142,4 +142,30 @@ def device_page():
         return (json.dumps({'action':'reset'}), 200, {'ContentType':'application/json'})
     return (json.dumps({'config_state':device.config_state}), 200, {'ContentType':'application/json'})
     
-    
+@app.route("/settingstest", methods=['GET', 'POST'])
+def settingstest_page():
+    if current_user.is_authenticated:
+        form = DeviceForm()
+        device = Device.query.filter_by(id=current_user.deviceId).first()
+        if form.validate_on_submit(): 
+            if request.form.get('next') == 'check_dk':
+                device.device_key = form.device_key.data
+                db.Flush()  
+                return ('', 204)
+            elif request.form.get('next') == 'check_pin':
+                device.pin = form.pin.data   
+                db.Flush()   
+                return ('', 204)
+            elif request.form.get('next') == 'go_devices':
+                device.configured = True  
+                db.Flush() 
+            elif request.form.get('next') == 'remove_device':
+                newDevice = Device()
+                db.session.add(newDevice)
+                db.session.commit()
+                current_device_ID = current_user.deviceId
+                current_user.deviceId = newDevice.id
+                db.session.delete(Device.query.filter_by(id=current_device_ID).first())
+                db.session.commit()
+        return render_template("settingstest.html", form=form)
+    return redirect(url_for("home_page"))
