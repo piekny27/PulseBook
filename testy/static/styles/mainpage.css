@@ -71,7 +71,8 @@
 	margin-left: 0,75rem;
 }
 
-i{
+i.base
+{
 	position: fixed;
 	bottom: 25px;
 	right: 30px;
@@ -87,7 +88,7 @@ i{
 	transition: opacity .3 ease-in-out;
 	box-shadow:  5px 3px 3px #2e2e2e;
 }
-i:hover{
+i.base:hover{
 	background: #0e657e;
 	transition: .5s;
 }
