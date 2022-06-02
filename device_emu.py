@@ -86,8 +86,10 @@ class DeviceEmulator():
                 print('Sending arrays')
                 response = requests.post(server_name, headers=headers , json=data)
                 data2 = response.json()
-                if(response.status_code == 200 and data2.get('action') == 'reset'):
-                    self.device.config_state = 0
+                if((data2.get('action') == 'reset') or (data2.get('config_state') == 1)):
+                    state = data2.get('config_state')
+                    if state: self.device.config_state = state
+                    else: self.device.config_state = 0
                     self.device_loaded = False
                     self.config_device()
                 input('Press Enter')

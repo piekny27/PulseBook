@@ -44,6 +44,10 @@ class ProfileForm(FlaskForm):
 
 class DeviceForm(FlaskForm):
 
+    def __init__(self):
+        self.config_state = None
+        self.password = None
+
     device_key = StringField(label="Device Key")
     pin = StringField(label="Pin")
     submit = SubmitField(label = "Save Device")

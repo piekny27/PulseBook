@@ -6,6 +6,7 @@ from testy.forms import LoginForm, RegisterForm, ProfileForm, DeviceForm
 from testy.models import DBConnection, Hr_data, Measurement, Sp_data, User, UserProfile, Device
 from pprint import pprint
 import json
+import time
 
 db = DBConnection()
 
@@ -92,30 +93,49 @@ def profile_page():
 @app.route("/settings", methods=['GET', 'POST'])
 def settings_page():
     if current_user.is_authenticated:
-        form = DeviceForm()
         device = Device.query.filter_by(id=current_user.deviceId).first()
         if(not device):
             device = Device(config_state = 0)
             db.session.add(device)
-            db.Flush() 
+            db.session.commit()
             current_user.deviceId = device.id
-            db.Flush() 
-        if form.validate_on_submit(): 
-            if request.form.get('next') == 'check_dk':
-                device.device_key = form.device_key.data
-                db.Flush()  
-                return ('', 204)
-            elif request.form.get('next') == 'check_pin':
-                device.pin = form.pin.data   
-                db.Flush()   
-                return ('', 204)
-            elif request.form.get('next') == 'go_devices':
-                device.configured = True  
-                db.Flush() 
-            elif request.form.get('next') == 'remove_device':
-                db.session.delete(Device.query.filter_by(id=current_user.deviceId).first())
+            db.session.commit()
+        device_key = request.args.get('device_key')
+        pin = request.args.get('pin')
+        delete_device = request.args.get('delete_device')
+        if device_key:
+            sec = 0
+            while True:
+                if sec > 5:
+                    return ('Request timeout', 408)
+                device = Device.query.filter_by(id=current_user.deviceId).first()
+                device.device_key = device_key
                 db.session.commit()
-        return render_template("settings.html", form=form)
+                if device and device.config_state > 0:
+                    return ('Ok jest', 200)
+                time.sleep(1)
+                sec += 1
+        if pin:
+            sec = 0
+            while True:
+                if sec > 5:
+                    return ('Request timeout', 408)
+                device = Device.query.filter_by(id=current_user.deviceId).first()
+                device.pin = pin
+                db.session.commit()
+                if device and device.config_state > 1:
+                    return ('Ok jest', 200)
+                time.sleep(1)
+                sec += 1
+        if delete_device:
+            devi = Device(config_state = 0)
+            db.session.add(devi)
+            db.session.commit()
+            db.session.delete(device)
+            current_user.deviceId = devi.id
+            db.session.commit()
+            return ('Ok jest', 200)
+        return render_template("settings.html", config_state = device.config_state)
     return redirect(url_for("home_page"))
 
 @app.route("/device", methods=['POST'])
