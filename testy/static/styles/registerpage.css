@@ -1,4 +1,6 @@
-
+*{
+    box-sizing: border-box;
+}
 .waveimage img {
     position: absolute;
     top: 0;
@@ -7,4 +9,7 @@
     height: 100%;
     object-fit: cover;
     z-index: -1;
+}
+.form-outline {
+    max-width: 350px;
 }

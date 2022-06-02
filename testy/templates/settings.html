@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="/static/styles/settingspage.css">
+{% endblock %}
+
+{% block title %}
+SettingsTest
+{% endblock %}
+
+{% block content %}
+<div class="container-md light-style">
+
+  <h4 class="font-weight-bold py-3 mb-4">
+    Account settings
+  </h4>
+  <form method="">
+    
+    <div class="card overflow-hidden">
+      <div class="row">
+        <div class="col-md-3 pt-0">
+          <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home"
+              type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</button>
+            <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile"
+              type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</button>
+            <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages"
+              type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</button>
+            <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings"
+              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button>
+          </div>
+        </div>
+        <div class="col">
+          <div class="tab-content" id="v-pills-tabContent" style="margin:0 auto;">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+              <div class="test" style="#border:1px solid red">
+                <div class="settings-card" style="#border:1px solid red;">
+                  <div class="progress">
+                    <div class="progress-bar"></div>
+                  </div>
+                  <ul class="center2">
+                    <li class="aaa" id="tab1" style="#border:1px solid green">
+                      <div class="circle-border">
+                        <div class="circle-fill"></div>
+                        <div class="circle-validate"></div>
+                        <i class="fa-solid fa-gear"></i>
+                        <p>WiFi and Power</p>
+                      </div>
+                    </li>
+                    <li class="aaa" id="tab2" style="#border:1px solid green">
+                      <div class="circle-border">
+                        <div class="circle-fill"></div>
+                        <div class="circle-validate"></div>
+                        <i class="fa-solid fa-key"></i>
+                        <p>Device key</p>
+                      </div>
+                    </li>
+                    <li class="aaa" id="tab3" style="#border:1px solid green">
+                      <div class="circle-border">
+                        <div class="circle-fill"></div>
+                        <div class="circle-validate"></div>
+                        <i class="fa-solid fa-list-ol"></i>
+                        <p>Pin</p>
+                      </div>
+                    </li>
+                    <li class="aaa" id="tab4" style="#border:1px solid green">
+                      <div class="circle-border">
+                        <div class="circle-fill"></div>
+                        <div class="circle-validate"></div>
+                        <i class="fa-solid fa-circle-check"></i>
+                        <p>Finished</p>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="tab-content" style="#border:1px solid green">
+                    <div id="menu0" class="tab-pane">
+                      <p>Podłącz urządzenie do prądu</p>
+                      <p>Wymagana ładowarka 5V DC 0.3A</p>
+                      <img src="https://i.gifer.com/BWWG.gif" style="max-width:100%;" alt="power_anim">  </img>
+                      <p>Poczekaj do momentu gdy wyświetli się ekran konfiguracji i naciśnij next</p>
+                    </div>
+                    <div id="menu1" class="tab-pane">
+                      <p>Wpisz device key</p>
+                      <p>Device_key umieszczony jest na spodzie urządzenia</p>
+                      <video src="/static/images/anim2.mp4" muted loop autoplay style="max-width:100%;"></video>
+                      <input type="text" id="dk" placeholder="device key" style="max-width:100%;">
+                      <button type="button" id="device_ok">OK</button>
+                    </div>
+                    <div id="menu2" class="tab-pane">
+                      <p>Wprowadź pin</p>
+                      <p>Pin jest wyświetlany na ekranie urządzenia</p>
+                      <img src="https://cdn.dribbble.com/users/314283/screenshots/2510933/pincode-concept-b.gif" style="max-width:100%;" alt="power_anim">  </img>
+                      <input type="text" id="pin" placeholder="pin" style="max-width:100%;">
+                      <button type="button" id="pin_ok">OK</button>
+                    </div>
+                    <div id="menu3" class="tab-pane">
+                      Brawo skonfigurowales!
+                      Twoje urzadzenie to: bla bla
+                      <button type="button" id="delete_device">Delete device</button>
+                    </div>
+                  </div>
+                  <!-- <button type="button" id="preev" class="prev">Prev</button>
+                  <button type="button" class="next">Next</button> -->
+                  <!-- <button class="toggle">Toggle</button> -->
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+              ..qwed.
+            </div>
+            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+              ..wed.
+            </div>
+            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+              ..wqed.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<script type="text/javascript"> 
+  window.config_state = "{{config_state}}"
+</script>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="/static/scripts/settingspage.js"></script>
+{% endblock %}

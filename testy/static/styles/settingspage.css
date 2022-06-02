@@ -1,0 +1,250 @@
+
+[class*="fa-"]
+{
+  bottom:122px;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.2);
+  position: relative;
+  cursor:pointer;
+}
+
+[class*="fa-"].anim-icon-in
+{
+  color: #FFFFFF;
+  animation: scale2In 0.2s normal forwards ease-in-out;
+}
+
+[class*="fa-"].anim-icon-out
+{
+  color: rgba(0, 0, 0, 0.2);
+  animation: scale2Out 0.2s normal forwards ease-in-out;
+}
+
+.settings-card
+{
+  padding: 20px;
+  border-radius: 3px 3px 0 0;
+  min-height: 210px;
+  text-align:center;
+  position: relative;
+}
+
+.prev
+{
+  position:absolute; 
+  bottom:10px;
+  left:10px;
+}
+
+.next
+{
+  position:absolute; 
+  bottom:10px;
+  right:10px;
+}
+
+.toggle
+{
+  position:absolute; 
+  bottom:10px;
+}
+
+ul.center2
+{
+  padding: 0 0 0 0;
+}
+
+li 
+{
+  display: inline-block;
+  vertical-align:top;
+}
+
+li > div > p
+{
+  position: relative;
+  bottom:105px;
+  font-size: 15px;
+}
+
+.tab-content
+{
+  margin: 35px 10px auto;
+  padding: 10px;
+}
+
+.progress-bar 
+{
+  width: 15%;
+  background-color: #EB5E28;
+  box-shadow: none;
+  -webkit-transition: width .3s ease;
+  -o-transition: width .3s ease;
+  transition: width .3s ease;
+}
+
+.progress
+{
+  position: relative;
+  top: 40px;
+  z-index: 0;
+  height: 4px;
+}
+ 
+.circle-border
+{
+  font-size: 20px;
+  border: 3px solid #F3F2EE;
+  border-radius: 50%;
+  color: rgba(0, 0, 0, 0.2);
+  width: 70px;
+  height: 70px;
+  background-color: #FFFFFF;
+  margin: 0 auto;
+  position: relative;
+}
+
+.circle-border.checked {
+  border-color: #EB5E28;
+}
+
+.circle-fill
+{
+  position: relative;
+  font-size: 20px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: transparent;
+  z-index:0;
+  right:3px;
+  bottom:3px;
+}
+
+.circle-fill.anim-fill-in 
+{
+  border: 0px;
+  border-radius: 50%;
+  background-color: #EB5E28;
+	border-right-color: transparent;
+	border-bottom-color: transparent;
+  animation: scaleIn 0.2s normal forwards;
+}
+
+.circle-fill.anim-fill-out 
+{
+  border: 0px;
+  border-radius: 50%;
+  background-color: #EB5E28;
+	border-right-color: transparent;
+	border-bottom-color: transparent;
+  animation: scaleOut 0.2s normal forwards;
+}
+
+.circle-validate
+{
+  bottom:73px;
+  right:3px;
+  border: 0;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.circle-validate.anim {
+  border: 3px solid #5f2b00;
+	border-radius: 50%;
+	border-right-color: transparent;
+	border-bottom-color: transparent;
+  animation-name:             rotate; 
+  animation-duration:         1.0s; 
+  animation-iteration-count:  infinite;
+  animation-timing-function: linear; 
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to { 
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+    }
+    to { 
+        transform: scale(1);
+    }
+}
+
+@keyframes scaleOut {
+    from {
+        transform: scale(1);
+    }
+    to { 
+        transform: scale(0);
+    }
+}
+
+@keyframes scale2In {
+    from {
+        transform: scale(1);
+    }
+    to { 
+        transform: scale(1.2);
+    }
+}
+
+@keyframes scale2Out {
+    from {
+        transform: scale(1.2);
+    }
+    to { 
+        transform: scale(1);
+    }
+}
+
+@media screen and (min-width: 768px) 
+{
+  .settings-card
+  {
+    margin: auto;
+    padding:10px;
+    width:470px;
+  }
+}
+
+@media screen and (min-width: 990px) 
+{
+  .settings-card
+  {
+    margin: auto;
+    padding:10px;
+    width:616px;
+  }
+}
+
+@media screen and (min-width: 1200px) 
+{
+  .settings-card
+  {
+    margin: auto;
+    padding:10px;
+    width:616px;
+  }
+}
+
+@media screen and (min-width: 3000px) 
+{
+  .settings-card
+  {
+    margin: auto;
+    padding: 10px;
+    width: 750px;
+  }
+}

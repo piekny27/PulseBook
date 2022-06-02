@@ -1,0 +1,52 @@
+
+body {
+    background-color: #c7c7c7;
+    background-image: url('/static/images/waveblue.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-blend-mode: multiply;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #68c8bb
+}
+
+.profile-button {
+    background: rgb(39, 120, 109);
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background: #277363;
+}
+
+.profile-button:focus {
+    background: #277363;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #277363;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #277363;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #68c8bb;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #68c8bb
+}
+.typeuser1 {
+    font-size: 18px;
+}

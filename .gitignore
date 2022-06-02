@@ -2,3 +2,5 @@ venv/*
 .vscode/*
 __pycache__/*
 testy/__pycache__/*
+device.pkl
+DataBase.db
