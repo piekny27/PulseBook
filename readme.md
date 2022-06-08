@@ -24,7 +24,16 @@ python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 ```
+generating the database
+```
+cd ../BookOfRecipe
+python db_generator.py 
+```
 ## Links
 [Processing in html](https://cs.nyu.edu/~kapp/cs101/processing_on_the_web/)
 <br>
 [Bootstrap v5.1](https://getbootstrap.com/docs/5.1/getting-started/introduction/)
+<br>
+[Jinja documentation](https://jinja.palletsprojects.com/en/3.1.x/)
+<br>
+[Flask documentation](https://flask.palletsprojects.com/en/2.1.x/)

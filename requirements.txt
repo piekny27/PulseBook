@@ -20,3 +20,4 @@ SQLAlchemy==1.4.32
 Werkzeug==2.0.3
 WTForms==3.0.1
 requests==2.27.1
+jsonpickle==2.2.0
