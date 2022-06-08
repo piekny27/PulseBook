@@ -1,12 +1,16 @@
 from datetime import date
 from flask import redirect, render_template, url_for, flash, request
 from flask_login import current_user, login_user, logout_user
+from sqlalchemy import JSON
 from testy import app
 from testy.forms import LoginForm, RegisterForm, ProfileForm, DeviceForm
 from testy.models import DBConnection, Hr_data, Measurement, Sp_data, User, UserProfile, Device
 from pprint import pprint
 import json
 import time
+import math
+import jsonpickle
+from json import JSONEncoder
 
 db = DBConnection()
 
@@ -51,7 +55,23 @@ def register_page():
 
 @app.route("/dashboard")
 def dashboard_page():
-    return render_template("dashboard.html")
+    if not current_user.is_authenticated:
+        return redirect(url_for('home_page'))
+    profile = current_user.profiles
+    dict={}
+    dict['bmi_value'] = profile.weight / (math.pow(profile.height/100,2))
+    dict['bmi_message']="Your bmi is correct and bla bla"
+    dict['pulse_value']="12"
+    dict['pulse_message']="Brawo masz wysmienity puls."
+    dict['chart_saturation_value']="ala"
+    dict['chart_pulse_value']=current_user.profiles.measurements
+    dict['pulse_chart_message']="Masz za krotka historie pomiarow aby ladnie pokazac"
+    #jsondict=json.dumps(dict)
+    empJSON = jsonpickle.encode(dict, unpicklable=False)
+    employeeJSONData = json.dumps(empJSON, indent=4)
+    EmployeeJSON = jsonpickle.decode(employeeJSONData)
+    print(dict)
+    return render_template("dashboard.html", dict=dict, jsondict=EmployeeJSON)
 
 
 @app.route("/logout")
