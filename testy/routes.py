@@ -155,7 +155,7 @@ def settings_page():
             current_user.deviceId = devi.id
             db.session.commit()
             return ('Ok jest', 200)
-        return render_template("settings.html", config_state = device.config_state)
+        return render_template("settings.html", config_state = device.config_state, serial_number=device.serial_number, version=device.version, device=device.device_key)
     return redirect(url_for("home_page"))
 
 @app.route("/device", methods=['POST'])

@@ -1,4 +1,11 @@
 
+html, body{
+  height: 100%;
+  background-image: url("/static/images/waveblue.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 [class*="fa-"]
 {
   bottom:122px;
@@ -163,7 +170,116 @@ li > div > p
   animation-iteration-count:  infinite;
   animation-timing-function: linear; 
 }
+.passwordchange{
+  max-width: 400px;
+}
+#dk{
+  max-width:100%;
+  padding: 5px;
+}
+#pin{
+  max-width:100%;
+  padding: 5px;
+}
+#menu0{
+  padding-top: 20px;
+}
+#menu1 video{
+  max-width:80%; 
+  padding:0px 25px 30px 25px;
+}
 
+#menu2 video{
+  padding:0px 0px 20px 0px;
+  max-height: 180px;
+}
+#menu3 video{
+  max-height: 130px;
+}
+
+#device_ok {
+	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	background-color:#599bb3;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:15px;
+	font-weight:bold;
+	padding:8px 15px;
+	text-decoration:none;
+  border-style: none;
+}
+#device_ok:hover {
+	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+	background-color:#408c99;
+}
+#device_ok:active {
+	position:relative;
+	top:1px;
+}
+
+#pin_ok {
+	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	background-color:#599bb3;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:15px;
+	font-weight:bold;
+	padding:8px 15px;
+	text-decoration:none;
+  border-style: none;
+}
+#pin_ok:hover {
+	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+	background-color:#408c99;
+}
+#pin_ok:active {
+	position:relative;
+	top:1px;
+}
+
+#delete_device {
+	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	background-color:#599bb3;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:15px;
+	font-weight:bold;
+	padding:14px 18px;
+	text-decoration:none;
+  border-style: none;
+}
+#delete_device:hover {
+	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+	background-color:#408c99;
+}
+#delete_device:active {
+	position:relative;
+	top:1px;
+}
+
+
+/* #delete_device {
+  border: none;
+  color: #fff;
+  padding: 14px;
+  font-weight:bold;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 1);
+  border-radius:8px;
+  background-color: #e67519;
+  transition: 0.3s;
+  background-size: 200%;
+}
+#delete_device:hover {
+  background-color: #d47323;
+  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 1);
+}
+         */
 @keyframes rotate {
     from {
         transform: rotate(0deg);
@@ -207,6 +323,17 @@ li > div > p
     to { 
         transform: scale(1);
     }
+}
+
+@media screen and (max-width: 430px) 
+{
+  .settings-card
+  {
+    margin: auto;
+    padding:1px;
+    width:360px;
+  }
+
 }
 
 @media screen and (min-width: 768px) 

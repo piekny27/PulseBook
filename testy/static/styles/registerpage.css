@@ -1,14 +1,12 @@
 *{
     box-sizing: border-box;
 }
-.waveimage img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+html, body{
     height: 100%;
-    object-fit: cover;
-    z-index: -1;
+    background-image: url("/static/images/waveblue.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 .form-outline {
     max-width: 350px;
