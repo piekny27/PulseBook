@@ -11,7 +11,7 @@ SettingsTest
 {% block content %}
 <div class="container-md light-style">
 
-  <h4 class="font-weight-bold py-3 mb-4">
+  <h4 class="font-weight-bold py-3 mb-4 text-white">
     Account settings
   </h4>
   <form method="">
@@ -21,33 +21,33 @@ SettingsTest
         <div class="col-md-3 pt-0">
           <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home"
-              type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</button>
+              type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Device</button>
             <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile"
-              type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</button>
+              type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Change Password</button>
             <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages"
-              type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</button>
-            <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings"
-              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button>
+              type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Delete account</button>
+            <!-- <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings"
+              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button> -->
           </div>
         </div>
         <div class="col">
           <div class="tab-content" id="v-pills-tabContent" style="margin:0 auto;">
             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-              <div class="test" style="#border:1px solid red">
-                <div class="settings-card" style="#border:1px solid red;">
+              <div class="test">
+                <div class="settings-card">
                   <div class="progress">
                     <div class="progress-bar"></div>
                   </div>
                   <ul class="center2">
-                    <li class="aaa" id="tab1" style="#border:1px solid green">
+                    <li class="aaa" id="tab1">
                       <div class="circle-border">
                         <div class="circle-fill"></div>
                         <div class="circle-validate"></div>
                         <i class="fa-solid fa-gear"></i>
-                        <p>WiFi and Power</p>
+                        <p>Power & WiFi</p>
                       </div>
                     </li>
-                    <li class="aaa" id="tab2" style="#border:1px solid green">
+                    <li class="aaa" id="tab2">                     
                       <div class="circle-border">
                         <div class="circle-fill"></div>
                         <div class="circle-validate"></div>
@@ -55,47 +55,51 @@ SettingsTest
                         <p>Device key</p>
                       </div>
                     </li>
-                    <li class="aaa" id="tab3" style="#border:1px solid green">
+                    <li class="aaa" id="tab3">
                       <div class="circle-border">
                         <div class="circle-fill"></div>
                         <div class="circle-validate"></div>
                         <i class="fa-solid fa-list-ol"></i>
-                        <p>Pin</p>
+                        <p>Pin Code</p>
                       </div>
                     </li>
-                    <li class="aaa" id="tab4" style="#border:1px solid green">
+                    <li class="aaa" id="tab4">
                       <div class="circle-border">
                         <div class="circle-fill"></div>
                         <div class="circle-validate"></div>
                         <i class="fa-solid fa-circle-check"></i>
-                        <p>Finished</p>
+                        <p>Finish</p>
                       </div>
                     </li>
                   </ul>
-                  <div class="tab-content" style="#border:1px solid green">
+                  <div class="tab-content">
                     <div id="menu0" class="tab-pane">
-                      <p>Podłącz urządzenie do prądu</p>
-                      <p>Wymagana ładowarka 5V DC 0.3A</p>
-                      <img src="https://i.gifer.com/BWWG.gif" style="max-width:100%;" alt="power_anim">  </img>
-                      <p>Poczekaj do momentu gdy wyświetli się ekran konfiguracji i naciśnij next</p>
+                      <p>Connect the device to the power supply</p>
+                      <p>5V DC 0.3A charger required</p>
+                      <img src="https://i.gifer.com/BWWG.gif" style="max-width:80%; padding:20px" alt="power_anim"></img>
+                      <p>Wait until the configuration screen is displayed and press the next icon.</p>
                     </div>
                     <div id="menu1" class="tab-pane">
-                      <p>Wpisz device key</p>
-                      <p>Device_key umieszczony jest na spodzie urządzenia</p>
-                      <video src="/static/images/anim2.mp4" muted loop autoplay style="max-width:100%;"></video>
-                      <input type="text" id="dk" placeholder="device key" style="max-width:100%;">
-                      <button type="button" id="device_ok">OK</button>
+                      <p><h3>Enter device key</h3></p>
+                      <p>The key is located on the bottom of the device.</p>
+                      <video src="/static/images/anim2.mp4" muted loop autoplay></video>
+                      <input type="text" id="dk" placeholder="Enter device key">&nbsp;
+                      <button type="button" id="device_ok">Confirm key</button>
                     </div>
                     <div id="menu2" class="tab-pane">
-                      <p>Wprowadź pin</p>
-                      <p>Pin jest wyświetlany na ekranie urządzenia</p>
-                      <img src="https://cdn.dribbble.com/users/314283/screenshots/2510933/pincode-concept-b.gif" style="max-width:100%;" alt="power_anim">  </img>
-                      <input type="text" id="pin" placeholder="pin" style="max-width:100%;">
-                      <button type="button" id="pin_ok">OK</button>
+                      <p><h3>Enter the pin code</h3></p>
+                      <p>The pin is displayed on the screen of the device.<br> Rewrite it and move on.</p>
+                      <video src="/static/images/pincroped.mp4" muted loop autoplay></video><br>
+                      <!-- <img src="https://cdn.dribbble.com/users/314283/screenshots/2510933/pincode-concept-b.gif" style="max-width:100%;" alt="power_anim">  </img> -->
+                      <input type="text" id="pin" placeholder="Enter pincode">&nbsp;
+                      <button type="button" id="pin_ok">Next</button>
                     </div>
                     <div id="menu3" class="tab-pane">
-                      Brawo skonfigurowales!
-                      Twoje urzadzenie to: bla bla
+                      <p><h3>Success</h3></p>
+                      <video src="/static/images/sacc.mp4" muted autoplay></video><br>
+                      
+                      <p>Device is connected.<br> Information about your device.<br> <b>Serial number:</b> {{ serial_number }} <br><b>Version:</b> {{ version }}<br><b>Address:</b> {{ device }}</p>
+                      <br>
                       <button type="button" id="delete_device">Delete device</button>
                     </div>
                   </div>
@@ -106,14 +110,57 @@ SettingsTest
               </div>
             </div>
             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-              ..qwed.
+              <div class="passwordchange">
+              <div class="card-body pb-2">
+
+                <div class="form-group">
+                  <label class="form-label">Current password</label>
+                  <input type="password" class="form-control">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">New password</label>
+                  <input type="password" class="form-control">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Repeat new password</label>
+                  <input type="password" class="form-control">
+                </div>
+                <br>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
             </div>
             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-              ..wed.
+              <div class="card-body pb-2">
+                <h2>Delete your account</h2>
+                <p>Delete your account permanently on pulsebook.</p><br>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete account</button>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Confirm account deletion</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        Are you sure you want to delete your whole account? 
+                        You'll lose everything.
+                        If you are sure, confirm by clicking on the bottom.
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Leave</button>
+                        <button type="button" class="btn btn-danger">Confirm Delete account</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- fff -->
+              </div>
             </div>
-            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-              ..wqed.</div>
-          </div>
         </div>
       </div>
     </div>
