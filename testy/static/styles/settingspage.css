@@ -35,21 +35,9 @@ html, body{
   text-align:center;
   position: relative;
 }
-
-.prev
-{
-  position:absolute; 
-  bottom:10px;
-  left:10px;
+.card{
+  padding: 10px;
 }
-
-.next
-{
-  position:absolute; 
-  bottom:10px;
-  right:10px;
-}
-
 .toggle
 {
   position:absolute; 
@@ -263,23 +251,6 @@ li > div > p
 	top:1px;
 }
 
-
-/* #delete_device {
-  border: none;
-  color: #fff;
-  padding: 14px;
-  font-weight:bold;
-  text-shadow: 0px 1px 2px rgba(0, 0, 0, 1);
-  border-radius:8px;
-  background-color: #e67519;
-  transition: 0.3s;
-  background-size: 200%;
-}
-#delete_device:hover {
-  background-color: #d47323;
-  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 1);
-}
-         */
 @keyframes rotate {
     from {
         transform: rotate(0deg);

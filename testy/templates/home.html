@@ -14,27 +14,27 @@ Welcome Pulsebook
             <svg class="bd-placeholder-img rounded-circle" width="140" height="140" role="img" preserveAspectRatio="xMidYMid slice" focusable="false">
                 <title>placeholder</title>
                 <rect width="100%" height="100%" fill="#777"></rect>
-                <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
+                <text x="50%" y="50%" fill="#777" dy=".3em"></text>
             </svg>
-            <h2>Heading</h2>
+            <h2>Modern</h2>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, ab officia, aspernatur, iusto esse natus porro dolorem eos adipisci nostrum molestiae repudiandae vel eaque at harum aut hic facere iure.</p>
         </div>
         <div class="col-lg-4">
             <svg class="bd-placeholder-img rounded-circle" width="140" height="140" role="img" preserveAspectRatio="xMidYMid slice" focusable="false">
                 <title>placeholder</title>
                 <rect width="100%" height="100%" fill="#777"></rect>
-                <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
+                <text x="50%" y="50%" fill="#777" dy=".3em"></text>
             </svg>
-            <h2>Heading</h2>
+            <h2>Quick</h2>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, ab officia, aspernatur, iusto esse natus porro dolorem eos adipisci nostrum molestiae repudiandae vel eaque at harum aut hic facere iure.</p>
         </div>
         <div class="col-lg-4">
             <svg class="bd-placeholder-img rounded-circle" width="140" height="140" role="img" preserveAspectRatio="xMidYMid slice" focusable="false">
                 <title>placeholder</title>
                 <rect width="100%" height="100%" fill="#777"></rect>
-                <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
+                <text x="50%" y="50%" fill="#777" dy=".3em"></text>
             </svg>
-            <h2>Heading</h2>
+            <h2>Pocket</h2>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, ab officia, aspernatur, iusto esse natus porro dolorem eos adipisci nostrum molestiae repudiandae vel eaque at harum aut hic facere iure.</p>
         </div>
     </div>
@@ -42,31 +42,49 @@ Welcome Pulsebook
 <div class="second_render">
     <img src="/static/images/render2.png" class="img-fluid" alt="carousel-concept">
 </div>
-<hr class="featurette-divider">
+<!-- <hr class="featurette-divider"> -->
  <!-- Footer -->
- <footer class="container">
-    <!-- <p class="float-end"><a href="">Back to top</a></p> -->
-    <p>&copy; 2022 Pulsebook, Inc. &middot; <a href="">Privacy</a> &middot; <a href="">Contact</a></p> 
-  </footer> 
+ <footer class="footer-distributed">
+  <div class="footer-left">
+    <a href="/">
+      <img src="/static/images/pulselogo0.png"  alt="" height="40px">
+      &nbsp;Pulsebook
+    </a>
+    <p class="footer-links">
+      <a href="#" class="link-1">Home</a>   
+      <a href="#">About</a>     
+      <a href="#">Contact</a>
+    </p>
+    <p class="footer-company-name">Pulsebook &copy; 2022</p>
+  </div>
+  <div class="footer-center">
+    <div>
+      <i class="fa-solid fa-location-dot"></i>
+      <p><span>5/10 Kopernika Street</span> 50-000 City, Poland</p>
+    </div>
+    <div id="github">
+      <i class="fa-brands fa-github"></i>
+      <a href="https://github.com/piekny27/flask-projekt" target="_blank">Github</a>
+    </div>
+    <div>
+      <i class="fa-solid fa-envelope"></i>
+      <p>support@pulsebook.com</p>
+    </div>
+  </div>
+  <div class="footer-right">
+    <p class="footer-company-about">
+      <span>About the startup</span>
+      Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
+    </p>
+    <div class="footer-icons">
+      <a href="#"><i class="fa-brands fa-facebook"></i></a>
+      <a href="#"><i class="fa-brands fa-twitter"></i></a>
+      <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+    </div>
+  </div>
+</footer>
   
 {% endblock %}   
 {% block scripts %} 
-<script>
-    $(document).ready(function(){
-      $(window).scroll(function(){
-        if($(window).scrollTop() > 300){
-          $('i').css({
-            "opacity":"1", "pointer-events":"auto"
-          });
-        }else{
-          $('i').css({
-            "opacity":"0", "pointer-events":"none"
-          });
-        }
-      });
-      $('i').click(function(){
-        $('html').animate({scrollTop:0}, 100)
-      })
-    });
-  </script>
+<script type="text/javascript" src="/static/scripts/scrolltop.js"></script>
 {% endblock %}
