@@ -40,6 +40,13 @@ class DBConnection():
         self.session.delete(device)
         self.session.commit()
 
+    def add_sp_data(self,sp_data):
+        self.session.add(sp_data)
+        self.session.commit()
+
+    def add_hr_data(self,hr_data):
+        self.session.add(hr_data)
+
 
 # tables
 class User(db.Model, UserMixin):
@@ -92,7 +99,7 @@ class UserProfile(db.Model):
     avatarName = db.Column(db.String(30))
     height = db.Column(db.Integer)
     weight = db.Column(db.Integer)
-    measurements = db.relationship('Measurement', secondary=measurement_id, backref=db.backref('profiles'))
+    measurements = db.relationship('Measurement', secondary=measurement_id, lazy='dynamic', backref=db.backref('profiles'))
     user = db.relationship('User', backref=db.backref('profiles'))
 
     @property
@@ -139,16 +146,15 @@ class Measurement(db.Model):
     __tablename__ = "measurements"
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.DateTime)
+    sp_data_avg = db.Column(db.Float(precision=3))
+    hr_data_avg = db.Column(db.Float(precision=3))
     sp_data = db.relationship("Sp_data", secondary=sp_data_id, backref=db.backref('sp_data'))
     hr_data = db.relationship("Hr_data", secondary=hr_data_id, backref=db.backref('hr_data'))
 
-    @property
-    def date_now(self):
-        return self.date
-
-    @date_now.setter
-    def date_now(self, empty):
+    def __init__(self):
         self.date = datetime.today()
+    def __init__(self,date):
+        self.date = date
 
 
 

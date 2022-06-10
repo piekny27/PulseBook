@@ -3,12 +3,14 @@ from testy.models import *
 import random
 import string
 import datetime
-
+from random import randint, uniform
 
 class DBGenerator():
     def __init__(self):
         self.db = DBConnection()
         self.users = []
+        self.sp_array=[]
+        self.hr_array=[]
 
     def cleanDB(self):
         self.db._engine.drop_all()
@@ -19,6 +21,7 @@ class DBGenerator():
         self.createRoles()
         self.createProfiles()
         self.createUsers()
+        self.createMeasurements()
         
 
     def randomHash(self,size):
@@ -73,6 +76,27 @@ class DBGenerator():
         self.db.AddUser(admin2)
         self.users.append(admin2)
         self.db.Flush()
+
+    def createMeasurements(self):
+        for x in range(31*3):
+            current_time = datetime.datetime.utcnow()
+            day = current_time - datetime.timedelta(days=x/3, hours=randint(7,14), minutes=randint(0,60))
+            new_measurement = Measurement(day)
+            for x in range(19):
+                sp=round(uniform(90,99),4)
+                hr=round(uniform(60,120),6)
+                new_measurement.sp_data.append(Sp_data(data=sp)) 
+                new_measurement.hr_data.append(Hr_data(data=hr)) 
+                self.sp_array.append(sp)
+                self.hr_array.append(hr)
+                self.db.Flush() 
+            new_measurement.hr_data_avg = sum(self.sp_array) / len(self.sp_array)
+            new_measurement.sp_data_avg = sum(self.hr_array) / len(self.hr_array)
+            user = User.query.filter_by(id=17).first()
+            user.profiles.measurements.append(new_measurement)
+            self.sp_array = []
+            self.hr_array = []
+            db.session.commit()  
 
 if __name__ == "__main__":
     generator = DBGenerator()

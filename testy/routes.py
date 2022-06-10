@@ -1,4 +1,6 @@
-from datetime import date
+from ast import match_case
+from calendar import month
+import datetime
 from flask import redirect, render_template, url_for, flash, request
 from flask_login import current_user, login_user, logout_user
 from sqlalchemy import JSON
@@ -18,6 +20,10 @@ db = DBConnection()
 @app.route("/home")
 def home_page():
     return render_template("home.html")
+
+@app.route("/contact")
+def contact_page():
+    return render_template("contact.html")
 
 @app.route("/login", methods=['GET', 'POST'])
 def login_page():
@@ -53,26 +59,43 @@ def register_page():
         return redirect(url_for('dashboard_page'))
     return render_template("register.html", form=form)
 
-@app.route("/dashboard")
+@app.route("/dashboard", methods=['GET', 'POST'])
 def dashboard_page():
+    class Measure:
+        def __init__(self, date, hr_val, sp_val):
+            self.date = date
+            self.hr_val = hr_val
+            self.sp_val = sp_val
     if not current_user.is_authenticated:
         return redirect(url_for('home_page'))
-    profile = current_user.profiles
+    range = request.form.get('range')
+    match range:
+        case 'last_week':
+            current_time = datetime.datetime.utcnow()
+            day_ago = current_time - datetime.timedelta(weeks=1)
+            measurements = UserProfile.query.filter_by(id=current_user.profileId).first().measurements.filter(Measurement.date > day_ago).all()
+        case 'last_month':
+            current_time = datetime.datetime.utcnow()
+            day_ago = current_time - datetime.timedelta(weeks=4)
+            measurements = UserProfile.query.filter_by(id=current_user.profileId).first().measurements.filter(Measurement.date > day_ago).all()
+        case _:
+            current_time = datetime.datetime.utcnow()
+            day_ago = current_time - datetime.timedelta(weeks=1)
+            measurements = UserProfile.query.filter_by(id=current_user.profileId).first().measurements.filter(Measurement.date > day_ago).all()
     dict={}
+    dict['measurements']=[]
+    for measure in measurements:
+        m = Measure(measure.date, measure.hr_data_avg, measure.sp_data_avg)
+        dict['measurements'].append(m)
+    profile = current_user.profiles
     dict['bmi_value'] = profile.weight / (math.pow(profile.height/100,2))
     dict['bmi_message']="Your bmi is correct and bla bla"
     dict['pulse_value']="12"
     dict['pulse_message']="Brawo masz wysmienity puls."
     dict['chart_saturation_value']="ala"
-    dict['chart_pulse_value']=current_user.profiles.measurements
     dict['pulse_chart_message']="Masz za krotka historie pomiarow aby ladnie pokazac"
-    #jsondict=json.dumps(dict)
-    empJSON = jsonpickle.encode(dict, unpicklable=False)
-    employeeJSONData = json.dumps(empJSON, indent=4)
-    EmployeeJSON = jsonpickle.decode(employeeJSONData)
-    print(dict)
-    return render_template("dashboard.html", dict=dict, jsondict=EmployeeJSON)
-
+    dictJSON = jsonpickle.encode(dict, unpicklable=False)
+    return render_template("dashboard.html", dict=dict, jsondict=dictJSON)
 
 @app.route("/logout")
 def logout_page():
@@ -177,11 +200,13 @@ def device_page():
             return (json.dumps({'pin':device.pin}), 202, {'ContentType':'application/json'})
     #receive data block
     elif device and device.config_state == 2:  
-        new_measurement = Measurement(date_now=0)
+        new_measurement = Measurement()
         for sp_item in content['sp_array[]']:
             new_measurement.sp_data.append(Sp_data(data=sp_item))
         for hr_item in content['hr_array[]']:
             new_measurement.hr_data.append(Hr_data(data=hr_item)) 
+        new_measurement.hr_data_avg = sum(content['hr_array[]']) / len(content['hr_array[]'])
+        new_measurement.sp_data_avg = sum(content['sp_array[]']) / len(content['sp_array[]'])
         device.user[0].profiles.measurements.append(new_measurement)
         db.session.commit()
         pass
