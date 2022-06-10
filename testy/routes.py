@@ -19,6 +19,10 @@ db = DBConnection()
 def home_page():
     return render_template("home.html")
 
+@app.route("/contact")
+def contact_page():
+    return render_template("contact.html")
+
 @app.route("/login", methods=['GET', 'POST'])
 def login_page():
     form = LoginForm()

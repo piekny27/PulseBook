@@ -22,7 +22,7 @@
   <div class="mask d-flex align-items-center gradient-custom-3">
     <div class="container h-100">
       <div class="row d-flex justify-content-center align-items-center h-50">
-        <div class="col-11 col-sm-10 col-md-8 pt-4">
+        <div class="col-11 col-sm-10 col-md-8 pt-4 pb-4">
           <div class="card h-100" style="border-radius: 15px;">
             <div class="px-5 pt-4 ms-xl-4">
               <a href="/">
@@ -35,25 +35,21 @@
               <center><form method="POST">
                 {{ form.hidden_tag() }} <!-- csrf token-->
                 <div class="form-outline mb-3">
-                  <!-- <input type="text" id="form3Example1cg" class="form-control " /> -->
                   {{ form.username(placeholder="User name", class_="form-control") }}
                   <label class="form-label" for="form3Example1cg">Your Name</label>
                 </div>
 
                 <div class="form-outline mb-3">
-                  <!-- <input type="email" id="form3Example3cg" class="form-control " /> -->
                   {{ form.emailAddress(placeholder="Email", class_="form-control") }}
                   <label class="form-label" for="form3Example3cg">Your Email</label>
                 </div>
 
                 <div class="form-outline mb-3">
-                  <!-- <input type="password" id="form3Example4cg" class="form-control form-control" /> -->
                   {{ form.password1(placeholder="Password", class_="form-control") }}
                   <label class="form-label" for="form3Example4cg">Password</label>
                 </div>
 
                 <div class="form-outline mb-3">
-                  <!-- <input type="password" id="form3Example4cdg" class="form-control form-control" /> -->
                   {{ form.password2(placeholder="Password", class_="form-control") }}
                   <label class="form-label" for="form3Example4cdg">Confirm password</label>
                 </div>
@@ -68,7 +64,6 @@
                 -->
                 <div class="d-flex justify-content-center">
                   {{ form.submit(class_="btn btn-primary btn-block btn-lg") }}
-                  <!-- <button type="button" class="btn btn-primary btn-block btn-lg">Register</button>-->
                 </div>
 
                 <!-- print errors -->
