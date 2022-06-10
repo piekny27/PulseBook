@@ -1,12 +1,14 @@
 
 html, body{
-  height: 100%;
+  background-color: #c7c7c7;
   background-image: url("/static/images/waveblue.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  background-blend-mode: multiply;
 }
-[class*="fa-"]
+
+.circle-border [class*="fa-"]
 {
   bottom:122px;
   font-size: 20px;
@@ -26,7 +28,12 @@ html, body{
   color: rgba(0, 0, 0, 0.2);
   animation: scale2Out 0.2s normal forwards ease-in-out;
 }
-
+.deletecon{
+  min-height: 320px;
+}
+.settingsection{
+  min-height: 105vh;
+}
 .settings-card
 {
   padding: 20px;
@@ -229,7 +236,7 @@ li > div > p
 	top:1px;
 }
 
-#delete_device {
+#delete_device_button {
 	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
 	background-color:#599bb3;
 	border-radius:8px;
@@ -242,11 +249,11 @@ li > div > p
 	text-decoration:none;
   border-style: none;
 }
-#delete_device:hover {
+#delete_device_button:hover {
 	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
 	background-color:#408c99;
 }
-#delete_device:active {
+#delete_device_button:active {
 	position:relative;
 	top:1px;
 }

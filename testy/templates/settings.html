@@ -9,13 +9,11 @@ SettingsTest
 {% endblock %}
 
 {% block content %}
-<div class="container-md light-style">
-
+<div class="container-md light-style settingsection">
   <h4 class="font-weight-bold py-3 mb-4 text-white">
     Account settings
   </h4>
   <form method="">
-    
     <div class="card overflow-hidden">
       <div class="row">
         <div class="col-md-3 pt-0">
@@ -98,7 +96,27 @@ SettingsTest
                       <video src="/static/images/sacc.mp4" muted autoplay></video><br>
                       <p>Device is connected.<br> Information about your device.<br> <b>Serial number:</b> {{ serial_number }} <br><b>Version:</b> {{ version }}<br><b>Address:</b> {{ device }}</p>
                       <br>
-                      <button type="button" id="delete_device">Delete device</button>
+                      <button type="button" id="delete_device_button" data-bs-toggle="modal" data-bs-target="#deldeviceModal">Delete device</button>
+                      <!-- Modal -->
+                      <div class="modal fade" id="deldeviceModal" tabindex="-1" aria-labelledby="deldeviceModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="deldeviceModalLabel">Confirm delete device</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              Are you sure you want to delete this device.<br>
+                              If you are sure, confirm by clicking on the bottom.
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Leave</button>
+                              <button type="button" id="delete_device" class="btn btn-danger">Confirm delete device</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- fff -->
                     </div>
                   </div>
                 </div>
@@ -128,13 +146,13 @@ SettingsTest
             </div>
             </div>
             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-              <div class="card-body pb-2">
+              <div class="card-body deletecon">
                 <h2>Delete your account</h2>
                 <p>Delete your account permanently on pulsebook.</p><br>
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete account</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#accountModal">Delete account</button>
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -161,10 +179,13 @@ SettingsTest
     </div>
   </form>
 </div>
+</div>
+{% include "/includes/footer.html" %} 
 <script type="text/javascript"> 
   window.config_state = "{{config_state}}"
 </script>
 {% endblock %}
+
 {% block scripts %}
 <script type="text/javascript" src="/static/scripts/settingspage.js"></script>
 {% endblock %}

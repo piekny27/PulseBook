@@ -6,7 +6,10 @@ body {
     background-position: center;
     background-blend-mode: multiply;
 }
-
+.cont{
+    margin-top: 10vh;
+    margin-bottom: 25vh;
+}
 .form-control:focus {
     box-shadow: none;
     border-color: #68c8bb

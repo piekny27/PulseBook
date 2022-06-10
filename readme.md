@@ -1,5 +1,5 @@
-<a href="/"><img src="testy/static/images/Pulsebook_banner.png" height="100" width="280" ></a><br><br>
-<a href="/"><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/JavaScript-F6C915?style=for-the-badge&logo=javascript&logoColor=black"><br>
+<a href="https://github.com/piekny27/flask-projekt"><img src="testy/static/images/Pulsebook_banner.png" height="100" width="280" ></a><br><br>
+<a href="https://github.com/piekny27/flask-projekt"><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/JavaScript-F6C915?style=for-the-badge&logo=javascript&logoColor=black"><br>
 <img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white"> <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"> <img src="https://img.shields.io/badge/Flask-330F63?style=for-the-badge&logo=flask&logoColor=white"> <img src="https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white"> 
 
 ## Table of contents
