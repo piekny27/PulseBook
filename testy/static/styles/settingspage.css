@@ -179,9 +179,11 @@ li > div > p
 #menu0{
   padding-top: 20px;
 }
+#menu0 video{
+  max-width:90%; 
+}
 #menu1 video{
-  max-width:80%; 
-  padding:0px 25px 30px 25px;
+  max-width:90%; 
 }
 
 #menu2 video{
