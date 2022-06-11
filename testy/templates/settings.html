@@ -13,7 +13,7 @@ SettingsTest
   <h4 class="font-weight-bold py-3 mb-4 text-white">
     Account settings
   </h4>
-  <form method="">
+  <form method="post">
     <div class="card overflow-hidden">
       <div class="row">
         <div class="col-md-3 pt-0">
@@ -81,20 +81,20 @@ SettingsTest
                       <p><h3>Enter device key</h3></p>
                       <p>The key is located on the bottom of the device.</p>
                       <video src="/static/images/anim2.mp4" muted loop autoplay></video>
-                      <input type="text" id="dk" placeholder="Enter device key">&nbsp;
+                      <input class="form-control" type="text" id="dk" placeholder="Enter device key">&nbsp;
                       <button type="button" id="device_ok">Confirm key</button>
                     </div>
                     <div id="menu2" class="tab-pane">
                       <p><h3>Enter the pin code</h3></p>
                       <p>The pin is displayed on the screen of the device.<br> Rewrite it and move on.</p>
                       <video src="/static/images/pincroped.mp4" muted loop autoplay></video><br>
-                      <input type="text" id="pin" placeholder="Enter pincode">&nbsp;
+                      <input class="form-control" type="text" id="pin" placeholder="Enter pincode">&nbsp;
                       <button type="button" id="pin_ok">Next</button>
                     </div>
                     <div id="menu3" class="tab-pane">
                       <p><h3>Success</h3></p>
                       <video src="/static/images/sacc.mp4" muted autoplay></video><br>
-                      <p>Device is connected.<br> Information about your device.<br> <b>Serial number:</b> {{ serial_number }} <br><b>Version:</b> {{ version }}<br><b>Address:</b> {{ device }}</p>
+                      <p>Device is connected.<br> Information about your device.<br> <b>Serial number:</b> {{ device.serial_number }} <br><b>Version:</b> {{ device.version }}<br><b>Address:</b> {{ device.device_key }}</p>
                       <br>
                       <button type="button" id="delete_device_button" data-bs-toggle="modal" data-bs-target="#deldeviceModal">Delete device</button>
                       <!-- Modal -->
@@ -141,7 +141,7 @@ SettingsTest
                   <input type="password" class="form-control">
                 </div>
                 <br>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" name="settings" value="change_password">Save changes</button>
               </div>
             </div>
             </div>
@@ -166,7 +166,7 @@ SettingsTest
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Leave</button>
-                        <button type="button" class="btn btn-danger">Confirm delete account</button>
+                        <button type="submit" class="btn btn-danger" name="settings" value="delete_account">Confirm delete account</button>
                       </div>
                     </div>
                   </div>
@@ -182,7 +182,7 @@ SettingsTest
 </div>
 {% include "/includes/footer.html" %} 
 <script type="text/javascript"> 
-  window.config_state = "{{config_state}}"
+  window.config_state = "{{device.config_state}}"
 </script>
 {% endblock %}
 

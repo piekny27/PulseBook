@@ -1,11 +1,9 @@
-from turtle import delay
 from testy.models import *
 from time import sleep
 from random import randint, uniform
 import pickle
 import requests
 import os
-import json
 
 server_name = 'http://192.168.0.105:5000/device'
 file_name = 'device.pkl'

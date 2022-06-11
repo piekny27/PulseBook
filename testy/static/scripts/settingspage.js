@@ -152,7 +152,7 @@ $(document).ready(function () {
   $("#dk").click(function () {
     if($current == 1)
     {
-      $("#dk").css("background-color", "white");
+      $("#dk").css("border", "1px solid black");
     }
   });
 
@@ -174,7 +174,7 @@ $(document).ready(function () {
         },
         error: function (xhr) {
           console.log('background red');
-          $("#dk").css("background-color", "red");
+          $("#dk").css("border", "1px solid red");
           toggle();
         }
       });
@@ -201,7 +201,7 @@ $(document).ready(function () {
         },
         error: function (xhr) {
           console.log('background red');
-          $("#pin").css("background-color", "red");
+          $("#pin").css("border", "1px solid red");
           toggle();
         }
       });
@@ -219,7 +219,7 @@ $(document).ready(function () {
         },
         error: function (xhr) {
           console.log('background red');
-          $("#pin").css("background-color", "red");
+          $("#pin").css("border", "1px solid red");
           toggle()
         }
       });

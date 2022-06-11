@@ -1,18 +1,13 @@
-from ast import match_case
-from calendar import month
 import datetime
-from flask import redirect, render_template, url_for, flash, request
+from flask import redirect, render_template, url_for, request
 from flask_login import current_user, login_user, logout_user
-from sqlalchemy import JSON
 from testy import app
-from testy.forms import LoginForm, RegisterForm, ProfileForm, DeviceForm
+from testy.forms import LoginForm, RegisterForm, ProfileForm
 from testy.models import DBConnection, Hr_data, Measurement, Sp_data, User, UserProfile, Device
-from pprint import pprint
 import json
 import time
 import math
 import jsonpickle
-from json import JSONEncoder
 
 db = DBConnection()
 
@@ -90,8 +85,13 @@ def dashboard_page():
         m = Measure(measure.date, measure.hr_data_avg, measure.sp_data_avg)
         dict['measurements'].append(m)
     profile = current_user.profiles
-    dict['bmi_value'] = profile.weight / (math.pow(profile.height/100,2))
-    dict['bmi_message']="Your bmi is correct and bla bla"
+    if profile.weight and profile.height:
+        dict['bmi_value'] = profile.weight / (math.pow(profile.height/100,2))
+        dict['bmi_message']="Your bmi is correct and bla bla"
+    else:
+        dict['bmi_value'] = 0
+        dict['bmi_message']="You need to complete your profile "
+    
     dict['pulse_value']="12"
     dict['pulse_message']="Brawo masz wysmienity puls."
     dict['chart_saturation_value']="ala"
@@ -147,6 +147,7 @@ def settings_page():
             db.session.commit()
         device_key = request.args.get('device_key')
         pin = request.args.get('pin')
+        settings = request.form.get('settings')
         delete_device = request.args.get('delete_device')
         if device_key:
             sec = 0
@@ -180,7 +181,13 @@ def settings_page():
             current_user.deviceId = devi.id
             db.session.commit()
             return ('Ok jest', 200)
-        return render_template("settings.html", config_state = device.config_state, serial_number=device.serial_number, version=device.version, device=device.device_key)
+        if settings == 'delete_account':
+            profile_id = current_user.profileId
+            logout_user()
+            db.session.delete(UserProfile.query.filter_by(id=profile_id).first())
+            db.session.commit()
+            return redirect(url_for('home_page'))
+        return render_template("settings.html", device=device)
     return redirect(url_for("home_page"))
 
 @app.route("/device", methods=['POST'])
