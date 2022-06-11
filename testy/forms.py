@@ -41,13 +41,3 @@ class ProfileForm(FlaskForm):
     height = IntegerField(label="Height", validators=[DataRequired()])
     weight = IntegerField(label="Weight", validators=[DataRequired()])
     submit = SubmitField(label = "Save Profile")
-
-class DeviceForm(FlaskForm):
-
-    def __init__(self):
-        self.config_state = None
-        self.password = None
-
-    device_key = StringField(label="Device Key")
-    pin = StringField(label="Pin")
-    submit = SubmitField(label = "Save Device")

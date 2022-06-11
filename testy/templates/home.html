@@ -8,33 +8,33 @@ Welcome Pulsebook
         <img src="/static/images/render2.png" class="img-fluid" alt="carousel-concept">
     </div>
 <br>
-<div class="container three pt-5">
+<div class="container three">
     <div class="row">
         <div class="col-lg-4">
             <svg class="bd-placeholder-img rounded-circle" width="140" height="140" role="img" preserveAspectRatio="xMidYMid slice" focusable="false">
                 <title>placeholder</title>
                 <rect width="100%" height="100%" fill="#777"></rect>
-                <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
+                <text x="50%" y="50%" fill="#777" dy=".3em"></text>
             </svg>
-            <h2>Heading</h2>
+            <h2>Modern</h2>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, ab officia, aspernatur, iusto esse natus porro dolorem eos adipisci nostrum molestiae repudiandae vel eaque at harum aut hic facere iure.</p>
         </div>
         <div class="col-lg-4">
             <svg class="bd-placeholder-img rounded-circle" width="140" height="140" role="img" preserveAspectRatio="xMidYMid slice" focusable="false">
                 <title>placeholder</title>
                 <rect width="100%" height="100%" fill="#777"></rect>
-                <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
+                <text x="50%" y="50%" fill="#777" dy=".3em"></text>
             </svg>
-            <h2>Heading</h2>
+            <h2>Quick</h2>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, ab officia, aspernatur, iusto esse natus porro dolorem eos adipisci nostrum molestiae repudiandae vel eaque at harum aut hic facere iure.</p>
         </div>
         <div class="col-lg-4">
             <svg class="bd-placeholder-img rounded-circle" width="140" height="140" role="img" preserveAspectRatio="xMidYMid slice" focusable="false">
                 <title>placeholder</title>
                 <rect width="100%" height="100%" fill="#777"></rect>
-                <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
+                <text x="50%" y="50%" fill="#777" dy=".3em"></text>
             </svg>
-            <h2>Heading</h2>
+            <h2>Pocket</h2>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, ab officia, aspernatur, iusto esse natus porro dolorem eos adipisci nostrum molestiae repudiandae vel eaque at harum aut hic facere iure.</p>
         </div>
     </div>
@@ -42,31 +42,9 @@ Welcome Pulsebook
 <div class="second_render">
     <img src="/static/images/render2.png" class="img-fluid" alt="carousel-concept">
 </div>
-<hr class="featurette-divider">
- <!-- Footer -->
- <footer class="container">
-    <!-- <p class="float-end"><a href="">Back to top</a></p> -->
-    <p>&copy; 2022 Pulsebook, Inc. &middot; <a href="">Privacy</a> &middot; <a href="">Contact</a></p> 
-  </footer> 
-  
+<!-- <hr class="featurette-divider"> -->
+{% include "/includes/footer.html" %}
 {% endblock %}   
 {% block scripts %} 
-<script>
-    $(document).ready(function(){
-      $(window).scroll(function(){
-        if($(window).scrollTop() > 300){
-          $('i').css({
-            "opacity":"1", "pointer-events":"auto"
-          });
-        }else{
-          $('i').css({
-            "opacity":"0", "pointer-events":"none"
-          });
-        }
-      });
-      $('i').click(function(){
-        $('html').animate({scrollTop:0}, 100)
-      })
-    });
-  </script>
+<script type="text/javascript" src="/static/scripts/scrolltop.js"></script>
 {% endblock %}

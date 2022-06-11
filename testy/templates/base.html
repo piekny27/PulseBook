@@ -6,19 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    
     <!-- CSS -->
-    {% block styles %}    
-    {% endblock %} 
+    <link rel="stylesheet" href="/static/styles/mainpage.css">
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link rel="stylesheet" href="/static/styles/mainpage.css">
     <!-- Resources -->
     <link rel="shortcut icon" href="/static/images/shortico.png">
-    
+    {% block styles %}    
+    {% endblock %} 
     <title>
     {% block title %}    
     {% endblock %} 
@@ -32,8 +29,8 @@
         <!-- logo + brandname-->
         <div class="mx-auto order-0">
           <a class="navbar-brand" href="/">
-            <img src="/static/images/pulselogo0.png"  alt="" height="30" class="d-inline-block mb-1">
-            Pulsebook
+            <img src="/static/images/pulselogo0.png"  alt="logo_pulsebook" height="30" class="d-inline-block mb-1">
+            &nbsp;Pulsebook
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".dual-collapse2">
               <span class="navbar-toggler-icon"></span>
@@ -76,7 +73,7 @@
         <!-- user buttons -->
         <div class="navbar-collapse collapse order-1 dual-collapse2">
           <ul class="navbar-nav ms-auto grand1">
-            <li class="nav-item px-2">
+            <li class="nav-item">
               <a class="nav-link active grand2" aria-current="page" href="/login">Login</a>
             </li>
             <div class="dropdown-divider"></div>
@@ -100,4 +97,5 @@
     {% block scripts %}    
     {% endblock %} 
   </body>
+  
 </html>

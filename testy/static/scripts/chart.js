@@ -4,7 +4,7 @@ google.charts.load('current', {
 }).then(function () {
 
   var data = new google.visualization.DataTable();
-  data.addColumn('date', 'Day');
+  data.addColumn('datetime', 'Day');
   data.addColumn('number', "Saturation");
   data.addColumn('number', "Pulse");
   
@@ -12,20 +12,15 @@ google.charts.load('current', {
   console.log(dict);
   var obj = JSON.parse(dict);
   console.log(obj.bmi_message);
-  data.addRows([
-    [new Date(2014, 0),  -.5,  5.7],
-    [new Date(2014, 1),   .4,  8.7],
-    [new Date(2014, 2),   .5,   12],
-    [new Date(2014, 3),  2.9, 15.3],
-    [new Date(2014, 4),  6.3, 18.6],
-    [new Date(2014, 5),    9, 20.9],
-    [new Date(2014, 6), 10.6, 19.8],
-    [new Date(2014, 7), 10.3, 16.6],
-    [new Date(2014, 8),  7.4, 13.3],
-    [new Date(2014, 9),  4.4,  9.9],
-    [new Date(2014, 10), 1.1,  6.6],
-    [new Date(2014, 11), -.2,  4.5]
-  ]);
+  for(var i=0; i<obj.measurements.length;i++)
+  {
+    data.addRows([
+      [new Date(obj.measurements[i].date),
+      obj.measurements[i].hr_val,
+      obj.measurements[i].sp_val]
+    ]);
+  }
+  
 
 var options = {
   legend: {

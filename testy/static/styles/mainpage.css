@@ -62,6 +62,11 @@
     min-width: 30px;
 	width: 130px;
 }
+.three{
+	padding-top: 30px;
+	padding-bottom: 40px;
+}
+
 /* 3 Col Home page */
 .three .col-lg-4{
 	text-align: center;
@@ -70,13 +75,12 @@
 	margin-right: 0,75rem;
 	margin-left: 0,75rem;
 }
-
 i.base
 {
 	position: fixed;
 	bottom: 25px;
-	right: 30px;
-	font-size: 30px;
+	right: 35px;
+	font-size: 26px;
 	background: #1282A2;
 	color:#fff;
 	padding: 8px 11px;

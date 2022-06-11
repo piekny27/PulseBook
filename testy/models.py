@@ -1,4 +1,3 @@
-from email.policy import default
 from testy import db,bcrypt,login_manager
 from flask_login import UserMixin
 from datetime import date, datetime
@@ -40,6 +39,13 @@ class DBConnection():
         self.session.delete(device)
         self.session.commit()
 
+    def add_sp_data(self,sp_data):
+        self.session.add(sp_data)
+        self.session.commit()
+
+    def add_hr_data(self,hr_data):
+        self.session.add(hr_data)
+
 
 # tables
 class User(db.Model, UserMixin):
@@ -76,8 +82,8 @@ class UserRole(db.Model):
     user = db.relationship('User', backref=db.backref('roles'))
 
 measurement_id = db.Table('measurement_id',
-    db.Column('user_profile_id', db.Integer, db.ForeignKey("profiles.id")),
-    db.Column('measurements_id', db.Integer, db.ForeignKey("measurements.id"))
+    db.Column('user_profile_id', db.Integer, db.ForeignKey("profiles.id", ondelete="CASCADE")),
+    db.Column('measurements_id', db.Integer, db.ForeignKey("measurements.id", ondelete="CASCADE"))
 )
 
 class UserProfile(db.Model):
@@ -92,8 +98,8 @@ class UserProfile(db.Model):
     avatarName = db.Column(db.String(30))
     height = db.Column(db.Integer)
     weight = db.Column(db.Integer)
-    measurements = db.relationship('Measurement', secondary=measurement_id, backref=db.backref('profiles'))
-    user = db.relationship('User', backref=db.backref('profiles'))
+    measurements = db.relationship('Measurement', secondary=measurement_id, lazy='dynamic', backref=db.backref('profiles'), cascade='all,delete')
+    user = db.relationship('User', backref=db.backref('profiles'), cascade='all,delete-orphan')
 
     @property
     def dob(self):
@@ -127,28 +133,26 @@ class Hr_data(db.Model):
 
 sp_data_id = db.Table('sp_data_id',
     db.Column('sp_id', db.Integer, db.ForeignKey("sp_data.id")),
-    db.Column('measurements_id', db.Integer, db.ForeignKey("measurements.id"))
+    db.Column('measurements_id', db.Integer, db.ForeignKey("measurements.id", ondelete="CASCADE"))
 )
 
 hr_data_id = db.Table('hr_data_id',
     db.Column('hr_id', db.Integer, db.ForeignKey("hr_data.id")),
-    db.Column('measurements_id', db.Integer, db.ForeignKey("measurements.id"))
+    db.Column('measurements_id', db.Integer, db.ForeignKey("measurements.id", ondelete="CASCADE"))
 )
 
 class Measurement(db.Model):
     __tablename__ = "measurements"
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.DateTime)
-    sp_data = db.relationship("Sp_data", secondary=sp_data_id, backref=db.backref('sp_data'))
-    hr_data = db.relationship("Hr_data", secondary=hr_data_id, backref=db.backref('hr_data'))
+    sp_data_avg = db.Column(db.Float(precision=3))
+    hr_data_avg = db.Column(db.Float(precision=3))
+    sp_data = db.relationship("Sp_data", secondary=sp_data_id, backref=db.backref('sp_data'), cascade='all,delete')
+    hr_data = db.relationship("Hr_data", secondary=hr_data_id, backref=db.backref('hr_data'), cascade='all,delete')
 
-    @property
-    def date_now(self):
-        return self.date
-
-    @date_now.setter
-    def date_now(self, empty):
-        self.date = datetime.today()
-
-
-
+    def __init__(self, data=None):
+        if data is None:
+            self.date = datetime.today()
+        else:
+            self.date = data
+        

@@ -39,10 +39,21 @@ Your dashboard
                                         <h4 class="card-title">Pulse and saturation</h4>
                                         <div id="chart_div"></div>
                                         <h6 class="card-title">{{dict['pulse_chart_message']}}</h4>
+                                        <form action="" method="post">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Select range
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                    <li><button type="submit" class="dropdown-item" name="range" value="last_week">Last week</button></li>
+                                                    <li><button type="submit" class="dropdown-item" name="range" value="last_month">Last month</button></li>
+                                                </ul>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3" style="">
+                            <div class="col-md-3">
                                 <div class="card-sub">
                                     <div class="card-block">
                                         <h4 class="card-title">Your last pulse measure czy coś tam</h4>

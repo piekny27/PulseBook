@@ -1,16 +1,13 @@
-from datetime import date
-from flask import redirect, render_template, url_for, flash, request
+import datetime
+from flask import redirect, render_template, url_for, request
 from flask_login import current_user, login_user, logout_user
-from sqlalchemy import JSON
 from testy import app
-from testy.forms import LoginForm, RegisterForm, ProfileForm, DeviceForm
+from testy.forms import LoginForm, RegisterForm, ProfileForm
 from testy.models import DBConnection, Hr_data, Measurement, Sp_data, User, UserProfile, Device
-from pprint import pprint
 import json
 import time
 import math
 import jsonpickle
-from json import JSONEncoder
 
 db = DBConnection()
 
@@ -19,8 +16,14 @@ db = DBConnection()
 def home_page():
     return render_template("home.html")
 
+@app.route("/contact")
+def contact_page():
+    return render_template("contact.html")
+
 @app.route("/login", methods=['GET', 'POST'])
 def login_page():
+    if current_user.is_authenticated:
+        return redirect(url_for('home_page'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -53,26 +56,48 @@ def register_page():
         return redirect(url_for('dashboard_page'))
     return render_template("register.html", form=form)
 
-@app.route("/dashboard")
+@app.route("/dashboard", methods=['GET', 'POST'])
 def dashboard_page():
+    class Measure:
+        def __init__(self, date, hr_val, sp_val):
+            self.date = date
+            self.hr_val = hr_val
+            self.sp_val = sp_val
     if not current_user.is_authenticated:
         return redirect(url_for('home_page'))
-    profile = current_user.profiles
+    range = request.form.get('range')
+    match range:
+        case 'last_week':
+            current_time = datetime.datetime.utcnow()
+            day_ago = current_time - datetime.timedelta(weeks=1)
+            measurements = UserProfile.query.filter_by(id=current_user.profileId).first().measurements.filter(Measurement.date > day_ago).all()
+        case 'last_month':
+            current_time = datetime.datetime.utcnow()
+            day_ago = current_time - datetime.timedelta(weeks=4)
+            measurements = UserProfile.query.filter_by(id=current_user.profileId).first().measurements.filter(Measurement.date > day_ago).all()
+        case _:
+            current_time = datetime.datetime.utcnow()
+            day_ago = current_time - datetime.timedelta(weeks=1)
+            measurements = UserProfile.query.filter_by(id=current_user.profileId).first().measurements.filter(Measurement.date > day_ago).all()
     dict={}
-    dict['bmi_value'] = profile.weight / (math.pow(profile.height/100,2))
-    dict['bmi_message']="Your bmi is correct and bla bla"
+    dict['measurements']=[]
+    for measure in measurements:
+        m = Measure(measure.date, measure.hr_data_avg, measure.sp_data_avg)
+        dict['measurements'].append(m)
+    profile = current_user.profiles
+    if profile.weight and profile.height:
+        dict['bmi_value'] = profile.weight / (math.pow(profile.height/100,2))
+        dict['bmi_message']="Your bmi is correct and bla bla"
+    else:
+        dict['bmi_value'] = 0
+        dict['bmi_message']="You need to complete your profile "
+    
     dict['pulse_value']="12"
     dict['pulse_message']="Brawo masz wysmienity puls."
     dict['chart_saturation_value']="ala"
-    dict['chart_pulse_value']=current_user.profiles.measurements
     dict['pulse_chart_message']="Masz za krotka historie pomiarow aby ladnie pokazac"
-    #jsondict=json.dumps(dict)
-    empJSON = jsonpickle.encode(dict, unpicklable=False)
-    employeeJSONData = json.dumps(empJSON, indent=4)
-    EmployeeJSON = jsonpickle.decode(employeeJSONData)
-    print(dict)
-    return render_template("dashboard.html", dict=dict, jsondict=EmployeeJSON)
-
+    dictJSON = jsonpickle.encode(dict, unpicklable=False)
+    return render_template("dashboard.html", dict=dict, jsondict=dictJSON)
 
 @app.route("/logout")
 def logout_page():
@@ -122,6 +147,7 @@ def settings_page():
             db.session.commit()
         device_key = request.args.get('device_key')
         pin = request.args.get('pin')
+        settings = request.form.get('settings')
         delete_device = request.args.get('delete_device')
         if device_key:
             sec = 0
@@ -155,7 +181,15 @@ def settings_page():
             current_user.deviceId = devi.id
             db.session.commit()
             return ('Ok jest', 200)
-        return render_template("settings.html", config_state = device.config_state, serial_number=device.serial_number, version=device.version, device=device.device_key)
+        if settings == 'delete_account':
+            profile_id = current_user.profileId
+            device_id = current_user.deviceId
+            logout_user()
+            db.session.delete(UserProfile.query.filter_by(id=profile_id).first())
+            db.session.delete(Device.query.filter_by(id=device_id).first())
+            db.session.commit()
+            return redirect(url_for('home_page'))
+        return render_template("settings.html", device=device)
     return redirect(url_for("home_page"))
 
 @app.route("/device", methods=['POST'])
@@ -177,15 +211,17 @@ def device_page():
             return (json.dumps({'pin':device.pin}), 202, {'ContentType':'application/json'})
     #receive data block
     elif device and device.config_state == 2:  
-        new_measurement = Measurement(date_now=0)
+        new_measurement = Measurement()
         for sp_item in content['sp_array[]']:
             new_measurement.sp_data.append(Sp_data(data=sp_item))
         for hr_item in content['hr_array[]']:
             new_measurement.hr_data.append(Hr_data(data=hr_item)) 
+        new_measurement.hr_data_avg = sum(content['hr_array[]']) / len(content['hr_array[]'])
+        new_measurement.sp_data_avg = sum(content['sp_array[]']) / len(content['sp_array[]'])
         device.user[0].profiles.measurements.append(new_measurement)
         db.session.commit()
         pass
     elif not device:
-        return (json.dumps({'action':'reset'}), 200, {'ContentType':'application/json'})
+        return (json.dumps({'action':'reset'}), 205, {'ContentType':'application/json'})
     return (json.dumps({'config_state':device.config_state}), 200, {'ContentType':'application/json'})
     
