@@ -150,8 +150,9 @@ class Measurement(db.Model):
     sp_data = db.relationship("Sp_data", secondary=sp_data_id, backref=db.backref('sp_data'), cascade='all,delete')
     hr_data = db.relationship("Hr_data", secondary=hr_data_id, backref=db.backref('hr_data'), cascade='all,delete')
 
-    def __init__(self):
-        self.date = datetime.today()
-
-
-
+    def __init__(self, data=None):
+        if data is None:
+            self.date = datetime.today()
+        else:
+            self.date = data
+        

@@ -1,0 +1,13 @@
+#include <SPI.h>
+#include <Wire.h>
+#include <Adafruit_SSD1306.h>
+#include <Adafruit_GFX.h>
+#include <MAX30100_PulseOximeter.h>
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
+#include <ArduinoJson.h>
+#include "templates/index.html"
+#include "bitmaps/bitmaps.h"
+#include <ESP8266HTTPClient.h>
+#include <WiFiClientSecure.h>
+#include <EEPROM.h>

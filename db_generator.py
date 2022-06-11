@@ -80,7 +80,7 @@ class DBGenerator():
     def createMeasurements(self):
         for x in range(31*3):
             current_time = datetime.datetime.utcnow()
-            day = current_time - datetime.timedelta(days=x/3, hours=randint(7,14), minutes=randint(0,60))
+            day = current_time - datetime.timedelta(days=31-(x/3), hours=randint(7,14), minutes=randint(0,60))
             new_measurement = Measurement(day)
             for x in range(19):
                 sp=round(uniform(90,99),4)

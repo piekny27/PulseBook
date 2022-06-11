@@ -183,8 +183,10 @@ def settings_page():
             return ('Ok jest', 200)
         if settings == 'delete_account':
             profile_id = current_user.profileId
+            device_id = current_user.deviceId
             logout_user()
             db.session.delete(UserProfile.query.filter_by(id=profile_id).first())
+            db.session.delete(Device.query.filter_by(id=device_id).first())
             db.session.commit()
             return redirect(url_for('home_page'))
         return render_template("settings.html", device=device)
@@ -220,6 +222,6 @@ def device_page():
         db.session.commit()
         pass
     elif not device:
-        return (json.dumps({'action':'reset'}), 200, {'ContentType':'application/json'})
+        return (json.dumps({'action':'reset'}), 205, {'ContentType':'application/json'})
     return (json.dumps({'config_state':device.config_state}), 200, {'ContentType':'application/json'})
     
