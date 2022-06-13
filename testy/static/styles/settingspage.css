@@ -153,6 +153,7 @@ li > div > p
   height: 70px;
   margin: 0 auto;
   position: relative;
+  cursor: pointer
 }
 
 .circle-validate.anim {
@@ -168,13 +169,16 @@ li > div > p
 .passwordchange{
   max-width: 400px;
 }
+.form-control{
+  display: inline-block;
+}
 #dk{
-  max-width:100%;
-  padding: 5px;
+  max-width: 250px;
+  margin-bottom: 10px;
 }
 #pin{
-  max-width:100%;
-  padding: 5px;
+  max-width: 250px;
+  margin-bottom: 10px;
 }
 #menu0{
   padding-top: 20px;
