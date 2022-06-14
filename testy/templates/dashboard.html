@@ -24,10 +24,10 @@ Your dashboard
                                     <div class="card-block">
                                         <h5 class="card-title">Last measurement</h5><br>
                                         <div class="heart">
-                                            <img src="/static/images/iconheart.png">&nbsp; <b>--</b> Pulse
+                                            <img src="/static/images/iconheart.png">&nbsp; <b>{{dict['last_measure_hr']}}&nbsp;BPM</b> Pulse
                                         </div>
                                         <div class="spo2">
-                                            <img src="/static/images/spo2icon.jpg">&nbsp; <b>--</b> SpO2
+                                            <img src="/static/images/spo2icon.jpg">&nbsp; <b>{{dict['last_measure_sp']}}&nbsp;%</b> SpO2
                                         </div>
                                         <!-- <h6 class="card-title">{{dict['pulse_value']}}</h6>
                                         <h6 class="card-title">{{dict['pulse_message']}}</h6>
@@ -61,8 +61,7 @@ Your dashboard
                                 <div class="card-sub" > 
                                     <div class="card-block">
                                         <h5 class="card-title">Your BMI</h5>
-                                        <h4 class="card-title">{{"{:.1f}".format(dict['bmi_value'])}}</h4>
-                                        <!-- <h6 class="card-title">{{dict['bmi_message']}}</h4> -->
+                                        <h4 class="card-title">{{dict['bmi_value']}}</h4>
                                         <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Disabled popover">
                                             <button class="btn btn-primary btn-sm" type="button" disabled>Disabled button</button>
                                         </span>

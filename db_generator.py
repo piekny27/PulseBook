@@ -1,4 +1,3 @@
-from xmlrpc.client import DateTime
 from testy.models import *
 import random
 import string
@@ -44,7 +43,7 @@ class DBGenerator():
                                 date_of_birth = datetime.datetime.now(), age = 22,
                                 gender = "Male", nationality = "Polska", avatarName = "avatar01",
                                 height = 181, weight = 68)
-        profile3 = UserProfile(first_name = "Mateusz", last_name = "Bjuti",
+        profile3 = UserProfile(first_name = "Mateusz", last_name = "Kowalski",
                                 date_of_birth = datetime.datetime.now(), age = 23,
                                 gender = "Male", nationality = "Polska", avatarName = "avatar01",
                                 height = 183, weight = 65)   
@@ -89,7 +88,7 @@ class DBGenerator():
                 new_measurement.hr_data.append(Hr_data(data=hr)) 
                 self.sp_array.append(sp)
                 self.hr_array.append(hr)
-                self.db.Flush() 
+                #self.db.Flush() 
             new_measurement.hr_data_avg = sum(self.sp_array) / len(self.sp_array)
             new_measurement.sp_data_avg = sum(self.hr_array) / len(self.hr_array)
             user = User.query.filter_by(id=17).first()

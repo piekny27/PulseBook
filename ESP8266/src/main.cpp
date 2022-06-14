@@ -9,7 +9,8 @@
 #define NEXT_MEASURE_PERIOD_MS 2000
 #define NEXT_POST_PERIOD_MS 2000
 
-const char* serverName = "http://mpkmateusz.pythonanywhere.com/device";
+const char* serverName = "https://pulsebook.herokuapp.com/device";
+//const char* serverName = "http://mpkmateusz.pythonanywhere.com/device";
 //const char* serverName = "https://192.168.0.105:5000/device";
 int configState = 0;
 

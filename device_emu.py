@@ -6,7 +6,8 @@ import requests
 import os
 
 #server_name = 'http://192.168.0.105:5000/device'
-server_name = 'http://mpkmateusz.pythonanywhere.com/device'
+server_name = 'https://pulsebook.herokuapp.com/device'
+#server_name = 'http://mpkmateusz.pythonanywhere.com/device'
 file_name = 'device.pkl'
 headers = {"Content-Type": "application/json; charset=utf-8"}
 
