@@ -67,6 +67,9 @@ def dashboard_page():
         return redirect(url_for('home_page'))
     range = request.form.get('range')
     match range:
+        case 'last_5':
+            current_time = datetime.datetime.utcnow()
+            measurements = UserProfile.query.filter_by(id=current_user.profileId).first().measurements.order_by(Measurement.id.desc()).limit(5).all()
         case 'last_week':
             current_time = datetime.datetime.utcnow()
             day_ago = current_time - datetime.timedelta(weeks=1)
@@ -89,11 +92,17 @@ def dashboard_page():
         dict['bmi_value'] = profile.weight / (math.pow(profile.height/100,2))
         dict['bmi_message']="Your bmi is correct and bla bla"
     else:
-        dict['bmi_value'] = 0
-        dict['bmi_message']="You need to complete your profile "
-    
-    dict['pulse_value']="12"
-    dict['pulse_message']="Brawo masz wysmienity puls."
+        dict['bmi_value'] = "- -"
+        dict['bmi_message']="You need to complete your profile"
+    last_measurement = UserProfile.query.filter_by(id=current_user.profileId).first().measurements.order_by(Measurement.id.desc()).first()
+    if last_measurement:
+        dict['last_measure_hr'] = int(last_measurement.hr_data_avg) 
+        dict['last_measure_sp'] = round(last_measurement.sp_data_avg,1)
+        dict['last_message']= "Blasasasasasasas"
+    else:
+        dict['last_measure_hr'] = "- -"
+        dict['last_measure_sp'] = "- -"
+        dict['last_message']= "Brak ostatniego pomiaru."
     dict['chart_saturation_value']="ala"
     dict['pulse_chart_message']="Masz za krotka historie pomiarow aby ladnie pokazac"
     dictJSON = jsonpickle.encode(dict, unpicklable=False)

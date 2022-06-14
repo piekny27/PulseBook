@@ -11,40 +11,44 @@ Your dashboard
 {% block content %}
 <div class="page-content page-container" id="page-content">
     <div class="padding">
-        <div class="row container d-flex justify-content-center">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header">
+        <div class="container d-flex justify-content-center">
+            <div class="sitedash">
+                <div class="card layer">
+                    <div class="card-header layertwo">
                         <h5>Your Dashboard</h5>
                     </div>
                     <div class="card-block">
                         <div class="row" id="sortable">
-                            <div class="col-md-3" style="padding:10px; width:500px; height:400px">
+                            <div class="col-md-3" style="padding:10px; width:550px; height:400px">
                                 <div class="card-sub" > 
-                                    <img class="card-img-top img-fluid" src="https://i.imgur.com/QwIYa8y.jpg" alt="Card image cap">
                                     <div class="card-block">
-                                        <h4 class="card-title">Your BMI</h4>
-                                        <h5 class="card-title">{{"{:.1f}".format(dict['bmi_value'])}}</h4>
-                                        <h6 class="card-title">{{dict['bmi_message']}}</h4>
-                                        <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Disabled popover">
-                                            <button class="btn btn-primary" type="button" disabled>Disabled button</button>
-                                        </span>
-                                        <p class="card-text">Body mass index (BMI) is a measure of body fat based on height and weight that applies to adult men and women. View the BMI tables or use the tool below to compute yours.</p>
+                                        <h5 class="card-title">Last measurement</h5><br>
+                                        <div class="heart">
+                                            <img src="/static/images/iconheart.png">&nbsp; <b>{{dict['last_measure_hr']}}&nbsp;BPM</b> Pulse
+                                        </div>
+                                        <div class="spo2">
+                                            <img src="/static/images/spo2icon.jpg">&nbsp; <b>{{dict['last_measure_sp']}}&nbsp;%</b> SpO2
+                                        </div>
+                                        <!-- <h6 class="card-title">{{dict['pulse_value']}}</h6>
+                                        <h6 class="card-title">{{dict['pulse_message']}}</h6>
+                                        <h5 class="card-title">{{dict['pulse_message']}}</h5> -->
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="col-md-3" style="padding:10px; width:550px; height:400px">
                                 <div class="card-sub">
                                     <div class="card-block">
-                                        <h4 class="card-title">Pulse and saturation</h4>
+                                        <h5 class="card-title">History of measurements</h5>
                                         <div id="chart_div"></div>
-                                        <h6 class="card-title">{{dict['pulse_chart_message']}}</h4>
+                                        <!-- <h6 class="card-title">{{dict['pulse_chart_message']}}</h6> -->
                                         <form action="" method="post">
                                             <div class="dropdown">
-                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                     Select range
                                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                    <li><button type="submit" class="dropdown-item" name="range" value="last_5">Last five tests</button></li>
                                                     <li><button type="submit" class="dropdown-item" name="range" value="last_week">Last week</button></li>
                                                     <li><button type="submit" class="dropdown-item" name="range" value="last_month">Last month</button></li>
                                                 </ul>
@@ -53,14 +57,36 @@ Your dashboard
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3" style="padding:10px; width:550px; height:400px">
+                                <div class="card-sub" > 
+                                    <div class="card-block">
+                                        <h5 class="card-title">Your BMI</h5>
+                                        <h4 class="card-title">{{dict['bmi_value']}}</h4>
+                                        <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Disabled popover">
+                                            <button class="btn btn-primary btn-sm" type="button" disabled>Disabled button</button>
+                                        </span>
+                                        <p class="card-text">Body mass index (BMI) is a measure of body fat based on height and weight that applies to adult men and women. View the BMI tables or use the tool below to compute yours.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" style="padding:10px; width:550px; height:400px">
                                 <div class="card-sub">
                                     <div class="card-block">
-                                        <h4 class="card-title">Your last pulse measure czy coś tam</h4>
-                                        <h6 class="card-title">{{dict['pulse_value']}}</h4>
-                                        <h6 class="card-title">{{dict['pulse_message']}}</h4>
-                                        <h1 class="card-title">{{dict['pulse_message']}}</h4>
-                                        <p class="card-text">Prawidłowe tętno (puls) mieści się w przedziale od 60 do 100 uderzeń serca na minutę. Za wysoki puls serca (powyżej 100 uderzeń na minutę) to tachykardia (częstoskurcz), za niski puls (poniżej 60 uderzeń na minutę) to bradykardia. </p>
+                                        <h5 class="card-title news">Latest news and features</h5>
+                                        
+                                        <div class="timeline-body">
+                                            <div class="timeline-header"> 
+                                                <span class="userimage">
+                                                    <img src="/static/images/pulselogoblue.png" alt="logos" height="35">
+                                                </span> 
+                                                <span class="username"><a href="#">Team pulsebook</a> <small></small></span> 
+                                            </div>
+                                            <div class="timeline-content"><p> Welcome to the new pulsebook website. We are very pleased to introduce you to the new possibilities of our device and the convenience of using the website. </p>
+                                        </div>
+                                       
+                                    </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -71,8 +97,10 @@ Your dashboard
         </div>
     </div>
 </div>
-{% endblock %}
+</div>
 
+{% include "/includes/footer.html" %} 
+{% endblock %}
 {% block scripts %}   
 <script type="text/javascript"> 
     window.dict = {{ jsondict|tojson }};

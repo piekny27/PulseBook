@@ -33,26 +33,23 @@
                   <h3 class="mb-3 pb-3" style="letter-spacing: 1px;">Sign in</h3>
       
                   <div class="form-outline mb-4">
+                    <p style="color:red; font-size:10px; margin:0; white-space: pre-wrap">{% for v in form.errors['username'] %}{{v+" "}}{%endfor%}</p>
                     {{ form.username(placeholder="User name", class_="form-control") }}
-
-                    <!--<input type="email" id="form2Example18" class="form-control form-control" />-->
                     <label class="form-label" for="form2Example18">Email address or login</label>
                   </div>
       
                   <div class="form-outline mb-4">
+                    <p style="color:red; font-size:10px; margin:0; white-space: pre-wrap">{% for v in form.errors['password'] %}{{v+" "}}{%endfor%}</p>
                     {{ form.password(placeholder="Password", class_="form-control") }}
-                    <!--<input type="password" id="form2Example28" class="form-control form-control" />-->
                     <label class="form-label" for="form2Example28">Password</label>
                   </div>
       
                   <div class="pt-1 mb-4">
                     {{ form.submit(class_="btn btn-primary btn-lg btn-block") }}
-                    <!--<button class="btn btn-primary btn-lg btn-block" type="button">Login</button>-->
                   </div>
                   <br>
-      
-                  <!--<p class="small mb-5 pb-lg-2"><a class="text-muted" href="#!">Forgot password?</a></p> -->
-                  <p>Don't have an account? <!--<a href="#!" class="link-info">Register here</a></p>-->
+                  
+                  <p>Don't have an account? 
                   <div class="pt-1 mb-4">
                     <a href="/register" class="btn btn-outline-primary btn-sm btn-block"  role="button" aria-pressed="true">Register here</a>
                   </div>

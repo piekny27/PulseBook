@@ -27,7 +27,7 @@ var options = {
     maxLines: 2,
     position: 'bottom'
   },
-  width: 450
+  width: 500
 };
 
 var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
