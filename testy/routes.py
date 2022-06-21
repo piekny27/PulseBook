@@ -27,11 +27,15 @@ def login_page():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if not user:
-             user = User.query.filter_by(email=form.username.data).first()
-        if (user and user.VerifyPassword(attemptedPassword = form.password.data)):
-            login_user(user)
-            return redirect(url_for('dashboard_page'))
+        if user:
+            if (user.VerifyPassword(attemptedPassword = form.password.data)):
+                login_user(user)
+                return redirect(url_for('dashboard_page'))
+            form.password.errors.append('The password is incorrect.')
+        else:
+            user = User.query.filter_by(email=form.username.data).first()
+            if not user:
+                form.username.errors.append('The username or email address is incorrect.')           
     return render_template("login.html", form=form)
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -106,7 +110,7 @@ def dashboard_page():
     dict['chart_saturation_value']="ala"
     dict['pulse_chart_message']="Masz za krotka historie pomiarow aby ladnie pokazac"
     dictJSON = jsonpickle.encode(dict, unpicklable=False)
-    return render_template("dashboard.html", dict=dict, jsondict=dictJSON)
+    return render_template("dashboard.html", dict=dictJSON)
 
 @app.route("/logout")
 def logout_page():

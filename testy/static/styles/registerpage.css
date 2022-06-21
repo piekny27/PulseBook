@@ -13,3 +13,23 @@ html, body{
 .form-outline {
     max-width: 350px;
 }
+.card 
+{
+    border-radius: 15px; 
+    width:500px;
+}
+
+p.error
+{
+    color:red; 
+    font-size:10px; 
+    margin:0; 
+    white-space: pre-wrap
+}
+
+.vertical-center {
+    min-height: 100%;
+    padding-bottom: 5%;
+    display: flex;
+    align-items: center;
+  }

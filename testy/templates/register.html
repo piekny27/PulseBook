@@ -13,70 +13,54 @@
   <link rel="stylesheet" type="text/css" href="/static/styles/registerpage.css">
 
   <title>
-    {% block title %}
     Create an account
-    {% endblock %}
   </title>
 
 </head>
 
 <body>
-  {% block content %}
-  <div class="mask d-flex align-items-center gradient-custom-3">
-    <div class="container h-100">
-      <div class="row d-flex justify-content-center align-items-center h-50">
-        <div class="col-11 col-sm-10 col-md-8 pt-4 pb-4">
-          <div class="card h-100" style="border-radius: 15px;">
-            <div class="px-5 pt-4 ms-xl-4">
-              <a href="/">
-                <img src="/static/images/pulselogoblue.png" alt="" height="50">
-              </a>
-            </div>
-            <div class="card-body p-5">
-              <h2 class="text-center mb-5">Create an account</h2>
-              <center>
-                <form method="POST">
-                  {{ form.hidden_tag() }}
-                  <div class="form-outline mb-3">
-                    <p style="color:red; font-size:10px; margin:0; white-space: pre-wrap">{% for v in form.errors['username'] %}{{v+" "}}{%endfor%}</p>
-                    {{ form.username(placeholder="User name", class_="form-control") }}
-                    <label class="form-label" for="form3Example1cg">Your Name</label>
-                  </div>
-
-                  <div class="form-outline mb-3">
-                    <p style="color:red; font-size:10px; margin:0; white-space: pre-wrap">{% for v in form.errors['emailAddress'] %}{{v+" "}}{%endfor%}</p>
-                    {{ form.emailAddress(placeholder="Email", class_="form-control") }}
-                    <label class="form-label" for="form3Example3cg">Your Email</label>
-                  </div>
-
-                  <div class="form-outline mb-3">
-                    <p style="color:red; font-size:10px; margin:0; white-space: pre-wrap">{% for v in form.errors['password1'] %}{{v+" "}}{%endfor%}</p>
-                    {{ form.password1(placeholder="Password", class_="form-control") }}
-                    <label class="form-label" for="form3Example4cg">Password</label>
-                  </div>
-
-                  <div class="form-outline mb-3">
-                    <p style="color:red; font-size:10px; margin:0; white-space: pre-wrap">{% for v in form.errors['password2'] %}{{v+" "}}{%endfor%}</p>
-                    {{ form.password2(placeholder="Password", class_="form-control") }}
-                    <label class="form-label" for="form3Example4cdg">Confirm password</label>
-                  </div>
-                  <div class="d-flex justify-content-center">
-                    {{ form.submit(class_="btn btn-primary btn-block btn-lg") }}
-                  </div>
-                  <p class="text-center text-muted mt-5 mb-0">Have already an account?</p><br>
-                  <div class="d-flex justify-content-center">
-                    <a href="/login" class="btn btn-outline-primary btn-sm btn-block" role="button"
-                      aria-pressed="true">Login here</a>
-                  </div>
-                </form>
-              </center>
-            </div>
-          </div>
+  <div class="vertical-center">
+  <div class="card mx-auto ">
+    <div class="card-body px-2 mt-4 mx-auto">
+      <div class="px-0 mb-5">
+        <a href="/home">
+          <img src="/static/images/pulselogoblue.png" alt="home" height="50">
+        </a>
+      </div>
+      <h2 class="mb-5">Sign up</h2>
+      <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-outline mb-2">
+          <label class="form-label" for="form3Example1cg">Your Name</label>
+          {{ form.username(placeholder="User name", class_="form-control") }}
+          <p class="error">&nbsp{% for v in form.errors['username'] %}{{v+" "}}{%endfor%}</p>
         </div>
+        <div class="form-outline mb-2">
+          <label class="form-label" for="form3Example3cg">Your Email</label>
+          {{ form.emailAddress(placeholder="Email", class_="form-control") }}
+          <p class="error">&nbsp{% for v in form.errors['emailAddress'] %}{{v+" "}}{%endfor%}</p>
+        </div>
+        <div class="form-outline mb-2">
+          <label class="form-label" for="form3Example4cg">Password</label>
+          {{ form.password1(placeholder="Password", class_="form-control") }}
+          <p class="error">&nbsp{% for v in form.errors['password1'] %}{{v+" "}}{%endfor%}</p>
+        </div>
+        <div class="form-outline mb-3">
+          <label class="form-label" for="form3Example4cdg">Confirm password</label>
+          {{ form.password2(placeholder="Password", class_="form-control") }}
+          <p class="error">&nbsp{% for v in form.errors['password2'] %}{{v+" "}}{%endfor%}</p>
+        </div>
+        <div class="d-flex justify-content-center">
+          {{ form.submit(class_="btn btn-primary btn-block btn-lg") }}
+        </div>
+      </form>
+      <div class="d-flex justify-content-center text-muted mt-4">
+        Already have an account?&nbsp
+        <a href="/login">Log in</a>
       </div>
     </div>
   </div>
-  {% endblock %}
+</div>
 </body>
 
 </html>

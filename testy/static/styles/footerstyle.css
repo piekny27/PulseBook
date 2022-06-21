@@ -3,17 +3,9 @@
 	color: #fff;
 }
 
-/* footer */
-section {
-  width: 100%;
-  display: inline-block;
-  background: #333;
-  height: 50vh;
-  text-align: center;
-  font-size: 22px;
-  font-weight: 700;
-  text-decoration: underline;
-}
+.section{
+	min-height: 105vh;
+  }
 
 .footer-distributed{
 	background: #282D32;
@@ -169,7 +161,6 @@ section {
 	margin-bottom: 5px;
 }
 
-/* If you don't want the footer to be responsive, remove these media queries */
 
 @media (max-width: 880px) {
 

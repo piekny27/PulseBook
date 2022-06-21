@@ -31,9 +31,7 @@ html, body{
 .deletecon{
   min-height: 320px;
 }
-.settingsection{
-  min-height: 105vh;
-}
+
 .settings-card
 {
   padding: 20px;
