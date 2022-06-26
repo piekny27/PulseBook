@@ -2,8 +2,10 @@ import datetime
 from flask import redirect, render_template, url_for, request
 from flask_login import current_user, login_user, logout_user
 from testy import app
+from testy.dashboard import Dashboard
 from testy.forms import LoginForm, RegisterForm, ProfileForm
 from testy.models import DBConnection, Hr_data, Measurement, Sp_data, User, UserProfile, Device
+#from testy.models import Dashboard as DashboardModel
 import json
 import time
 import math
@@ -62,55 +64,11 @@ def register_page():
 
 @app.route("/dashboard", methods=['GET', 'POST'])
 def dashboard_page():
-    class Measure:
-        def __init__(self, date, hr_val, sp_val):
-            self.date = date
-            self.hr_val = hr_val
-            self.sp_val = sp_val
     if not current_user.is_authenticated:
         return redirect(url_for('home_page'))
     range = request.form.get('range')
-    match range:
-        case 'last_5':
-            current_time = datetime.datetime.utcnow()
-            measurements = UserProfile.query.filter_by(id=current_user.profileId).first().measurements.order_by(Measurement.id.desc()).limit(5).all()
-        case 'last_week':
-            current_time = datetime.datetime.utcnow()
-            day_ago = current_time - datetime.timedelta(weeks=1)
-            measurements = UserProfile.query.filter_by(id=current_user.profileId).first().measurements.filter(Measurement.date > day_ago).all()
-        case 'last_month':
-            current_time = datetime.datetime.utcnow()
-            day_ago = current_time - datetime.timedelta(weeks=4)
-            measurements = UserProfile.query.filter_by(id=current_user.profileId).first().measurements.filter(Measurement.date > day_ago).all()
-        case _:
-            current_time = datetime.datetime.utcnow()
-            day_ago = current_time - datetime.timedelta(weeks=1)
-            measurements = UserProfile.query.filter_by(id=current_user.profileId).first().measurements.filter(Measurement.date > day_ago).all()
-    dict={}
-    dict['measurements']=[]
-    for measure in measurements:
-        m = Measure(measure.date, measure.hr_data_avg, measure.sp_data_avg)
-        dict['measurements'].append(m)
-    profile = current_user.profiles
-    if profile.weight and profile.height:
-        dict['bmi_value'] = profile.weight / (math.pow(profile.height/100,2))
-        dict['bmi_message']="Your bmi is correct and bla bla"
-    else:
-        dict['bmi_value'] = "- -"
-        dict['bmi_message']="You need to complete your profile"
-    last_measurement = UserProfile.query.filter_by(id=current_user.profileId).first().measurements.order_by(Measurement.id.desc()).first()
-    if last_measurement:
-        dict['last_measure_hr'] = int(last_measurement.hr_data_avg) 
-        dict['last_measure_sp'] = round(last_measurement.sp_data_avg,1)
-        dict['last_message']= "Blasasasasasasas"
-    else:
-        dict['last_measure_hr'] = "- -"
-        dict['last_measure_sp'] = "- -"
-        dict['last_message']= "Brak ostatniego pomiaru."
-    dict['chart_saturation_value']="ala"
-    dict['pulse_chart_message']="Masz za krotka historie pomiarow aby ladnie pokazac"
-    dictJSON = jsonpickle.encode(dict, unpicklable=False)
-    return render_template("dashboard.html", dict=dictJSON)
+    dashboard = Dashboard(current_user, range)
+    return render_template("dashboard.html", cards=dashboard.cards)
 
 @app.route("/logout")
 def logout_page():
@@ -122,19 +80,15 @@ def profile_page():
     if current_user.is_authenticated:
         form = ProfileForm()
         if form.validate_on_submit():
-            newProfile = UserProfile(first_name = form.first_name.data,
-                            last_name = form.last_name.data,
-                            dob = form.date_of_birth.data,
-                            gender = form.gender.data,
-                            nationality = form.nationality.data,
-                            avatarName = "avatar12",
-                            height = form.height.data,
-                            weight = form.weight.data)
-            current_profile_ID = current_user.profileId
-            db.session.add(newProfile)
-            db.session.commit()
-            current_user.profileId = newProfile.id
-            db.session.delete(UserProfile.query.filter_by(id=current_profile_ID).first())
+            profile = UserProfile.query.filter_by(id=current_user.profileId).first()
+            profile.first_name = form.first_name.data
+            profile.last_name = form.last_name.data
+            profile.dob = form.date_of_birth.data
+            profile.gender = form.gender.data
+            profile.nationality = form.nationality.data
+            profile.avatarName = "avatar12"
+            profile.height = form.height.data
+            profile.weight = form.weight.data
             db.session.commit()
             return redirect(url_for('profile_page'))
         currentProfile = UserProfile.query.filter_by(id=current_user.profileId).first()

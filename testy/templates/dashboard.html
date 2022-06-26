@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% block styles %}   
-<link rel="stylesheet" href="/static/styles/dashboardpage.css"> 
-{% endblock %} 
+{% block styles %}
+<link rel="stylesheet" href="/static/styles/dashboardpage.css">
+{% endblock %}
 
 {% block title %}
 Your dashboard
@@ -17,13 +17,19 @@ Your dashboard
                     <div class="card-header layertwo">
                         <h5>Your Dashboard</h5>
                     </div>
-                    <div class="card-block">`
-                        <div class="row" id="sortable">
-                            {% include "/includes/last_measurement_card.html" %}
-                            {% include "/includes/chart_measurement_card.html" %}
-                            {% include "/includes/bmi_card.html" %}
-                            {% include "/includes/news_card.html" %}
-                        </div>
+                    <div class="card-block" id="card-pile">`
+                        {% for card in cards %}
+                        {% if card.card_type == 'bmi_card.html' %}
+                        {% include "/includes/bmi_card.html" %}
+                        {% endif %}
+                        {% if card.card_type == 'last_measurement_card.html' %}
+                        {% include "/includes/last_measurement_card.html" %}
+                        {% endif %}
+                        {% if card.card_type == 'chart_measurement_card.html' %}
+                        {% include "/includes/chart_measurement_card.html" %}
+                        {% endif %}
+                        {% endfor %}
+                        {% include "/includes/news_card.html" %}
                     </div>
                 </div>
             </div>
@@ -32,18 +38,11 @@ Your dashboard
 </div>
 </div>
 
-{% include "/includes/footer.html" %} 
+{% include "/includes/footer.html" %}
 {% endblock %}
-{% block scripts %}   
-<script type="text/javascript"> 
-    window.dict = {{ dict|tojson }};
-  </script> 
-<script
-  src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"
-  integrity="sha256-6XMVI0zB8cRzfZjqKcD01PBsAy3FlDASrlC8SxCpInY="
-  crossorigin="anonymous">
-</script>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+{% block scripts %}
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"
+    integrity="sha256-6XMVI0zB8cRzfZjqKcD01PBsAy3FlDASrlC8SxCpInY=" crossorigin="anonymous">
+    </script>
 <script src="/static/scripts/dashboardpage.js"></script>
-<script src="/static/scripts/chart.js"></script>
-{% endblock %} 
+{% endblock %}

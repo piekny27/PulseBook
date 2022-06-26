@@ -1,4 +1,3 @@
-
 google.charts.load('current', {
   packages: ['corechart']
 }).then(function () {
@@ -8,16 +7,14 @@ google.charts.load('current', {
   data.addColumn('number', "Saturation");
   data.addColumn('number', "Pulse");
   
-  var a= dict;
-  console.log(dict);
   var obj = JSON.parse(dict);
-  console.log(obj.bmi_message);
-  for(var i=0; i<obj.measurements.length;i++)
+  console.log(obj)
+  for(var i=0; i<obj.length;i++)
   {
     data.addRows([
-      [new Date(obj.measurements[i].date),
-      obj.measurements[i].hr_val,
-      obj.measurements[i].sp_val]
+      [new Date(obj[i].date),
+      obj[i].hr_val,
+      obj[i].sp_val]
     ]);
   }
   
@@ -25,7 +22,7 @@ google.charts.load('current', {
 var options = {
   legend: {
     maxLines: 2,
-    position: 'bottom'
+    position: 'top'
   },
   width: 500
 };
@@ -33,3 +30,4 @@ var options = {
 var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 chart.draw(data, options);
 });
+

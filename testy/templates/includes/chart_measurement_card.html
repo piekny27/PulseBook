@@ -1,21 +1,28 @@
 <div class="col-md-3" style="padding:10px; width:550px; height:400px">
-    <div class="card-sub">
+    <div class="card-sub ui-draggable">
         <div class="card-block">
-            <h5 class="card-title">History of measurements</h5>
+            <div style="display:flex; justify-content: space-between;">
+                <h5 class="card-title">History of measurements</h5>
+                
+                <form name="PostName" action="/dashboard" method="POST">
+                    <div></div>
+                    <select class="form-select form-select-sm" 
+                        aria-label=".form-select-sm example"
+                        style="width:130px;margin-left: auto;"
+                        name="range"  onchange="PostName.submit()">
+                        <option value="last_5"{%if card.range == 'last_5' %}selected{%endif%}>Last five tests</option>
+                        <option value="last_week" {%if card.range == 'last_week' %}selected{%endif%}>Last week</option>
+                        <option value="last_month" {%if card.range == 'last_month' %}selected{%endif%}>Last month</option>
+                    </select>
+                </form>
+            </div>
             <div id="chart_div"></div>
-            <!-- <h6 class="card-title">{{dict['pulse_chart_message']}}</h6> -->
-            <form action="" method="post">
-                <div class="dropdown">
-                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        Select range
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><button type="submit" class="dropdown-item" name="range" value="last_5">Last five tests</button></li>
-                        <li><button type="submit" class="dropdown-item" name="range" value="last_week">Last week</button></li>
-                        <li><button type="submit" class="dropdown-item" name="range" value="last_month">Last month</button></li>
-                    </ul>
-                </div>
-            </form>
+            <p class="card-title" style="padding: 15px;">{{card.msg}}</p>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    window.dict = {{ card.measurements | tojson }}
+</script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="/static/scripts/chart.js"></script>
