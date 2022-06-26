@@ -13,7 +13,7 @@
 * [Links](#links)
 
 ## General info
-### • Description
+### Description
 Pulsebook is a project that aims to improve and extend the functionality of the heart rate monitor. The site receives data packets that are processed and displayed on the logged-in user's dashboard. The database stores data related to the pulse, saturation and user data. It is a convenient solution for people who want to view their measurement history on a regular basis. There are also additional options that will allow us to check the condition and correct body weight, for example: <code class="language-plaintext highlighter-rouge">BMI counter</code>.
 <br><br>
 <a href="#"><img src="https://cdn.discordapp.com/attachments/913059546275127306/985995974436589569/untitled45.png" height="150"></a>
@@ -21,12 +21,12 @@ Pulsebook is a project that aims to improve and extend the functionality of the 
 It is this project that uses the heart rate monitor.
 ## Installation
 
-### • Required software:
+### Required software:
 1. Python
 2. Visual Studio Code
 3. VSC plugins - Python and Pylance
 
-### • Vs Code installation of packages:
+### Vs Code installation of packages:
 open a command-line
 ```
 cd ../flask-projekt
