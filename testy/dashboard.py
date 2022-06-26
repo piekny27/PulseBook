@@ -35,7 +35,7 @@ class Chart_card:
         self.card_type = 'chart_measurement_card.html'
         self.range = "last_week"
         self.measurements = self.get_measurementsJSON()
-        if self.measurements is None:
+        if self.measurements is None or self.measurements == '[]':
             self.msg = 'You don\'t have any measurements. Configure your device in settings page and take your first measurement'
         else:
             self.msg = 'The chart shows your measurements for the selected time range.'
@@ -43,6 +43,8 @@ class Chart_card:
     def get_measurementsJSON(self):
         measurements = None
         if not current_user:
+            return None
+        if not current_user.is_authenticated:
             return None
         match self.range:
                 case 'last_5':
@@ -127,6 +129,8 @@ class Bmi_card:
             
     def calc_bmi(self):
         if not current_user:
+            return None
+        if not current_user.is_authenticated:
             return None
         profile = UserProfile.query.filter_by(id=current_user.profileId).first()
         if profile.weight and profile.height:

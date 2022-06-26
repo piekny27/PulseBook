@@ -38,7 +38,7 @@ class DBConnection():
         self._engine.session.add(device)
 
     def AddDashboard(self, dashboard):
-        self._engine.session.add(dashboard)
+        self.session.add(dashboard)
 
     def DeleteDevice(self, device):
         self.session.delete(device)

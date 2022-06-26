@@ -5,11 +5,9 @@ from testy import app
 from testy.dashboard import Dashboard
 from testy.forms import LoginForm, RegisterForm, ProfileForm
 from testy.models import DBConnection, Hr_data, Measurement, Sp_data, User, UserProfile, Device
-#from testy.models import Dashboard as DashboardModel
+from testy.models import Dashboard as DashboardModel
 import json
 import time
-import math
-import jsonpickle
 
 db = DBConnection()
 
@@ -51,11 +49,15 @@ def register_page():
         db.AddProfile(newProfile)
         db.AddDevice(newDevice)
         db.Flush()
+        newDashboard = DashboardModel()
+        db.AddDashboard(newDashboard)
+        db.Flush()
         newUser = User(username=form.username.data,
                        email=form.emailAddress.data,
                        password=form.password1.data,
                        roleId=1, profileId = newProfile.id,
-                       deviceId = newDevice.id)
+                       deviceId = newDevice.id,
+                       dashboard_id = newDashboard.id)
         db.AddUser(newUser)  
         db.Flush()
         login_user(newUser)
