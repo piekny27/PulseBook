@@ -1,6 +1,8 @@
 from testy import db,bcrypt,login_manager
 from flask_login import UserMixin
 from datetime import date, datetime
+from sqlalchemy.dialects.postgresql import JSON
+from testy.dashboard import Dashboard as DashboardMixin
 
 @login_manager.user_loader
 def load_user(userId):
@@ -35,6 +37,9 @@ class DBConnection():
     def AddDevice(self, device):
         self._engine.session.add(device)
 
+    def AddDashboard(self, dashboard):
+        self.session.add(dashboard)
+
     def DeleteDevice(self, device):
         self.session.delete(device)
         self.session.commit()
@@ -47,6 +52,12 @@ class DBConnection():
         self.session.add(hr_data)
 
 
+class Measure:
+        def __init__(self, date, hr_val, sp_val):
+            self.date = date
+            self.hr_val = hr_val
+            self.sp_val = sp_val
+
 # tables
 class User(db.Model, UserMixin):
     __tablename__ = "users"
@@ -58,6 +69,7 @@ class User(db.Model, UserMixin):
     roleId = db.Column(db.Integer, db.ForeignKey("roles.id", ondelete='CASCADE'), nullable=False)
     profileId = db.Column(db.Integer, db.ForeignKey("profiles.id", ondelete='CASCADE'), nullable=False)
     deviceId = db.Column(db.Integer, db.ForeignKey("devices.id", ondelete='CASCADE'), nullable=True)
+    dashboard_id = db.Column(db.Integer, db.ForeignKey("dashboards.id", ondelete='CASCADE'), nullable=True)
 
     @property
     def password(self):
@@ -155,4 +167,13 @@ class Measurement(db.Model):
             self.date = datetime.today()
         else:
             self.date = data
+
+class Dashboard(db.Model, DashboardMixin):
+    __tablename__ = "dashboards"
+    id = db.Column(db.Integer, primary_key=True)
+    json_data = db.Column(JSON)
+    user = db.relationship('User', backref=db.backref('dashboards'), cascade='all,delete-orphan')
+
+    def __init__(self):    
+        self.json_data = self.toJSON()
         

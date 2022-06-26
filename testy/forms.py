@@ -7,7 +7,7 @@ from datetime import date
 class LoginForm(FlaskForm):
     username = StringField(label='User Name:', validators=[DataRequired()])
     password = PasswordField(label='Password:', validators=[DataRequired()])
-    submit = SubmitField(label='Sign in')
+    submit = SubmitField(label='Log in')
 
 class RegisterForm(FlaskForm):
 
@@ -24,7 +24,7 @@ class RegisterForm(FlaskForm):
     username = StringField(label="User name", validators=[Length(min=3, max=15), DataRequired()])
     emailAddress = StringField(label=" Email address:", validators=[Email(),DataRequired()])
     password1 = PasswordField(label = "Password", validators=[Length(min=8),DataRequired()])
-    password2 = PasswordField(label = "Confirm Password", validators=[EqualTo("password1"),DataRequired()])
+    password2 = PasswordField(label = "Confirm Password", validators=[EqualTo("password1",'Confirm password is different.'),DataRequired()])
     submit = SubmitField(label = "Create Account")
 
 class ProfileForm(FlaskForm):

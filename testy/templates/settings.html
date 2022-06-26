@@ -9,7 +9,7 @@ SettingsTest
 {% endblock %}
 
 {% block content %}
-<div class="container-md light-style settingsection">
+<div class="container-md light-style section">
   <h4 class="font-weight-bold py-3 mb-4 text-white">
     Account settings
   </h4>
@@ -24,8 +24,6 @@ SettingsTest
               type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Change Password</button>
             <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages"
               type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Delete account</button>
-            <!-- <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings"
-              type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button> -->
           </div>
         </div>
         <div class="col">
@@ -97,7 +95,6 @@ SettingsTest
                       <p>Device is connected.<br> Information about your device.<br> <b>Serial number:</b> {{ device.serial_number }} <br><b>Version:</b> {{ device.version }}<br><b>Address:</b> {{ device.device_key }}</p>
                       <br>
                       <button type="button" id="delete_device_button" data-bs-toggle="modal" data-bs-target="#deldeviceModal">Delete device</button>
-                      <!-- Modal -->
                       <div class="modal fade" id="deldeviceModal" tabindex="-1" aria-labelledby="deldeviceModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
@@ -116,7 +113,6 @@ SettingsTest
                           </div>
                         </div>
                       </div>
-                      <!-- fff -->
                     </div>
                   </div>
                 </div>
@@ -149,9 +145,7 @@ SettingsTest
               <div class="card-body deletecon">
                 <h2>Delete your account</h2>
                 <p>Delete your account permanently on pulsebook.</p><br>
-                <!-- Button trigger modal -->
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#accountModal">Delete account</button>
-                <!-- Modal -->
                 <div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
@@ -171,7 +165,6 @@ SettingsTest
                     </div>
                   </div>
                 </div>
-                <!-- fff -->
               </div>
             </div>
         </div>
