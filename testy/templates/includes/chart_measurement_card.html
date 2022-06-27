@@ -1,23 +1,64 @@
-<div class="col-md-3" style="padding:10px; width:550px; height:400px">
-    <div class="card-sub ui-draggable">
-        <div class="card-block">
-            <div style="display:flex; justify-content: space-between;">
-                <h5 class="card-title">History of measurements</h5>
-                
-                <form name="PostName" action="/dashboard" method="POST">
-                    <div></div>
-                    <select class="form-select form-select-sm" 
-                        aria-label=".form-select-sm example"
-                        style="width:130px;margin-left: auto;"
-                        name="range"  onchange="PostName.submit()">
-                        <option value="last_5"{%if card.range == 'last_5' %}selected{%endif%}>Last five tests</option>
-                        <option value="last_week" {%if card.range == 'last_week' %}selected{%endif%}>Last week</option>
-                        <option value="last_month" {%if card.range == 'last_month' %}selected{%endif%}>Last month</option>
-                    </select>
-                </form>
+<style>
+    [data-md-tooltip] {
+        position: relative;
+    }
+
+    [data-md-tooltip]:before {
+        content: attr(data-md-tooltip);
+        padding: 10px;
+        position: relative;
+        left: -15px;
+        right: auto;
+        bottom: auto;
+        width: 200px;
+        top: 50%;
+        z-index: 10;
+        transform: translate(-85%, -50%) scale(0);
+        transition: transform 0.3s ease-in-out;
+        transform-origin: right center;
+        background: #616161e6;
+        color: white;
+        border-radius: 2px;
+        font-size: 12px;
+    }
+
+    [data-md-tooltip]:hover:before {
+        transform: translateX(-100%) scale(1);
+    }
+</style>
+<div style="width:550px; height:350px">
+    <div class="card ui-draggable" style="height: 100%;">
+        <div class="card-header"
+            style="padding:0;min-height: 35px;display:flex;align-content: start; justify-content: space-between;">
+            <h6 style="margin:auto 10px;cursor:default;">History of measurements</h6>
+            <div style="padding:0;display:flex;">
+                <div style="margin:auto 5px">
+                    <button class="btn btn-secondary rounded-circle shadow-none"
+                        data-md-tooltip="This is your history of measurements."
+                        style="border:none;margin:auto auto;padding:0">
+                        <i class="fa-xl fa-regular fa-circle-question" style="padding:0px;transform: scale(1.1);"></i>
+                    </button>
+                </div>
+                <div style="margin:auto; margin-right:10px">
+                    <button class="btn btn-secondary rounded-circle" style="border:none;margin:auto auto;padding:0"
+                        title="Delete card">
+                        <i class="fa-xl fa-regular fa-circle-xmark" style="padding:0px;transform: scale(1.1);"></i>
+                    </button>
+                </div>
             </div>
-            <div id="chart_div"></div>
-            <p class="card-title" style="padding: 15px;">{{card.msg}}</p>
+        </div>
+        <div class="card-body" style="padding: 10;">
+            <div id="chart_div" style="width:100%;align-self: flex-start;z-index: 1;"></div>
+            <form name="PostName" action="/dashboard" method="POST" style="position:absolute;padding-right:15px;bottom:30px; display: flex;">
+                <select class="form-select form-select-sm" style="width:130px;margin:auto 10px" name="range"
+                    onchange="PostName.submit()">
+                    <option value="last_5" {%if card.range=='last_5' %}selected{%endif%}>Last five tests</option>
+                    <option value="last_week" {%if card.range=='last_week' %}selected{%endif%}>Last week</option>
+                    <option value="last_month" {%if card.range=='last_month' %}selected{%endif%}>Last month</option>
+                </select>
+                <p class="card-title" style="margin:auto 5px;text-align: justify; text-justify: inter-word;">
+                    {{card.msg}}</p>
+            </form>
         </div>
     </div>
 </div>
