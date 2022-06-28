@@ -17,7 +17,7 @@ Your dashboard
                     <div class="card-header layertwo">
                         <h5>Your Dashboard</h5>
                     </div>
-                    <div class="card-block" id="card-pile">`
+                    <div class="card-block" id="card-pile">
                         {% for card in cards %}
                         {% if card.card_type == 'bmi_card.html' %}
                         {% include "/includes/bmi_card.html" %}
