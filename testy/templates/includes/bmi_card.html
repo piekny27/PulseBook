@@ -1,58 +1,147 @@
 <style>
-    [data-md-tooltip] {
-        position: relative;
-    }
+  [data-md-tooltip] {
+    position: relative;
+  }
 
-    [data-md-tooltip]:before {
-        content: attr(data-md-tooltip);
-        padding: 10px;
-        position: absolute;
-        left: -15px;
-        right: auto;
-        bottom: auto;
-        width: 200px;
-        top: 50%;
-        transform: translate(-85%, -50%) scale(0);
-        transition: transform 0.3s ease-in-out;
-        transform-origin: right center;
-        background: #616161e6;
-        color: white;
-        border-radius: 2px;
-        font-size: 12px;
-    }
+  [data-md-tooltip]:before {
+    content: attr(data-md-tooltip);
+    padding: 10px;
+    position: absolute;
+    left: -15px;
+    right: auto;
+    bottom: auto;
+    width: 200px;
+    top: 50%;
+    transform: translate(-85%, -50%) scale(0);
+    transition: transform 0.3s ease-in-out;
+    transform-origin: right center;
+    background: #616161e6;
+    color: white;
+    border-radius: 2px;
+    font-size: 12px;
+  }
 
-    [data-md-tooltip]:hover:before {
-        transform: translateX(-100%) scale(1);
-    }
+  [data-md-tooltip]:hover:before {
+    transform: translateX(-100%) scale(1);
+  }
+
+  .speedometer {
+    text-align: center;
+    position: relative;
+    padding-top: 10px;
+    padding-right: 15px;
+  }
+
+  .value {
+    position: relative;
+    bottom: 139px;
+    margin-bottom: -60px;
+    left: 4px;
+  }
+
+  .barometer {
+    background-image: url(/static/images/bmi.svg);
+    background-size: 200px auto;
+    background-repeat: no-repeat;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+  }
+
+  .needle {
+    background-image: url(/static/images/needle.svg);
+    background-repeat: no-repeat;
+    background-size: auto 110px;
+    z-index: 10;
+    width: 66px;
+    height: 110px;
+    display: inline-block;
+    left: 5px;
+    bottom: 190px;
+    margin-bottom: -110px;
+    position: relative;
+    transform-origin: 50% calc(100% - 39px);
+  }
 </style>
-<div style="width:300px; height:400px;">
-    <div class="card ui-draggable" style="height: 100%;">
-        <div class="card-header" style="padding:0;height: 35px;display:flex; justify-content: space-between;">
-            <h6 style="margin:auto 10px;cursor:default;">Your BMI</h6>
-            <div style="padding:0;display:flex;">
-                <div style="margin:auto 5px">
-                    <button class="btn btn-secondary rounded-circle shadow-none"
-                        data-md-tooltip="Body mass index (BMI) is a measure of body fat based on height 
+
+<div style="width:300px; height:350px;">
+  <div class="card ui-draggable" style="height: 100%;">
+    <div class="card-header" style="padding:0;min-height: 35px;display:flex; justify-content: space-between;">
+      <h6 style="margin:auto 10px;cursor:default;">Your BMI</h6>
+      <div style="padding:0;display:flex;">
+        <div style="margin:auto 5px">
+          <button class="btn btn-secondary rounded-circle shadow-none" data-md-tooltip="Body mass index (BMI) is a measure of body fat based on height 
                         and weight that applies to adult men and women."
-                        style="border:none;margin:auto auto;padding:0">
-                        <i class="fa-xl fa-regular fa-circle-question" style="padding:0px;transform: scale(1.1);"></i>
-                    </button>
-                </div>
-                <div style="margin:auto; margin-right:10px">
-                    <button class="btn btn-secondary rounded-circle" style="border:none;margin:auto auto;padding:0"
-                        title="Delete card">
-                        <i class="fa-xl fa-regular fa-circle-xmark" style="padding:0px;transform: scale(1.1);"></i>
-                    </button>
-                </div>
-            </div>
+            style="border:none;margin:auto auto;padding:0">
+            <i class="fa-xl fa-regular fa-circle-question" style="padding:0px;transform: scale(1.1);"></i>
+          </button>
         </div>
-        <div class="card-body" style="display:flex; justify-content: space-between;">
-            <h4 class="card-title">{{card.bmi_val}}</h4>
-            <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
-                data-bs-content="Disabled popover">
-                <button class="btn btn-primary btn-sm" type="button" disabled>Disabled button</button>
-            </span>
-            <p style="color:{{card.bmi_col}};">{{card.bmi_msg}}</p>
+        <div style="margin:auto; margin-right:10px">
+          <button class="btn btn-secondary rounded-circle" style="border:none;margin:auto auto;padding:0"
+            title="Delete card">
+            <i class="fa-xl fa-regular fa-circle-xmark" style="padding:0px;transform: scale(1.1);"></i>
+          </button>
         </div>
+      </div>
     </div>
+    <div class="card-body" style="text-align:center;">
+      <div class="speedometer">
+        <span class="barometer"></span>
+        <span class="needle"></span>
+        <h4 class="card-title value">{{card.bmi_val}}</h4>
+      </div>
+      <p style="color:{{card.bmi_col}};">{{card.bmi_msg}}</p>
+    </div>
+  </div>
 </div>
+
+<script type="text/javascript">
+  window.bmi_val = "{{card.bmi_val}}";
+  const needle = document.getElementsByClassName("needle");
+  var user = bmiToDeg(bmi_val);
+  //console.log(bmiToDeg(bmi_val));
+  needle[0].animate(
+    [
+      {
+        transform: "rotate(-133deg)", offset: 0
+      },
+
+      {
+        transform: "rotate(-133deg)", offset: 0.3
+      },
+
+      {
+        transform: `rotate(${user}deg)`, offset: 1
+      }
+    ], {
+    duration: 2000,
+    fill: "forwards"
+  });
+
+  needle[0].animate(
+    [
+      {
+        transform: `rotate(${user-1}deg)`, offset: 0
+      },
+
+      {
+        transform: `rotate(${user+1}deg)`, offset: 1
+      }
+    ], {
+    duration: 500,
+    iterations: Infinity,
+    direction:"alternate",
+    
+  });
+
+  function bmiToDeg(bmi_val) {
+    const start_speedometer = 16;
+    const end_speedometer = 40;
+    const start_deg = -119;
+    const end_deg = 134;
+    if (bmi_val > 40) return end_deg;
+    if (bmi_val < 16) return start_deg;
+    return (bmi_val - start_speedometer) * (end_deg - start_deg) / (end_speedometer - start_speedometer) + start_deg;
+  }
+</script>
