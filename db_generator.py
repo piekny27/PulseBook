@@ -40,7 +40,7 @@ class DBGenerator():
         for user in usernames:
             profile = UserProfile(first_name = user, last_name = "Kowalski",
                                 date_of_birth = self.randomDate(), gender = "Male", 
-                                nationality = "Polska", avatarName = "avatar" + i,
+                                nationality = "Polska", avatarName = "avatar" + str(i),
                                 height = randrange(120,200), weight = randrange(40,150))
             self.db.AddProfile(profile)
             self.db.Flush()
@@ -68,10 +68,10 @@ class DBGenerator():
         self.db.Flush()
 
         dashboard1 = Dashboard()
-        self.db.AddDashboard(dashboard)
+        self.db.AddDashboard(dashboard1)
         self.db.Flush()
         dashboard2 = Dashboard()
-        self.db.AddDashboard(dashboard)
+        self.db.AddDashboard(dashboard2)
         self.db.Flush()
 
         admin1 = User(username="Hantal", email = "adrianbejs@gmail.com",  password = "12345678", 
@@ -110,7 +110,7 @@ class DBGenerator():
             self.hr_array = []
             db.session.commit()  
 
-    def randomDate():
+    def randomDate(self):
         start_date = datetime.date(1960, 1, 1)
         end_date = datetime.date(2001, 1, 1)
 

@@ -1,17 +1,33 @@
-<div class="col-md-3" style="padding:10px; width:550px; height:400px">
-    <div class="card-sub ui-draggable">
-        <div class="card-block">
-            <h5 class="card-title news">Latest news and features</h5>
-            <div class="timeline-body">
-                <div class="timeline-header"> 
-                    <span class="userimage">
-                        <img src="/static/images/pulselogoblue.png" alt="logos" height="35">
-                    </span> 
-                    <span class="username"><a href="#">Team pulsebook</a> <small></small></span> 
+<div style="width:550px; height:350px">
+    <div class="card ui-draggable" style="height: 100%;">
+        <div class="card-header"
+            style="padding:0;min-height: 35px;display:flex;align-content: start; justify-content: space-between;">
+            <h6 style="margin:auto 10px;cursor:default;">Latest news and features</h6>
+            <div style="padding:0;display:flex;">
+                <div style="margin:auto 5px">
+                    <button class="btn btn-secondary rounded-circle shadow-none"
+                        data-md-tooltip="This is way to stay up to date with news and messages from the Pulsebook team."
+                        style="border:none;margin:auto auto;padding:0">
+                        <i class="fa-xl fa-regular fa-circle-question" style="padding:0px;transform: scale(1.1);"></i>
+                    </button>
                 </div>
-                <div class="timeline-content"><p> Welcome to the new pulsebook website. We are very pleased to introduce you to the new possibilities of our device and the convenience of using the website. </p>
+                <div style="margin:auto; margin-right:10px">
+                    <button class="btn btn-secondary rounded-circle" style="border:none;margin:auto auto;padding:0"
+                        title="Delete card">
+                        <i class="fa-xl fa-regular fa-circle-xmark" style="padding:0px;transform: scale(1.1);"></i>
+                    </button>
+                </div>
             </div>
         </div>
+        <div class="card-body" style="padding: 10;">
+            <span class="">
+                <img src="/static/images/pulselogoblue.png" alt="logos" height="35">
+            </span>
+            <span class="">
+                <a href="#">Team pulsebook</a>
+            </span>
+            <p> Welcome to the new pulsebook website. We are very pleased to introduce you to the new possibilities
+                of our device and the convenience of using the website. </p>
         </div>
     </div>
 </div>

@@ -9,40 +9,37 @@ Your dashboard
 {% endblock %}
 
 {% block content %}
-<div class="page-content page-container" id="page-content">
-    <div class="padding">
-        <div class="container d-flex justify-content-center">
-            <div class="sitedash">
-                <div class="card layer">
-                    <div class="card-header layertwo">
-                        <h5>Your Dashboard</h5>
-                    </div>
-                    <div class="card-block" id="card-pile">
-                        {% for card in cards %}
-                        {% if card.card_type == 'bmi_card.html' %}
-                        {% include "/includes/bmi_card.html" %}
-                        {% endif %}
-                        {% if card.card_type == 'last_measurement_card.html' %}
-                        {% include "/includes/last_measurement_card.html" %}
-                        {% endif %}
-                        {% if card.card_type == 'chart_measurement_card.html' %}
-                        {% include "/includes/chart_measurement_card.html" %}
-                        {% endif %}
-                        {% endfor %}
-                        {% include "/includes/news_card.html" %}
-                    </div>
-                </div>
+
+<div class="container padding d-flex justify-content-center">
+    <div class="sitedash">
+        <div class="card layer">
+            <div class="card-header layertwo">
+                <h5>Your Dashboard</h5>
+            </div>
+            <div class="card-block" id="card-pile">
+                {% for card in cards %}
+                {% if card.card_type == 'bmi_card.html' %}
+                {% include "/includes/bmi_card.html" %}
+                {% endif %}
+                {% if card.card_type == 'last_measurement_card.html' %}
+                {% include "/includes/last_measurement_card.html" %}
+                {% endif %}
+                {% if card.card_type == 'chart_measurement_card.html' %}
+                {% include "/includes/chart_measurement_card.html" %}
+                {% endif %}
+                {% endfor %}
+                {% include "/includes/news_card.html" %}
             </div>
         </div>
     </div>
 </div>
-</div>
 
-{% include "/includes/footer.html" %}
 {% endblock %}
+
 {% block scripts %}
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"
-    integrity="sha256-6XMVI0zB8cRzfZjqKcD01PBsAy3FlDASrlC8SxCpInY=" crossorigin="anonymous">
-    </script>
+    integrity="sha256-6XMVI0zB8cRzfZjqKcD01PBsAy3FlDASrlC8SxCpInY=" 
+    crossorigin="anonymous">
+</script>
 <script src="/static/scripts/dashboardpage.js"></script>
 {% endblock %}
