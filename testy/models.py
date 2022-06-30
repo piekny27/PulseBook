@@ -107,7 +107,7 @@ class UserProfile(db.Model):
     age = db.Column(db.Integer)
     gender = db.Column(db.String(6))
     nationality = db.Column(db.String(30))
-    avatarName = db.Column(db.String(30))
+    avatarName = db.Column(db.String(150))
     height = db.Column(db.Integer)
     weight = db.Column(db.Integer)
     measurements = db.relationship('Measurement', secondary=measurement_id, lazy='dynamic', backref=db.backref('profiles'), cascade='all,delete')

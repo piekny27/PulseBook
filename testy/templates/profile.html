@@ -10,74 +10,123 @@ Your profile
 
 {% block content %}
 
-<form class="container rounded bg-white cont" method="POST">
-    {{ form.hidden_tag() }}
+<script type="module" src="https://unpkg.com/@github/image-crop-element@latest/dist/index.js"></script>
+<div class="container rounded bg-white cont">
     <div class="row">
-        <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                <img class="rounded-circle mt-5 avatarprofilepage" width="120px" src="/static/images/avatar0.png">
-                <br>
+        <div class="col-md-4">
+            <div class="d-flex flex-column text-center p-3 py-5">
+                <img class="rounded-circle mt-5 mx-auto"
+                    {%if current_user.profiles.avatarName %} src="{{current_user.profiles.avatarName}}" {% else %} src="/static/images/avatar0.png" {%endif%}
+                    width="200" height="200" alt="your avatar">
+                <div class="dropdown mx-auto" style="width: 200px;">
+                    <div type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                        class=" position-absolute px-2 py-1 right-0 bottom-0  mb-2 border rounded"
+                        style="background-color: #1282a2; color:white;">
+                        <i class="fa-regular fa-sm fa-pen-to-square"></i>
+                        Edit
+                    </div>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 160px;">
+                        <form method=post id="imageForm" enctype=multipart/form-data>
+                            <label for="file" class="dropdown-item" style="cursor: pointer;">Upload a photo...</label>
+                            <li><input id="file" hidden name=file type="file" onchange="this.form.submit();"></input></li>
+                            <li><a class="dropdown-item" href="#">Remove photo</a></li>
+                        </form>
+                    </ul>
+                </div>
                 <span class="typeuser1">
                     <b>{{ current_user.username }}</b>
                 </span>
             </div>
-        </div>
-        <div class="col-md-5 border-right">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Profile Settings</h4>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-6">
-                        <label class="labels">First name</label>
-                        {{ form.first_name(placeholder="First name", class_="form-control") }}
-                    </div>
-                    <div class="col-md-6">
-                        <label class="labels">Last name</label>
-                        {{ form.last_name(placeholder="Last name", class_="form-control") }}
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-12">
-                        <label class="labels">Date of birth</label>
-                        {{ form.date_of_birth(placeholder="Date of birth", class_="form-control") }}
-                    </div>
-                    <div class="col-md-12">
-                        <label class="labels">Gender</label>
-                        {{ form.gender(placeholder="Gender", class_="form-control") }}
-                    </div>
-                    <div class="col-md-12">
-                        <label class="labels">Nationality</label>
-                        {{ form.nationality(placeholder="Nationality", class_="form-control") }}
-                    </div>
-                </div>
-                <div class="row mt-3">
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center experience">
-                    <span>
-                        <b>Edit Values</b>
-                    </span>
-                </div>
-                <br>
-                <div class="col-md-12">
-                    <label class="labels">Body height</label>
-                    {{ form.height(placeholder="Height[cm]", class_="form-control") }}
-                </div> <br>
-                <div class="col-md-12">
-                    <label class="labels">Body weight</label>
-                    {{ form.weight(placeholder="Weight[kg]", class_="form-control") }}
-                </div>
-            </div>
-        </div>
-        <div class="mt-4 text-center pb-4">
-            {{ form.submit(class_="btn btn-primary profile-button") }}
-        </div>
-        <br>
-    </div>
-</form>
 
+            {% if modal %}
+            <div class="modal fade show" id="image-crop" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Crop your new profile picture</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="max-height: 70vh;overflow: auto;">
+                            <div class="d-flex flex-column flex-auto" method="post">
+                                <div class="Box-body overflow-auto">
+                                    <image-crop id="imgCrop" src="{{modal}}" tabindex="0" rounded="">
+                                        <div data-loading-slot class="loading">Please wait...</div>
+                                        <input id="x" type="hidden" data-image-crop-input="x" name="x" size="4" aria-label="x">
+                                        <input id="y" type="hidden" data-image-crop-input="y" name="y" size="4" aria-label="y">
+                                        <input id="width" type="hidden" data-image-crop-input="width" name="width" size="4" aria-label="width">
+                                        <input id="height" type="hidden" data-image-crop-input="height" name="height" size="4" aria-label="height">
+                                    </image-crop>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success mx-auto" id="postBtn" onclick="post()">Set new profile picture</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+        <form class="row col-md-8" action="" id="profileForm" method="POST">
+            {{ form.hidden_tag() }}
+            <div class="col-md-7">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Your profile</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="labels">First name</label>
+                            {{ form.first_name(placeholder="First name", class_="form-control") }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="labels">Last name</label>
+                            {{ form.last_name(placeholder="Last name", class_="form-control") }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="labels">Date of birth</label>
+                            {{ form.date_of_birth(placeholder="Date of birth", class_="form-control") }}
+                        </div>
+                        <div class="col-md-12">
+                            <label class="labels">Gender</label>
+                            {{ form.gender(placeholder="Gender", class_="form-control") }}
+                        </div>
+                        <div class="col-md-12">
+                            <label class="labels">Nationality</label>
+                            {{ form.nationality(placeholder="Nationality", class_="form-control") }}
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center experience">
+                        <h4 class="text-right">Other</h4>
+                    </div>
+                    <div class="col-md-12 mt-3">
+                        <label class="labels">Body height</label>
+                        {{ form.height(placeholder="Height[cm]", class_="form-control") }}
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels">Body weight</label>
+                        {{ form.weight(placeholder="Weight[kg]", class_="form-control") }}
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 text-center pb-4">
+                {{ form.submit(class_="btn btn-primary profile-button", for="profileForm") }}
+            </div>
+            <br>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/scripts/profile.js"></script>
 {% endblock %}
