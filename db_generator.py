@@ -40,8 +40,8 @@ class DBGenerator():
         for user in usernames:
             profile = UserProfile(first_name = user, last_name = "Kowalski",
                                 date_of_birth = self.randomDate(), gender = "Male", 
-                                nationality = "Polska", avatarName = "avatar" + str(i),
-                                height = randrange(120,200), weight = randrange(40,150))
+                                nationality = "Polska", height = randrange(120,200), 
+                                weight = randrange(40,150))
             self.db.AddProfile(profile)
             self.db.Flush()
 
@@ -57,11 +57,11 @@ class DBGenerator():
 
         profile1 = UserProfile(first_name = "Adrian", last_name = "Bejs", gender = "Male", nationality = "Polska",
                                 date_of_birth = datetime.datetime.strptime('24051986', "%d%m%Y").date(),
-                                avatarName = "avatar01", height = 181, weight = 95)
+                                height = 181, weight = 95)
                                 
         profile2 = UserProfile(first_name = "Mateusz", last_name = "Kowalski", gender = "Male", nationality = "Polska",
                                 date_of_birth = datetime.datetime.strptime('12101986', "%d%m%Y").date(), 
-                                avatarName = "avatar01", height = 183, weight = 65)   
+                                height = 183, weight = 65)   
 
         self.db.AddProfile(profile1)
         self.db.AddProfile(profile2)

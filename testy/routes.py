@@ -8,6 +8,9 @@ from testy.models import DBConnection, Hr_data, Measurement, Sp_data, User, User
 from testy.models import Dashboard as DashboardModel
 import json
 import time
+import cloudinary
+import cloudinary.uploader
+from cloudinary import CloudinaryImage
 
 db = DBConnection()
 
@@ -88,12 +91,12 @@ def profile_page():
             profile.dob = form.date_of_birth.data
             profile.gender = form.gender.data
             profile.nationality = form.nationality.data
-            profile.avatarName = "avatar12"
             profile.height = form.height.data
             profile.weight = form.weight.data
             db.session.commit()
             return redirect(url_for('profile_page'))
         currentProfile = UserProfile.query.filter_by(id=current_user.profileId).first()
+        avatar_name = currentProfile.avatarName
         form.first_name.data = currentProfile.first_name
         form.last_name.data = currentProfile.last_name
         form.date_of_birth.data = currentProfile.date_of_birth
@@ -101,6 +104,29 @@ def profile_page():
         form.nationality.data = currentProfile.nationality
         form.height.data = currentProfile.height
         form.weight.data = currentProfile.weight
+        if request.method == 'POST':
+            if 'file' in request.files:
+                file_to_upload = request.files['file']
+                app.logger.info('%s file_to_upload', file_to_upload)
+                if file_to_upload:
+                    upload_result = cloudinary.uploader.upload(file_to_upload, folder="media")
+                    app.logger.info(upload_result)
+                    profile = UserProfile.query.filter_by(id=current_user.profileId).first()
+                    profile.avatarName = upload_result['public_id']
+                    db.Flush()
+                    return render_template("profile.html", form=form, modal=upload_result['url'])
+            if 'url' in request.form:
+                profile = UserProfile.query.filter_by(id=current_user.profileId).first()
+                crop_result = CloudinaryImage(profile.avatarName).build_url(
+                    height=request.form['height'],
+                    width=request.form['width'],
+                    x=request.form['x'],
+                    y=request.form['y'],
+                    crop="crop")
+                app.logger.info(crop_result)
+                profile.avatarName = crop_result
+                db.Flush()
+                return render_template("profile.html", form=form)
         return render_template("profile.html", form=form)
     return redirect(url_for("home_page"))
 
