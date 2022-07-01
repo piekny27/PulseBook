@@ -50,5 +50,7 @@ python device_emu.py
 [Jinja documentation](https://jinja.palletsprojects.com/en/3.1.x/)
 <br>
 [Flask documentation](https://flask.palletsprojects.com/en/2.1.x/)
+<br>
+[Colors palette](https://coolors.co/0a1128-001f54-034078-1282a2-fefcfb)
 <p align="right">(<a href="#top">back to top</a>)</p>
   </div>

@@ -4,13 +4,13 @@ from flask_login import current_user, login_user, logout_user
 from testy import app
 from testy.dashboard import Dashboard
 from testy.forms import LoginForm, RegisterForm, ProfileForm
-from testy.models import DBConnection, Hr_data, Measurement, Sp_data, User, UserProfile, Device
+from testy.models import Avatar, DBConnection, Hr_data, Measurement, Sp_data, User, UserProfile, Device
 from testy.models import Dashboard as DashboardModel
 import json
 import time
 import cloudinary
 import cloudinary.uploader
-from cloudinary import CloudinaryImage
+from cloudinary import CloudinaryImage, api
 
 db = DBConnection()
 
@@ -96,7 +96,6 @@ def profile_page():
             db.session.commit()
             return redirect(url_for('profile_page'))
         currentProfile = UserProfile.query.filter_by(id=current_user.profileId).first()
-        avatar_name = currentProfile.avatarName
         form.first_name.data = currentProfile.first_name
         form.last_name.data = currentProfile.last_name
         form.date_of_birth.data = currentProfile.date_of_birth
@@ -104,6 +103,12 @@ def profile_page():
         form.nationality.data = currentProfile.nationality
         form.height.data = currentProfile.height
         form.weight.data = currentProfile.weight
+        if request.args.get('remove') == 'True':
+            if current_user.profiles.avatars.name != Avatar.DEFAULT:
+                cloudinary.api.delete_resources(current_user.profiles.avatars.name)
+                db.session.delete(current_user.profiles.avatars)
+                current_user.profiles.avatar_id = Avatar.query.filter_by(name=Avatar.DEFAULT).first().id
+                db.Flush()
         if request.method == 'POST':
             if 'file' in request.files:
                 file_to_upload = request.files['file']
@@ -111,20 +116,24 @@ def profile_page():
                 if file_to_upload:
                     upload_result = cloudinary.uploader.upload(file_to_upload, folder="media")
                     app.logger.info(upload_result)
-                    profile = UserProfile.query.filter_by(id=current_user.profileId).first()
-                    profile.avatarName = upload_result['public_id']
-                    db.Flush()
-                    return render_template("profile.html", form=form, modal=upload_result['url'])
-            if 'url' in request.form:
-                profile = UserProfile.query.filter_by(id=current_user.profileId).first()
-                crop_result = CloudinaryImage(profile.avatarName).build_url(
-                    height=request.form['height'],
-                    width=request.form['width'],
-                    x=request.form['x'],
-                    y=request.form['y'],
-                    crop="crop")
-                app.logger.info(crop_result)
-                profile.avatarName = crop_result
+                    if 'public_id' in upload_result:
+                        avatar = Avatar(name=upload_result['public_id'])
+                        if current_user.profiles.avatars.name != Avatar.DEFAULT:
+                            cloudinary.api.delete_resources(current_user.profiles.avatars.name)
+                            db.session.delete(current_user.profiles.avatars)
+                            db.Flush()
+                        db.session.add(avatar)
+                        db.Flush()
+                        current_user.profiles.avatar_id = avatar.id
+                        db.Flush()
+                        return render_template("profile.html", form=form, modal=upload_result['url'])
+            if 'width' in request.form:
+                options ={}
+                options['height'] = request.form['height']
+                options['width'] = request.form['width']
+                options['x'] = request.form['x']
+                options['y'] = request.form['y']
+                current_user.profiles.avatars.options = json.dumps(options)
                 db.Flush()
                 return render_template("profile.html", form=form)
         return render_template("profile.html", form=form)

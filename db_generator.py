@@ -4,6 +4,19 @@ import string
 import datetime
 from random import randint, randrange, uniform
 
+query_ALL_ROWS= ('SELECT SUM(Rows_n) FROM '
+                '(WITH tbl AS '
+                '(SELECT table_schema, '
+                'TABLE_NAME '
+                'FROM information_schema.tables '
+                'WHERE TABLE_NAME not like \'pg_%%\' '
+                'AND table_schema in (\'public\')) '
+                'SELECT table_schema, '
+                'TABLE_NAME, '
+                '(xpath(\'/row/c/text()\', query_to_xml(format(\'select count(*) as c from %%I.%%I\', table_schema, TABLE_NAME), FALSE, TRUE, \'\')))[1]::text::int AS rows_n '
+                'FROM tbl '
+                'ORDER BY rows_n DESC)liczba ')
+
 class DBGenerator():
     def __init__(self):
         self.db = DBConnection()
@@ -12,14 +25,24 @@ class DBGenerator():
         self.hr_array=[]
 
     def cleanDB(self):
+        print('Dropping all...', end='')
         self.db._engine.drop_all()
+        print('          done\nCreate all...',end='')
         self.db._engine.create_all()
+        print('            done')
 
     def createDB(self):
+        print('Create devices...', end='')
         self.createDevices()
+        print('        done\nCreate roles...',end='')
         self.createRoles()
+        print('          done\nCreate avatars...',end='')
+        self.createAvatars()
+        print('        done\nCreate users...',end='\r')
         self.createUsers()
+        print('Create users...          done\nCreate measurements...',end='\r')
         self.createMeasurements()
+        print('Create measurements...   done')
         
     def randomHash(self,size):
         return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(size))
@@ -32,16 +55,20 @@ class DBGenerator():
         self.db.session.add(UserRole(name=UserRole.BASIC))
         self.db.session.add(UserRole(name=UserRole.ADMIN))
 
+    def createAvatars(self):
+        self.db.session.add(Avatar(name=Avatar.DEFAULT))
+
     def createUsers(self):
         i = 1
         usernames = ["Adrian","Adam","Tomasz","Wiktoria","Aleksander",
                     "Nastia","Mateusz","Piotr","Bartek", "Ola", "Karolina", "Kasia",
                     "Natalia", "Krzysztof", "Jan"]
         for user in usernames:
+            print('Create users...       ['+str(i)+'/'+str(len(usernames))+']', end='\r') 
             profile = UserProfile(first_name = user, last_name = "Kowalski",
-                                date_of_birth = self.randomDate(), gender = "Male", 
+                                dob = self.randomDate(), gender = "Male", 
                                 nationality = "Polska", height = randrange(120,200), 
-                                weight = randrange(40,150))
+                                avatar_id = 1, weight = randrange(40,150))
             self.db.AddProfile(profile)
             self.db.Flush()
 
@@ -56,12 +83,12 @@ class DBGenerator():
             self.users.append(user)
 
         profile1 = UserProfile(first_name = "Adrian", last_name = "Bejs", gender = "Male", nationality = "Polska",
-                                date_of_birth = datetime.datetime.strptime('24051986', "%d%m%Y").date(),
-                                height = 181, weight = 95)
+                                dob = datetime.datetime.strptime('24051986', "%d%m%Y").date(),
+                                avatar_id = 1, height = 181, weight = 95)
                                 
         profile2 = UserProfile(first_name = "Mateusz", last_name = "Kowalski", gender = "Male", nationality = "Polska",
-                                date_of_birth = datetime.datetime.strptime('12101986', "%d%m%Y").date(), 
-                                height = 183, weight = 65)   
+                                dob = datetime.datetime.strptime('12101986', "%d%m%Y").date(), 
+                                avatar_id = 1, height = 183, weight = 65)   
 
         self.db.AddProfile(profile1)
         self.db.AddProfile(profile2)
@@ -90,25 +117,28 @@ class DBGenerator():
         self.db.Flush()
 
     def createMeasurements(self):
+        i=0
         for x in range(31*3):
+            print('Create measurements...['+str(i)+'/93]', end='\r')  
             current_time = datetime.datetime.utcnow()
             day = current_time - datetime.timedelta(days=31-(x/3), hours=randint(7,14), minutes=randint(0,60))
             new_measurement = Measurement(day)
             for x in range(19):
                 sp=round(uniform(90,99),4)
                 hr=round(uniform(60,120),6)
-                new_measurement.sp_data.append(Sp_data(data=sp)) 
-                new_measurement.hr_data.append(Hr_data(data=hr)) 
+                #disabled for better performance
+                #new_measurement.sp_data.append(Sp_data(data=sp)) 
+                #new_measurement.hr_data.append(Hr_data(data=hr)) 
                 self.sp_array.append(sp)
                 self.hr_array.append(hr)
-                #self.db.Flush() 
             new_measurement.hr_data_avg = sum(self.sp_array) / len(self.sp_array)
             new_measurement.sp_data_avg = sum(self.hr_array) / len(self.hr_array)
             user = User.query.filter_by(id=17).first()
             user.profiles.measurements.append(new_measurement)
             self.sp_array = []
             self.hr_array = []
-            db.session.commit()  
+            db.session.commit()
+            i+=1
 
     def randomDate(self):
         start_date = datetime.date(1960, 1, 1)
@@ -123,3 +153,6 @@ if __name__ == "__main__":
     generator = DBGenerator()
     generator.cleanDB()
     generator.createDB()
+    resultproxy = db.engine.execute(query_ALL_ROWS)
+    result = [dict(row) for row in resultproxy]
+    print('All rows in database: '+ str(result[0]['sum']))
