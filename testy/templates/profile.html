@@ -10,14 +10,12 @@ Your profile
 
 {% block content %}
 
-<script type="module" src="https://unpkg.com/@github/image-crop-element@latest/dist/index.js"></script>
 <div class="container rounded bg-white cont">
     <div class="row">
         <div class="col-md-4">
             <div class="d-flex flex-column text-center p-3 py-5">
-                <img class="rounded-circle mt-5 mx-auto"
-                    {%if current_user.profiles.avatarName %} src="{{current_user.profiles.avatarName}}" {% else %} src="/static/images/avatar0.png" {%endif%}
-                    width="200" height="200" alt="your avatar">
+                <img class="rounded-circle mt-5 mx-auto avatarprofilepage"
+                    src="{{ current_user.profiles.avatars.name|getImage }}" width="200" height="200" alt="your avatar">
                 <div class="dropdown mx-auto" style="width: 200px;">
                     <div type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
                         class=" position-absolute px-2 py-1 right-0 bottom-0  mb-2 border rounded"
@@ -28,8 +26,9 @@ Your profile
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 160px;">
                         <form method=post id="imageForm" enctype=multipart/form-data>
                             <label for="file" class="dropdown-item" style="cursor: pointer;">Upload a photo...</label>
-                            <li><input id="file" hidden name=file type="file" onchange="this.form.submit();"></input></li>
-                            <li><a class="dropdown-item" href="#">Remove photo</a></li>
+                            <li><input id="file" hidden name=file type="file" onchange="this.form.submit();"></input>
+                            </li>
+                            <li><a class="dropdown-item" href="{{ url_for('profile_page', remove=true)}}">Remove photo</a></li>
                         </form>
                     </ul>
                 </div>
@@ -47,9 +46,9 @@ Your profile
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" style="max-height: 70vh;overflow: auto;">
-                            <div class="d-flex flex-column flex-auto" method="post">
+                            <div class="d-flex flex-column flex-auto">
                                 <div class="Box-body overflow-auto">
-                                    <image-crop id="imgCrop" src="{{modal}}" tabindex="0" rounded="">
+                                    <image-crop src="{{modal}}" tabindex="0" rounded="">
                                         <div data-loading-slot class="loading">Please wait...</div>
                                         <input id="x" type="hidden" data-image-crop-input="x" name="x" size="4" aria-label="x">
                                         <input id="y" type="hidden" data-image-crop-input="y" name="y" size="4" aria-label="y">
@@ -128,5 +127,6 @@ Your profile
 {% endblock %}
 
 {% block scripts %}
+<script type="module" src="https://unpkg.com/@github/image-crop-element@latest/dist/index.js"></script>
 <script src="/static/scripts/profile.js"></script>
 {% endblock %}

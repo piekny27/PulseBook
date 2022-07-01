@@ -107,9 +107,9 @@ class UserProfile(db.Model):
     age = db.Column(db.Integer)
     gender = db.Column(db.String(6))
     nationality = db.Column(db.String(30))
-    avatarName = db.Column(db.String(150))
     height = db.Column(db.Integer)
     weight = db.Column(db.Integer)
+    avatar_id = db.Column(db.Integer, db.ForeignKey("avatars.id", ondelete='CASCADE'), nullable=True)
     measurements = db.relationship('Measurement', secondary=measurement_id, lazy='dynamic', backref=db.backref('profiles'), cascade='all,delete')
     user = db.relationship('User', backref=db.backref('profiles'), cascade='all,delete-orphan')
 
@@ -122,6 +122,14 @@ class UserProfile(db.Model):
         self.date_of_birth = born
         today = date.today()
         self.age = today.year - born.year - ((today.month, today.day)<(born.month, born.day))
+
+class Avatar(db.Model):
+    DEFAULT = "media/avatar0_j4zskp"
+    __tablename__ = "avatars"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(40))
+    options = db.Column(JSON)
+    profile = db.relationship('UserProfile', backref=db.backref('avatars'))
 
 class Device(db.Model):
     __tablename__ = "devices"

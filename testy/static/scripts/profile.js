@@ -7,7 +7,6 @@ document.getElementById("postBtn").onclick = function()
         y: document.getElementById("y").value,
         height: document.getElementById("height").value,
         width: document.getElementById("width").value,
-        url: document.getElementById("imgCrop").src
     };
 
     var form = $('<form></form>');

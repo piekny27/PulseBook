@@ -13,17 +13,13 @@ app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///DataBase.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("SQLALCHEMY_DATABASE_URI")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
-login_manager = LoginManager(app)
 app.config['SECRET_KEY'] = os.urandom(32)
 
-cloudinary.config( 
-  cloud_name = os.getenv("CLOUD_NAME"), 
-  api_key = os.getenv("CLOUD_API_KEY"), 
-  api_secret = os.getenv("CLOUD_API_SECRET") 
-)
+cloudinary.config(secure=True)
 
+db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
 
+from testy import filters
 from testy import routes
