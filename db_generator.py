@@ -1,3 +1,4 @@
+print('\nCreate dependency...', end='\r')
 from testy.models import *
 import random
 import string
@@ -5,6 +6,7 @@ import datetime
 from random import randint, randrange, uniform
 import urllib, json
 import urllib.request
+print('\r\t\t\t\tdone')
 
 query_ALL_ROWS= ('SELECT SUM(Rows_n) FROM '
                 '(WITH tbl AS '
@@ -21,7 +23,7 @@ query_ALL_ROWS= ('SELECT SUM(Rows_n) FROM '
 
 class DBGenerator():
     def __init__(self):
-        print('\nConnecting to \'' + db.engine.name + '\'...',end='\r')
+        print('Connecting to \'' + db.engine.name + '\'...',end='\r')
         self.db = DBConnection()
         print('\r\t\t\t\tdone')
         self.users = []
@@ -170,7 +172,7 @@ class DBGenerator():
             user.profiles.measurements.append(new_measurement)
             self.sp_array = []
             self.hr_array = []
-            if (i-1)%10==0:
+            if (i-1)%20==0:
                 self.db.Flush()
             print('\r\t\t\t\t['+str(i)+'/93]', end='\r')  
             i+=1
