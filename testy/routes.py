@@ -89,18 +89,19 @@ def profile_page():
             profile.first_name = form.first_name.data
             profile.last_name = form.last_name.data
             profile.dob = form.date_of_birth.data
-            profile.gender = form.gender.data
-            profile.nationality = form.nationality.data
+            profile.gender_id = form.gender.data
+            profile.nationality_id = form.nationality.data
             profile.height = form.height.data
             profile.weight = form.weight.data
             db.session.commit()
             return redirect(url_for('profile_page'))
         currentProfile = UserProfile.query.filter_by(id=current_user.profileId).first()
+        form.gender.default = currentProfile.gender_id
+        form.nationality.default = currentProfile.nationality_id
+        form.process()
         form.first_name.data = currentProfile.first_name
         form.last_name.data = currentProfile.last_name
         form.date_of_birth.data = currentProfile.date_of_birth
-        form.gender.data = currentProfile.gender
-        form.nationality.data = currentProfile.nationality
         form.height.data = currentProfile.height
         form.weight.data = currentProfile.weight
         if request.args.get('remove') == 'True':
