@@ -84,6 +84,8 @@ def logout_page():
 def profile_page():
     if current_user.is_authenticated:
         form = ProfileForm()
+        form.gender.choices = form.get_gender()
+        form.nationality.choices = form.get_countries()
         if form.validate_on_submit():
             profile = UserProfile.query.filter_by(id=current_user.profileId).first()
             profile.first_name = form.first_name.data
