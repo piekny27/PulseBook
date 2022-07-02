@@ -66,7 +66,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(50), nullable = False, unique = True)
     passwordHash = db.Column(db.String(60), nullable = False)
     active = db.Column(db.Boolean(), nullable = False, default = True)
-    roleId = db.Column(db.Integer, db.ForeignKey("roles.id", ondelete='CASCADE'), nullable=False)
+    roleId = db.Column(db.Integer, db.ForeignKey("roles.id", ondelete='CASCADE'), nullable=False, default=1)
     profileId = db.Column(db.Integer, db.ForeignKey("profiles.id", ondelete='CASCADE'), nullable=False)
     deviceId = db.Column(db.Integer, db.ForeignKey("devices.id", ondelete='CASCADE'), nullable=True)
     dashboard_id = db.Column(db.Integer, db.ForeignKey("dashboards.id", ondelete='CASCADE'), nullable=True)
@@ -105,11 +105,11 @@ class UserProfile(db.Model):
     last_name = db.Column(db.String(30))
     date_of_birth = db.Column(db.Date)
     age = db.Column(db.Integer)
-    gender = db.Column(db.String(6))
-    nationality = db.Column(db.String(30))
     height = db.Column(db.Integer)
     weight = db.Column(db.Integer)
-    avatar_id = db.Column(db.Integer, db.ForeignKey("avatars.id", ondelete='CASCADE'), nullable=True)
+    gender_id = db.Column(db.Integer, db.ForeignKey("genders.id", ondelete='CASCADE'), nullable=True)
+    nationality_id = db.Column(db.Integer, db.ForeignKey("countries.id", ondelete='CASCADE'), nullable=True)
+    avatar_id = db.Column(db.Integer, db.ForeignKey("avatars.id", ondelete='CASCADE'), nullable=True, default=1)
     measurements = db.relationship('Measurement', secondary=measurement_id, lazy='dynamic', backref=db.backref('profiles'), cascade='all,delete')
     user = db.relationship('User', backref=db.backref('profiles'), cascade='all,delete-orphan')
 
@@ -122,6 +122,20 @@ class UserProfile(db.Model):
         self.date_of_birth = born
         today = date.today()
         self.age = today.year - born.year - ((today.month, today.day)<(born.month, born.day))
+
+class Country(db.Model):
+    __tablename__ = "countries"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    profile = db.relationship('UserProfile', backref=db.backref('countries'))
+
+class Gender(db.Model):
+    MALE = "male"
+    FEMALE = "female"
+    __tablename__ = "genders"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(10))
+    profile = db.relationship('UserProfile', backref=db.backref('genders'))
 
 class Avatar(db.Model):
     DEFAULT = "media/avatar0_j4zskp"

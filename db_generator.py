@@ -3,6 +3,8 @@ import random
 import string
 import datetime
 from random import randint, randrange, uniform
+import urllib, json
+import urllib.request
 
 query_ALL_ROWS= ('SELECT SUM(Rows_n) FROM '
                 '(WITH tbl AS '
@@ -19,107 +21,139 @@ query_ALL_ROWS= ('SELECT SUM(Rows_n) FROM '
 
 class DBGenerator():
     def __init__(self):
+        print('\nConnecting to \'' + db.engine.name + '\'...',end='\r')
         self.db = DBConnection()
+        print('\r\t\t\t\tdone')
         self.users = []
         self.sp_array=[]
         self.hr_array=[]
 
     def cleanDB(self):
-        print('Dropping all...', end='')
+        print('Drop all...', end='\r')
         self.db._engine.drop_all()
-        print('          done\nCreate all...',end='')
+        print('\r\t\t\t\tdone')
+        print('Create all...',end='\r')
         self.db._engine.create_all()
-        print('            done')
+        print('\r\t\t\t\tdone')
 
     def createDB(self):
-        print('Create devices...', end='')
-        self.createDevices()
-        print('        done\nCreate roles...',end='')
+        print('Create countries...',end='\r')
+        self.createCountries()
+        print('')
+        print('Create roles...',end='\r')
         self.createRoles()
-        print('          done\nCreate avatars...',end='')
+        print('\r\t\t\t\tdone')
+        print('Create genders...',end='\r')
+        self.createGenders()
+        print('\r\t\t\t\tdone')
+        print('Create avatars...',end='\r')
         self.createAvatars()
-        print('        done\nCreate users...',end='\r')
-        self.createUsers()
-        print('Create users...          done\nCreate measurements...',end='\r')
+        print('\r\t\t\t\tdone')
+        print('Create users...',end='\r')
+        self.createUsers(results=20)
+        print('')
+        print('Create measurements...',end='\r')
         self.createMeasurements()
-        print('Create measurements...   done')
+        print('')
+
+    def doQuery(self):
+        try:
+            resultproxy = db.engine.execute(query_ALL_ROWS)
+            result = [dict(row) for row in resultproxy]
+            print('All rows in database: '+ str(result[0]['sum']))
+        except:
+            print('Finished')
+
         
     def randomHash(self,size):
         return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(size))
 
-    def createDevices(self):
-        for x in range(17):
-            self.db.session.add(Device(serial_number = self.randomHash(5)))
-
+    def createCountries(self):
+        url = "https://restcountries.com/v3.1/all"
+        json_url = urllib.request.urlopen(url)
+        data = json.loads(json_url.read())
+        commonList=[]
+        for x in data:
+            commonList.append(x['name']['common'])
+        commonList = sorted(commonList)
+        i=1
+        for x in commonList:
+            self.db.session.add(Country(name=x))
+            if (i-1)%30==0:
+                self.db.Flush()
+            print('\r\t\t\t\t['+str(i)+'/'+str(len(commonList))+']', end='\r') 
+            i+=1
+        
     def createRoles(self):
         self.db.session.add(UserRole(name=UserRole.BASIC))
         self.db.session.add(UserRole(name=UserRole.ADMIN))
+        self.db.Flush()
+
+    def createGenders(self):
+        self.db.session.add(Gender(name=Gender.MALE))
+        self.db.session.add(Gender(name=Gender.FEMALE))
+        self.db.Flush()
 
     def createAvatars(self):
         self.db.session.add(Avatar(name=Avatar.DEFAULT))
-
-    def createUsers(self):
-        i = 1
-        usernames = ["Adrian","Adam","Tomasz","Wiktoria","Aleksander",
-                    "Nastia","Mateusz","Piotr","Bartek", "Ola", "Karolina", "Kasia",
-                    "Natalia", "Krzysztof", "Jan"]
-        for user in usernames:
-            print('Create users...       ['+str(i)+'/'+str(len(usernames))+']', end='\r') 
-            profile = UserProfile(first_name = user, last_name = "Kowalski",
-                                dob = self.randomDate(), gender = "Male", 
-                                nationality = "Polska", height = randrange(120,200), 
-                                avatar_id = 1, weight = randrange(40,150))
-            self.db.AddProfile(profile)
-            self.db.Flush()
-
-            dashboard = Dashboard()
-            self.db.AddDashboard(dashboard)
-            self.db.Flush()
-
-            user = User(username = user, email = user + "@gmail.com", passwordHash = self.randomHash(60), 
-                    roleId = 1, profileId = profile.id, deviceId = i, dashboard_id = dashboard.id)
-            self.db.AddUser(user)
-            i+=1
-            self.users.append(user)
-
-        profile1 = UserProfile(first_name = "Adrian", last_name = "Bejs", gender = "Male", nationality = "Polska",
-                                dob = datetime.datetime.strptime('24051986', "%d%m%Y").date(),
-                                avatar_id = 1, height = 181, weight = 95)
-                                
-        profile2 = UserProfile(first_name = "Mateusz", last_name = "Kowalski", gender = "Male", nationality = "Polska",
-                                dob = datetime.datetime.strptime('12101986', "%d%m%Y").date(), 
-                                avatar_id = 1, height = 183, weight = 65)   
-
-        self.db.AddProfile(profile1)
-        self.db.AddProfile(profile2)
+        self.db.session.add(Avatar(
+            name='media/pvwhl1clmfmymuy7pwls',
+            options="{\"height\": \"1007\", \"width\": \"1007\", \"x\": \"88\", \"y\": \"80\"}"))
+        self.db.session.add(Avatar(
+            name='media/hiyyt5yyd8fcwrnp5zft',
+            options="{\"height\": \"702\", \"width\": \"702\", \"x\": \"273\", \"y\": \"0\"}"))
         self.db.Flush()
+
+    def createUsers(self, results):
+        i = 1
+        url = "https://randomuser.me/api/?results="+ str(results) +"&inc=gender,name,location,email,login,dob&password=upper,lower,special,number,8-16&noinfo"
+        json_url = urllib.request.urlopen(url)
+        users = json.loads(json_url.read())
+        for user in users['results']:
+            profile = UserProfile(first_name = user['name']['first'], last_name = user['name']['last'], 
+                                gender_id = Gender.query.filter_by(name=user['gender']).first().id,
+                                dob = datetime.datetime.strptime(user['dob']['date'],"%Y-%m-%dT%H:%M:%S.%fZ"), 
+                                nationality_id = Country.query.filter_by(name=user['location']['country']).first().id,
+                                height = randrange(120,200), weight = randrange(40,150))
+            dashboard = Dashboard()
+            user = User(username = user['login']['username'], email = user['email'], password = user['login']['password'])
+            user.dashboards = dashboard
+            user.profiles = profile
+            self.db.session.add(user)
+            self.db.Flush()
+            print('\r\t\t\t\t['+str(i)+'/'+str(len(users['results']))+']', end='\r') 
+            i+=1
+
+        profile1 = UserProfile(first_name = "Adrian", last_name = "Bejs", gender_id = 1, 
+                                nationality_id = Country.query.filter_by(name='Poland').first().id,
+                                dob = datetime.datetime.strptime('24051986', "%d%m%Y").date(),
+                                avatar_id = 3, height = 181, weight = 95)
+                                
+        profile2 = UserProfile(first_name = "Mateusz", last_name = "Kowalski", gender_id = 1,
+                                nationality_id = Country.query.filter_by(name='Poland').first().id,
+                                dob = datetime.datetime.strptime('12101986', "%d%m%Y").date(), 
+                                avatar_id = 2, height = 183, weight = 65)   
 
         dashboard1 = Dashboard()
-        self.db.AddDashboard(dashboard1)
-        self.db.Flush()
         dashboard2 = Dashboard()
-        self.db.AddDashboard(dashboard2)
-        self.db.Flush()
 
-        admin1 = User(username="Hantal", email = "adrianbejs@gmail.com",  password = "12345678", 
-            roleId = 2, profileId = profile1.id, deviceId = i, dashboard_id = dashboard1.id)
+        admin1 = User(username="Hantal", email = "adrianbejs@gmail.com",  password = "12345678", roleId = 2)
+        admin2 = User(username="NoaniX", email = "mateuszpe@gmail.com", password = "12345678", roleId = 2)
 
-        i+=1
-
-        admin2 = User(username="NoaniX", email = "mateuszpe@gmail.com", 
-                password = "12345678",
-                roleId = 2, profileId = profile2.id, deviceId = i, dashboard_id = dashboard2.id)
-        
+        admin1.dashboards = dashboard1
+        admin2.dashboards = dashboard2
+        admin1.profiles = profile1
+        admin2.profiles = profile2
         self.db.AddUser(admin1)
-        self.users.append(admin1)
         self.db.AddUser(admin2)
-        self.users.append(admin2)
+        self.db.session.add(admin1)
+        self.db.session.add(admin2)
         self.db.Flush()
 
     def createMeasurements(self):
-        i=0
+        i=1
+        user = User.query.filter_by(username='NoaniX').first()
         for x in range(31*3):
-            print('Create measurements...['+str(i)+'/93]', end='\r')  
             current_time = datetime.datetime.utcnow()
             day = current_time - datetime.timedelta(days=31-(x/3), hours=randint(7,14), minutes=randint(0,60))
             new_measurement = Measurement(day)
@@ -133,11 +167,12 @@ class DBGenerator():
                 self.hr_array.append(hr)
             new_measurement.hr_data_avg = sum(self.sp_array) / len(self.sp_array)
             new_measurement.sp_data_avg = sum(self.hr_array) / len(self.hr_array)
-            user = User.query.filter_by(id=17).first()
             user.profiles.measurements.append(new_measurement)
             self.sp_array = []
             self.hr_array = []
-            db.session.commit()
+            if (i-1)%10==0:
+                self.db.Flush()
+            print('\r\t\t\t\t['+str(i)+'/93]', end='\r')  
             i+=1
 
     def randomDate(self):
@@ -153,6 +188,4 @@ if __name__ == "__main__":
     generator = DBGenerator()
     generator.cleanDB()
     generator.createDB()
-    resultproxy = db.engine.execute(query_ALL_ROWS)
-    result = [dict(row) for row in resultproxy]
-    print('All rows in database: '+ str(result[0]['sum']))
+    generator.doQuery()

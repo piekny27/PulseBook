@@ -1,7 +1,8 @@
+from email.policy import default
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, DateField, IntegerField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, DateField, IntegerField, SelectField
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
-from testy.models import User
+from testy.models import User, Country
 from datetime import date
 
 class LoginForm(FlaskForm):
@@ -33,11 +34,22 @@ class ProfileForm(FlaskForm):
         if field.data > date(2012, 1, 10):
             raise ValidationError("Enter a valid date.")
 
+    def load_countries():
+        countries = Country.query.all()
+        choices = []
+        for i, country in enumerate(countries, start=1):
+            choices.append([i,country.name])
+        return choices
+
+    def load_gender():
+        choices = [[1, 'Male'], [2,'Female']]
+        return choices
+
     first_name = StringField(label="First name", validators=[DataRequired(message='Can\'t be blank')])
     last_name = StringField(label="Last name", validators=[DataRequired()])
     date_of_birth = DateField(label="Date of birth", validators=[DataRequired()])
-    gender = StringField(label="Gender", validators=[DataRequired()])
-    nationality = StringField(label="Nationality", validators=[DataRequired()])
+    gender = SelectField(label="Gender", choices=load_gender(), coerce=int, validators=[DataRequired()])
+    nationality = SelectField(label="Nationality", choices=load_countries(), coerce=int, validators=[DataRequired()])
     height = IntegerField(label="Height", validators=[DataRequired()])
     weight = IntegerField(label="Weight", validators=[DataRequired()])
     submit = SubmitField(label = "Save Profile")
