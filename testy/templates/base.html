@@ -50,6 +50,18 @@
   {% block scripts %}
   {% endblock %}
 
+  <script>
+    var currentPage = window.location.pathname;
+    $('nav ul li a').each(function(){
+      if(currentPage == '/home'){
+        $('#navItemHome').addClass('active');
+      }
+      if($(this).attr('href') == currentPage){
+        $(this).addClass('active');
+      }
+  });
+  </script>
+
 </body>
 
 </html>

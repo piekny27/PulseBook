@@ -2,6 +2,7 @@ venv/*
 .vscode/*
 __pycache__/*
 testy/__pycache__/*
+testy/static/images/01-light-rim/*
 .env
 device.pkl
 DataBase.db

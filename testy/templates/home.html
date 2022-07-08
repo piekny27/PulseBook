@@ -1,29 +1,37 @@
 {% extends "base.html" %}
 
 {% block styles %}
-<link rel="stylesheet" href="/static/styles/homepage.css">
+
 {% endblock %}
 
 {% block title %}
 Welcome Pulsebook
 {% endblock %}
 {% block content %}
+<link rel="stylesheet" href="/static/styles/homepage.css">
 
-    <div class="first_render">
-        <img src="/static/images/render2.png" style="height: auto; width:100%" alt="carousel-concept">
+    <div class="backgroundd">
     </div>
-    <br>
-    <div class="second_render">
-        <img src="/static/images/render2.png" style="height: auto; width:100%" alt="carousel-concept">
+
+    <div id="firstScreen" style="align-items: center; justify-content: center;display:flex; height: 240vh;">
+        <div id="aabb" style=" height: 100vh; position: sticky; top: 56px;">
+            <p id="brandName" style="opacity:0; z-index:50; color:white; font-size: 86px; font-weight: bold;">PulseBook</p>
+            <canvas id="renderCanvas" style="opacity:0; z-index: -10; padding:50px;"></canvas>
+        </div> 
     </div>
-    <br>
-    <div class="second_render">
-        <img src="/static/images/render2.png" style="height: auto; width:100%" alt="carousel-concept">
+
+    <div style="height: 150vh; position: sticky; top: 0; background-color: rgb(12, 20, 48);">
+        blablaa
     </div>
+    <div style="height: 300vh; position: sticky; top: 0; background-color: lightblue">
+        bloblu
+    </div>
+
 
     <i class="fa-solid fa-chevron-up base"></i>
     
 {% endblock %}
 {% block scripts %}
+<script type="text/javascript" src="/static/scripts/scrollAnim_home.js"></script>
 <script type="text/javascript" src="/static/scripts/scrolltop.js"></script>
 {% endblock %}
