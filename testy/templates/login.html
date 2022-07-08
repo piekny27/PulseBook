@@ -13,50 +13,45 @@
   <link rel="stylesheet" type="text/css" href="/static/styles/loginpage.css">
 
   <title>Log in to your account</title>
+
 </head>
 
 <body>
-  <section class="vh-100">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-4 text-black">
-          <a href="/home">
-            <div class="px-5 pt-4 ms-xl-4">
-              <img src="/static/images/pulselogoblue.png" height="50">
-            </div>
-          </a>
-          <div class="align-items-center px-5 ms-xl-4 mt-5 pt-xl-4 mt-xl-n5">
-            <form style="width: 20rem;" method="POST">
-              {{ form.hidden_tag() }}
-              <h3 class="mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
-              <div class="form-outline mb-4">
-                <label class="form-label" for="form2Example18">Email address or username</label>
-                {{ form.username(placeholder="Username", class_="form-control") }}
-                <p style="color:red; font-size:10px; margin:0; white-space: pre-wrap">&nbsp{% for v in
-                  form.errors['username'] %}{{v+" "}}{%endfor%}</p>
-              </div>
-              <div class="form-outline mb-4">
-                <label class="form-label" for="form2Example28">Password</label>
-                {{ form.password(placeholder="Password", class_="form-control") }}
-                <p style="color:red; font-size:10px; margin:0; white-space: pre-wrap">&nbsp{% for v in
-                  form.errors['password'] %}{{v+" "}}{%endfor%}</p>
-              </div>
-              <div class="pt-1 mb-4">
-                {{ form.submit(class_="btn btn-primary btn-lg btn-block") }}
-              </div>
-              <div class="text-muted mt-2">
-                Don't have an account?&nbsp
-                <a href="/register">Sign up</a>
-              </div>
-            </form>
-          </div>
+
+  <div class="box">
+    <div class="pt-4 ">
+      <a href="/home">
+        <img src="/static/images/shortico.png" height="50">
+      </a>
+    </div>
+    <div>
+      <form method="POST">
+        {{ form.hidden_tag() }}
+        <h3 class="pt-5 pb-3 text-c">Log in</h3>
+        <div class="form-outline mb-4">
+          <label class="form-label text-c">Email address or Username</label>
+          {{ form.username(placeholder="Username", class="form-control") }}
+          <p class="error">&nbsp{% for v in form.errors['username'] %}{{v+" "}}{%endfor%}</p>
         </div>
-        <section class="showcase">
-          <video src="/static/images/animatepulse.mp4" muted loop autoplay></video>
-        </section>
-      </div>
+        <div class="form-outline mb-4">
+          <label class="form-label text-c">Password</label>
+          {{ form.password(placeholder="Password", class="form-control") }}
+          <p class="error">&nbsp{% for v in form.errors['password'] %}{{v+" "}}{%endfor%}</p>
+        </div>
+        <div class="pt-1 mb-4">
+          {{ form.submit(class="btn btn-primary btn-lg") }}
+        </div>
+        <div class="mt-2 text-m">
+          Don't have an account?&nbsp
+          <a href="/register">Sign up</a>
+        </div>
+      </form>
     </div>
-    </div>
+  </div>
+
+  <section class="showcase">
+    <video src="/static/images/animatepulse.mp4" muted loop autoplay></video>
   </section>
+
 </body>
 </html>
