@@ -42,7 +42,7 @@ function setBgColor(scrollValue){
   else y=1;
   const [r, g, b] = [red/y, green/y, blue/y].map(Math.round);
   const [r2, g2, b2] = [red2/y, green2/y, blue2/y].map(Math.round);
-  firstScreen.style.background = `radial-gradient(circle, rgba(${r2}, ${g2}, ${b2}, 1) 0%,rgba(${r}, ${g}, ${b}, 1) 65%, rgba(${r}, ${g}, ${b}, 1) 100%)`
+  firstScreen.style.background = `radial-gradient(circle, rgb(${r2}, ${g2}, ${b2}) 0%,rgb(${r}, ${g}, ${b}) 65%, rgb(${r}, ${g}, ${b}) 100%)`
 }
 
 function animText(scrollValue, elementID, startScroll, stopScroll){
@@ -86,26 +86,46 @@ function animBrandTextOut(scrollValue){
   };
 };
 
-window.addEventListener('scroll', () => {  
-  const scrollTop = html.scrollTop;
-  const maxScrollTop = firstScreen.scrollHeight - window.innerHeight;
-  const scrollFraction = scrollTop / maxScrollTop;
-  setBgColor(scrollFraction);
-  animRenderOut(scrollFraction);
-  animBrandTextOut(scrollFraction);
-  animText(scrollFraction,'text1', 1.2, 1.9);
-  animText(scrollFraction,'text2', 1.9, 2.6);
-  animText(scrollFraction,'text3', 2.6, 3.3);
-  console.log(scrollFraction);
-  const frameIndex = Math.min(
-    frameCount - 1,
-    Math.ceil(scrollFraction * frameCount)
-  );
-  
-  requestAnimationFrame(() => updateImage(frameIndex + 1))
-});
+function loadFollower()
+{
+  window.onload = function() {
+    TweenMax.set('.follower', {xPercent: -50, yPercent: -50});
+    const cont = document.getElementById("main");
+    cont.addEventListener('mousemove', e => {
+        const follower = document.getElementsByClassName("follower");
+        TweenMax.to(follower, 0.8, {
+        x: e.clientX,
+        y: e.clientY,
+        ease:Power4.easeOut
+        });
+    });
+  }; 
+}
+
+function loadScroll(){
+  window.addEventListener('scroll', () => {  
+    const scrollTop = html.scrollTop;
+    const maxScrollTop = firstScreen.scrollHeight - window.innerHeight;
+    const scrollFraction = scrollTop / maxScrollTop;
+    setBgColor(scrollFraction);
+    animRenderOut(scrollFraction);
+    animBrandTextOut(scrollFraction);
+    animText(scrollFraction,'text1', 1.2, 1.9);
+    animText(scrollFraction,'text2', 1.9, 2.6);
+    animText(scrollFraction,'text3', 2.6, 3.3);
+    //console.log(scrollFraction);
+    const frameIndex = Math.min(
+      frameCount - 1,
+      Math.ceil(scrollFraction * frameCount)
+    );
+    requestAnimationFrame(() => updateImage(frameIndex + 1))
+  });
+}
 
 $("#renderCanvas").delay(200).fadeTo(1500,1);
 $("#brandText").delay(1000).fadeTo(2000,1);
+$("#main").addClass('grain');
+loadScroll();
 preloadImages();
+loadFollower(); 
 
