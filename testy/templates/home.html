@@ -13,18 +13,18 @@ Welcome Pulsebook
 <div id="firstScreen" style="align-items:center; justify-content: center;display:flex; height: 240vh;">
     <div style="height: 100vh; position: sticky; top: 56px;">
         <canvas id="renderCanvas"></canvas>
-        <p id="brandText" class="brandText">PulseBook</p>
     </div>
+    <p id="brandText" class="brandText">PulseBook</p>
 </div>
 
-<div style="text-align: center; height: 300vh; position: sticky; top: 0;  background-color: rgb(12, 20, 48);">
+<div style="height: 260vh; top: 0; text-align:center; background-color: rgb(12, 20, 48);">
     <p id="text1" class="floatText">Compact device shapes.</p>
     <p id="text2" class="floatText">Large and clear display.</p>
-    <p id="text3" class="floatText">Amazing webpage to monitor your health.</p>
+    <p id="text3" class="floatText">Awesome webpage to monitor your health.</p>
 </div>
 
-<div style="height: 300vh; position: sticky; top: 0; background-color: lightblue">
-    bloblu
+<div style="background: radial-gradient(circle, rgb(108, 142, 180) 0%, rgb(12, 20, 48) 70%, rgb(12, 20, 48) 100%)">
+    <svg id="paper" viewBox="0 0 1920 6000"></svg>
 </div>
 
 
@@ -36,4 +36,6 @@ Welcome Pulsebook
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 <script type="text/javascript" src="/static/scripts/scrollAnim_home.js"></script>
 <script type="text/javascript" src="/static/scripts/scrolltop.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
+<script type="text/javascript" src="/static/scripts/snapAnim_home.js"></script>
 {% endblock %}

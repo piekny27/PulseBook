@@ -5,8 +5,8 @@ const firstScreen = document.getElementById("firstScreen");
 
 const frameCount = 148;
 const currentFrame = index => (
-  `https://res.cloudinary.com/hrd77vjei/image/upload/v1657226679/anim/01-light-rim/${index.toString().padStart(4, '0')}.png`
-  //`/static/images/01-light-rim/${index.toString().padStart(4, '0')}.png`
+  //`https://res.cloudinary.com/hrd77vjei/image/upload/v1657226679/anim/01-light-rim/${index.toString().padStart(4, '0')}.png`
+  `/static/images/01-light-rim/${index.toString().padStart(4, '0')}.png`
 )
 
 const img = new Image()
@@ -47,6 +47,7 @@ function setBgColor(scrollValue){
 
 function animText(scrollValue, elementID, startScroll, stopScroll){
   const text1 = document.getElementById(elementID);
+  text1.style.display = 'block';
   if(scrollValue>startScroll && scrollValue<stopScroll){
     y=map_range(scrollValue,startScroll,stopScroll,40,-40);
     if(scrollValue>startScroll && scrollValue < startScroll + ((stopScroll-startScroll)/3))
@@ -64,7 +65,7 @@ function animText(scrollValue, elementID, startScroll, stopScroll){
     text1.style.transform=`translate(-50%, calc(-50% + ${y}px))`;
   }
   else{
-    text1.style.opacity=0;
+    text1.style.display = 'none';
   }
 }
 
@@ -82,7 +83,7 @@ function animBrandTextOut(scrollValue){
   const brandText = document.getElementById("brandText");
   if(scrollValue<0.5){
     y=map_range(scrollValue,0,0.5,0,-200);
-    brandText.style.transform=`translateY(${y}px)`;
+    brandText.style.transform=`translateY(calc(-40vh - ${y}px))`;
   };
 };
 
@@ -124,8 +125,10 @@ function loadScroll(){
 
 $("#renderCanvas").delay(200).fadeTo(1500,1);
 $("#brandText").delay(1000).fadeTo(2000,1);
-$("#main").addClass('grain');
+$("#firstScreen").addClass('grain');
 loadScroll();
 preloadImages();
 loadFollower(); 
+
+
 

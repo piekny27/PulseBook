@@ -9,7 +9,7 @@ i.base
 	padding: 8px 11px;
 	border-radius: 50%;
 	cursor: pointer;
-	z-index: 3;
+	z-index: 6;
 	opacity: 0;
 	pointer-events: none;
 	transition: opacity .3 ease-in-out;
@@ -59,17 +59,18 @@ canvas {
 	transform: translate(-50%, -50%);
 	font-size: 64px;
 	color: white;
-	z-index: 10;
+	z-index: 4;
 	width: 90vw;
 	max-width: 700px;
   }
 
   .brandText{
 	opacity:0; 
-	z-index:50; 
+	z-index: 2;
 	color:white; 
 	font-size: 10vw; 
 	font-weight: bold;
+	transform: translateY(-40vh);
   }
 
   .follower {
@@ -77,15 +78,16 @@ canvas {
     height: 400vw;
     display: flex;
     overflow: hidden;
-    background: radial-gradient(rgba(255, 255, 255, 0) 0%, rgba(0,0,0,0) 10vw, rgba(0,0,0,0.1) 20vw, rgba(0,0,0,0.1) 100%);
+    background: radial-gradient(rgba(255, 255, 255, 0) 0%, rgba(0,0,0,0) 10vw, rgba(0,0,0,0.2) 20vw, rgba(0,0,0,0.2) 100%);
     position: fixed;
     left: 0;
     top: 0;
-	z-index: 1000;
+	z-index: 5;
     pointer-events: none;
 }
 
   .grain::after {
+	pointer-events: none;
 	content:"";
 	position: fixed;
 	width:150vw;
