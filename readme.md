@@ -8,10 +8,13 @@
 <div class="other">
   
 ## Table of contents
+* [Demo page](#demo-page)
 * [General info](#general-info)
 * [Installation](#installation)
 * [Links](#links)
 
+## Demo page
+The website can be found at https://pulsebook.herokuapp.com/
 ## General info
 ### Description
 Pulsebook is a project that aims to improve and extend the functionality of the heart rate monitor. The site receives data packets that are processed and displayed on the logged-in user's dashboard. The database stores data related to the pulse, saturation and user data. It is a convenient solution for people who want to view their measurement history on a regular basis. There are also additional options that will allow us to check the condition and correct body weight, for example: <code class="language-plaintext highlighter-rouge">BMI counter</code>.
