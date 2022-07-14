@@ -103,6 +103,27 @@ function loadFollower()
   }; 
 }
 
+function animHand(){
+  const hand = document.getElementById("hand");
+  var bRect = hand.getBoundingClientRect(); 
+  var p = bRect.top + (bRect.height/2)-(window.innerHeight/2);
+  scrollValue=map_range(p,100,300,4.2,3.9);
+
+  if(scrollValue>3.9 && scrollValue<4.2){
+    var h = paper.select('#hand');
+    x=map_range(scrollValue,3.9,4.2,0,-250);
+    var t = new Snap.Matrix();
+    t.translate(1100+x, 1000).scale(3,3);
+    h.transform(t);
+  }
+  else if(scrollValue>=4.2){
+    var h = paper.select('#hand');
+    var t = new Snap.Matrix();
+    t.translate(850, 1000).scale(3,3);
+    h.transform(t);
+  }
+}
+
 function loadScroll(){
   window.addEventListener('scroll', () => {  
     const scrollTop = html.scrollTop;
@@ -114,6 +135,7 @@ function loadScroll(){
     animText(scrollFraction,'text1', 1.2, 1.9);
     animText(scrollFraction,'text2', 1.9, 2.6);
     animText(scrollFraction,'text3', 2.6, 3.3);
+    animHand();
     //console.log(scrollFraction);
     const frameIndex = Math.min(
       frameCount - 1,
