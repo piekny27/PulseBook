@@ -3,6 +3,7 @@ venv/*
 __pycache__/*
 testy/__pycache__/*
 testy/static/images/01-light-rim/*
+testy/static/images/svg/*
 .env
 device.pkl
 DataBase.db

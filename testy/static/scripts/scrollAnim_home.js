@@ -9,6 +9,8 @@ const currentFrame = index => (
   `/static/images/01-light-rim/${index.toString().padStart(4, '0')}.png`
 )
 
+var handEvent = false;
+var handAnim = false;
 const img = new Image()
 img.src = currentFrame(1);
 canvas.width=1158;
@@ -105,6 +107,8 @@ function loadFollower()
 
 function animHand(){
   const hand = document.getElementById("hand");
+  if(!hand) return;
+  
   var bRect = hand.getBoundingClientRect(); 
   var p = bRect.top + (bRect.height/2)-(window.innerHeight/2);
   scrollValue=map_range(p,100,300,4.2,3.9);
@@ -115,12 +119,57 @@ function animHand(){
     var t = new Snap.Matrix();
     t.translate(1100+x, 1000).scale(3,3);
     h.transform(t);
+    handEvent=true;
   }
   else if(scrollValue>=4.2){
     var h = paper.select('#hand');
     var t = new Snap.Matrix();
     t.translate(850, 1000).scale(3,3);
     h.transform(t);
+    if(handEvent && !handAnim){
+      //console.log('start async handEvent');
+      var deviceAnim = async function() {
+        const wait = (seconds = 1) => new Promise((r) => setTimeout(r, seconds * 1e3));
+        const clearChildren = function(ch){
+          ch.forEach(function( el ) {
+            var bbox = el.getBBox();
+            var t = new Snap.Matrix();
+            t.scale(0,0,bbox.cx, bbox.cy);
+            el.attr({ transform: t });
+          });
+        };
+
+        handAnim = true;
+        var loadingChildren = paper.select('#loading').selectAll('g');
+        paper.select('#done').attr({opacity:0});
+        clearChildren(loadingChildren);
+
+        for(var i=0; i<loadingChildren.length; i++){
+          if(scrollValue<4.2){
+            handAnim=false;
+            return "Aborded"
+          ;}
+          var bbox = loadingChildren[i].getBBox();
+          var t = new Snap.Matrix();
+          t.scale(1,1,bbox.cx, bbox.cy);
+          loadingChildren[i].animate({ transform: t}, 300, mina.elastic);
+          await wait(0.5);
+        }
+
+        clearChildren(loadingChildren);
+        paper.select('#done').attr({opacity:1});
+        handAnim=false;
+        return "Done";
+      }
+      
+      deviceAnim().then(
+        function(value) {
+          //console.log(value);
+        },
+        function(error) {console.log(error);}
+      );
+    }
+    handEvent=false;
   }
 }
 

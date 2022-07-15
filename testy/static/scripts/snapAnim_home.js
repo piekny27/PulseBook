@@ -10,6 +10,7 @@ var rect = paper.rect(10, 5960, 30, 30).attr({fill:'green'});
 //Snap.load("/static/images/svg/device.svg", onDeviceLoaded);
 //Snap.load("/static/images/svg/hand.svg", onHandLoaded);
 Snap.load("https://res.cloudinary.com/hrd77vjei/image/upload/v1657825425/svg/device.svg", onDeviceLoaded);
+Snap.load("https://res.cloudinary.com/hrd77vjei/image/upload/v1657895424/svg/device2.svg", onDevice2Loaded);
 Snap.load("https://res.cloudinary.com/hrd77vjei/image/upload/v1657825425/svg/hand.svg", onHandLoaded);
 
 function onDeviceLoaded(svg){ 
@@ -131,4 +132,28 @@ function onHandLoaded(svg){
     anim3();
     anim5();
     anim7();
+}
+function onDevice2Loaded(svg){
+    var pos = new Snap.Matrix();
+    pos.translate(-160,815).scale(3,3);
+
+    var cover = svg.select('#cover');
+    var loading = svg.select('#loading');
+    var text = svg.select('#done').attr({opacity:0});
+
+    var g = paper.group(cover,loading,text);
+    g.attr({id:'device2'}).transform(pos);
+    
+
+    var h = paper.select('#hand');
+    if(h){ paper.add(g); paper.add(h); }
+    else{ paper.add(g); }
+
+    var loadingChildren = loading.selectAll('g');
+    loadingChildren.forEach(function( el ) {
+        var bbox = el.getBBox();
+        var t = new Snap.Matrix();
+        t.scale(0,0,bbox.cx, bbox.cy);
+        el.attr({ transform: t });
+    });
 }
