@@ -12,11 +12,15 @@ var rect = paper.rect(10, 5960, 30, 30).attr({fill:'green'});
 Snap.load("https://res.cloudinary.com/hrd77vjei/image/upload/v1657825425/svg/device.svg", onDeviceLoaded);
 Snap.load("https://res.cloudinary.com/hrd77vjei/image/upload/v1657895424/svg/device2.svg", onDevice2Loaded);
 Snap.load("https://res.cloudinary.com/hrd77vjei/image/upload/v1657825425/svg/hand.svg", onHandLoaded);
+Snap.load("https://res.cloudinary.com/hrd77vjei/image/upload/v1657825425/svg/paths.svg", onPathsLoaded);
 
+function randomRange(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
 function onDeviceLoaded(svg){ 
 
     var pos = new Snap.Matrix();
-    pos.translate(700,300).scale(1.5,1.5);
+    pos.translate(750,900).scale(1.5,1.5);
 
     var g = paper.group(
         svg.select('#Border'),
@@ -65,7 +69,7 @@ function onDeviceLoaded(svg){
 }
 function onHandLoaded(svg){
     var pos = new Snap.Matrix();
-    pos.translate(1100,1000).scale(3,3);
+    pos.translate(1100,2800).scale(3,3);
 
     var little = svg.select('#little');
     var ring = svg.select('#ring');
@@ -135,7 +139,7 @@ function onHandLoaded(svg){
 }
 function onDevice2Loaded(svg){
     var pos = new Snap.Matrix();
-    pos.translate(-160,815).scale(3,3);
+    pos.translate(-160,2615).scale(3,3);
 
     var cover = svg.select('#cover');
     var loading = svg.select('#loading');
@@ -156,4 +160,28 @@ function onDevice2Loaded(svg){
         t.scale(0,0,bbox.cx, bbox.cy);
         el.attr({ transform: t });
     });
+}
+function onPathsLoaded(svg){
+    var toggleClass = function(el,time){
+        setInterval(async function(){
+            var id =el.node.id.slice(-2);
+            el.selectAll('path')[0].removeClass('animPath'+id+'1',0);
+            el.selectAll('path')[1].removeClass('animPath'+id+'2',0);
+            setTimeout(() => {
+                el.selectAll('path')[0].addClass('animPath'+id+'1',1);
+                el.selectAll('path')[1].addClass('animPath'+id+'2',1);
+            }, 50);
+        },time);
+    }
+    var pos = new Snap.Matrix();
+    pos.translate(-50,0).scale(1.5,1.5);
+    var g1 = svg.select('#animPath01');
+    //var g2 = svg.select('#animPath02');
+    var g3 = svg.select('#animPath03');
+    
+    var gr = paper.group(g1,g3).transform(pos);
+    paper.add(gr);
+    toggleClass(g1,7000);
+    //toggleClass(g2,4000);
+    toggleClass(g3,12000);
 }

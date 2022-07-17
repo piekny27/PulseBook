@@ -5,8 +5,8 @@ const firstScreen = document.getElementById("firstScreen");
 
 const frameCount = 148;
 const currentFrame = index => (
-  //`https://res.cloudinary.com/hrd77vjei/image/upload/v1657226679/anim/01-light-rim/${index.toString().padStart(4, '0')}.png`
-  `/static/images/01-light-rim/${index.toString().padStart(4, '0')}.png`
+  `https://res.cloudinary.com/hrd77vjei/image/upload/v1657226679/anim/01-light-rim/${index.toString().padStart(4, '0')}.png`
+  //`/static/images/01-light-rim/${index.toString().padStart(4, '0')}.png`
 )
 
 var handEvent = false;
@@ -117,14 +117,14 @@ function animHand(){
     var h = paper.select('#hand');
     x=map_range(scrollValue,3.9,4.2,0,-250);
     var t = new Snap.Matrix();
-    t.translate(1100+x, 1000).scale(3,3);
+    t.translate(1100+x, 2800).scale(3,3);
     h.transform(t);
     handEvent=true;
   }
   else if(scrollValue>=4.2){
     var h = paper.select('#hand');
     var t = new Snap.Matrix();
-    t.translate(850, 1000).scale(3,3);
+    t.translate(850, 2800).scale(3,3);
     h.transform(t);
     if(handEvent && !handAnim){
       //console.log('start async handEvent');
