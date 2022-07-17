@@ -1,20 +1,30 @@
 
-.bg-image-vertical {
-    position: relative;
-    overflow: hidden;
-    background-repeat: no-repeat;
-    background-position: right center;
-    background-size: auto 100%;
-    }
-    
-    @media (min-width: 1025px) {
-    .h-custom-2 {
-    height: 100%;
-    }
+.text-m{
+    color: gray;
+}
+
+.text-c{
+    color: black;
+}
+
+.error{
+    color:red; 
+    font-size:10px; 
+    margin:0; 
+    white-space: pre-wrap
+}
+
+.box {
+    border-right: 1px solid gray;
+    border-radius: 0px 10px 10px 0px;
+    padding: 70px;
+    height: 100vh;
+    background-color: #fff;
+    width: 400px;
     }
 
+
 .showcase video {
-    padding-left: 500px;
     position: absolute;
     top: 0;
     left: 0;
@@ -22,4 +32,25 @@
     height: 100%;
     object-fit: cover;
     z-index: -1;
+}
+
+@media screen and (max-width: 600px) {
+
+    .box {
+        border: 0;
+        padding: 60px;
+        height: 100vh;
+        border-radius: 0px;
+        background: rgba(85, 85, 85, 0.3); 
+        backdrop-filter: blur(15px);
+        width: 100vw;
+    }
+
+    .text-c{
+        color: whitesmoke;
+    }
+
+    .text-m{
+        color: whitesmoke;
+    }
 }
