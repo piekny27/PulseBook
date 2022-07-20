@@ -5,8 +5,8 @@ const firstScreen = document.getElementById("firstScreen");
 
 const frameCount = 148;
 const currentFrame = index => (
-  `https://res.cloudinary.com/hrd77vjei/image/upload/v1657226679/anim/01-light-rim/${index.toString().padStart(4, '0')}.png`
-  //`/static/images/01-light-rim/${index.toString().padStart(4, '0')}.png`
+  //`https://res.cloudinary.com/hrd77vjei/image/upload/v1657226679/anim/01-light-rim/${index.toString().padStart(4, '0')}.png`
+  `/static/images/01-light-rim/${index.toString().padStart(4, '0')}.png`
 )
 
 var handEvent = false;

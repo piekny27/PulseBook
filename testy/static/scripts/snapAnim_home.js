@@ -1,8 +1,8 @@
 var paper = Snap('#paper');
 
 //marks cubes
-var rect = paper.rect(10, 10, 30, 30).attr({fill:'green'});
-var rect = paper.rect(1880, 10, 30, 30).attr({fill:'green'});
+//var rect = paper.rect(10, 10, 30, 30).attr({fill:'green'});
+//var rect = paper.rect(1880, 10, 30, 30).attr({fill:'green'});
 var rect = paper.rect(1880, 5960, 30, 30).attr({fill:'green'});
 var rect = paper.rect(10, 5960, 30, 30).attr({fill:'green'});
 
@@ -179,9 +179,86 @@ function onPathsLoaded(svg){
     //var g2 = svg.select('#animPath02');
     var g3 = svg.select('#animPath03');
     
-    var gr = paper.group(g1,g3).transform(pos);
+    var gr = paper.group(g1,g3).attr({id:'snakes'}).transform(pos);
     paper.add(gr);
     toggleClass(g1,7000);
     //toggleClass(g2,4000);
     toggleClass(g3,12000);
 }
+function genSky(){
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    var star = `M29.01,.36l7.74,21.8,17.36-1.89c1.83-.2,2.88,2.04,1.55,3.32l-14.66,14.07,4.25,
+                12.93c.58,1.76-1.39,3.27-2.94,2.26l-14.06-9.19-15.32,16.14c-1.02,1.07-2.8,
+                .16-2.54-1.29l3.61-19.85L.61,26.83c-1.27-1.13-.41-3.23,1.29-3.13l17.6,.97L27.99,
+                .36c.17-.48,.85-.48,1.02,0Z`;
+    var anim1 = async function(el,bbox,x,y) {
+        var t = new Snap.Matrix();
+        var s = randomRange(0.9,1.1).toFixed(2);
+        var r = randomRange(-15,15);
+        x = randomRange(50,1870);
+        y = randomRange(50,800);
+        
+        el.transform('t'+x+' '+y).attr({opacity:0});  
+        bbox = el.getBBox();
+        t.scale(s,s,bbox.cx,bbox.cy);
+        t.rotate(r,bbox.cx,bbox.cy);
+        t.translate(x, y);
+        //stars.circle(bbox.cx,bbox.cy,3).attr({fill:'red'});
+        //await wait(randomRange(500,1500));
+        el.animate({ transform: t,opacity:1}, randomRange(400,900), mina.linear, function(){anim2(el,bbox,x,y);});
+    };
+    var anim2 = function(el,bbox,x,y) {
+        var t = new Snap.Matrix();
+        var r = randomRange(-5,10);
+        t.scale(0,0,bbox.cx,bbox.cy);
+        t.rotate(r,bbox.cx,bbox.cy);
+        t.translate(x, y);
+        el.animate({ transform: t}, randomRange(10000,22000), (n)=>Math.pow(n, 5.7), function(){anim1(el,bbox,x,y)});
+        
+    };
+    var anim3 = async function(el,bbox,x,y) {
+        var t = new Snap.Matrix();
+        var s = randomRange(0.5,1).toFixed(2);
+        var r = randomRange(-15,15);
+        x = randomRange(10,1910);
+        y = randomRange(10,1200);
+        
+        el.transform('t'+x+' '+y).attr({opacity:0});  
+        bbox = el.getBBox();
+        t.scale(s,s,bbox.cx,bbox.cy);
+        t.rotate(r,bbox.cx,bbox.cy);
+        t.translate(x, y);
+        //stars.circle(bbox.cx,bbox.cy,3).attr({fill:'red'});
+        //await wait(randomRange(500,1500));
+        el.animate({ transform: t,opacity:1}, randomRange(400,900), mina.linear, function(){anim4(el,bbox,x,y);});
+    };
+    var anim4 = function(el,bbox,x,y) {
+        var t = new Snap.Matrix();
+        var r = randomRange(-5,10);
+        t.scale(0,0,bbox.cx,bbox.cy);
+        t.rotate(r,bbox.cx,bbox.cy);
+        t.translate(x, y);
+        el.animate({ transform: t}, randomRange(10000,22000), (n)=>Math.pow(n, 5.7), function(){anim3(el,bbox,x,y)});
+        
+    };
+
+    var g = paper.group().attr({id:'sky'});
+    var stars = g.group().attr({id:'stars'});
+    for (let i = 0; i < 20; i++) {
+        var x = randomRange(10,1910);
+        var y = randomRange(10,1200);
+        var s = stars.circle(0,0,10).attr({fill:'white',opacity:0});
+        var b = s.getBBox();
+        anim3(s, b, x, y);
+        
+    }
+    for (let i = 0; i < 4; i++) {
+        var x = randomRange(50,1870);
+        var y = randomRange(50,800);
+        var s = stars.path(star,200,200).attr({fill:'white'}).transform('t'+x+' '+y);  
+        var b = s.getBBox();
+        anim1(s, b, x, y);
+    }
+}
+
+genSky();
