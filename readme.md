@@ -23,30 +23,35 @@ Pulsebook is a project that aims to improve and extend the functionality of the 
 <br>
 It is this project that uses the heart rate monitor.
 ## Installation
-
 ### Required software:
 1. Python
 2. Visual Studio Code
 3. VSC plugins - Python and Pylance
 
-### Vs Code installation of packages:
-open a command-line
+### Create environment:
+Open terminal: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>`</kbd> and paste:
 ```
-cd ../flask-projekt
+cd ../PulseBook
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 ```
-generating the database (optional)
+### Config debugger
+
+Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> -> Debug:Select and start debugging -> Add configuration... -> Python -> Flask
+
+### Generating the database (optional)
 ```
-cd ../flask-projekt
+cd ../PulseBook
 python db_generator.py 
 ```
-device emulation (optional)
+### Device emulation (optional)
 ```
-cd ../flask-projekt
+cd ../PulseBook
 python device_emu.py
 ```
+Notice:
+If you want to take full advantage of the application you need to add external services: PostrgreSQL and Cloudinary. Secret keys should be placed in the PulseBook/tests/.env file or in config vars if you are using a VPS. Currently the site is hosted on Heroku.
 ## Links
 [Bootstrap v5.1](https://getbootstrap.com/docs/5.1/getting-started/introduction/)
 <br>
