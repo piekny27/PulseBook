@@ -11,7 +11,8 @@ load_dotenv()
 app = Flask(__name__)
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///DataBase.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("SQLALCHEMY_DATABASE_URI")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+app.config['CLOUDINARY_URL'] = os.getenv('CLOUDINARY_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.urandom(32)
 
